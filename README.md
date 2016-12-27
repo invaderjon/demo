@@ -4,7 +4,7 @@
 A handful of rendering and game demos.
 
 ## Support ##
-This project officially supports Windows 7 and Ubuntu 16.04+
+This project officially supports Windows 7 and Ubuntu 16.04+.
 
 ## Requirements ##
 
