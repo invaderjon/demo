@@ -30,3 +30,7 @@
 
 # IDEA files
 .idea
+
+# CMake generated files
+cmake
+build
