@@ -56,17 +56,18 @@ else()
             /usr/local/include
             /sw/include
             /opt/local/include
-            DOC "The directory where GLFW/glfw.h resides"
+            DOC "The directory where GLFW/glfw3.h resides"
     )
 
     # Find library files
     # Try to use static libraries
     find_library(
             GLFW_LIBRARY
-            NAMES ${GLFW_LIBRARY_NAME}
+            NAMES glfw
             PATHS
             /usr/lib64
             /usr/lib
+            /usr/lib/x86_64-linux-gnu
             /usr/local/lib64
             /usr/local/lib
             /sw/lib
