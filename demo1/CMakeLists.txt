@@ -16,7 +16,17 @@ find_package(GLFW REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR} ${GLFW_INCLUDE_DIRS})
 
 # Sources
-set(SOURCE_FILES main.cpp src/camera.cpp src/camera.h)
+set(
+        SOURCE_FILES
+        # root
+        main.cpp
+        # src
+        src/demo/object/camera.cpp
+        src/demo/object/camera.h
+        # src/object
+        src/demo/object/transform.cpp
+        src/demo/object/transform.h
+)
 
 # Build
 add_executable(demo1 ${SOURCE_FILES})
