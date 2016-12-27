@@ -1,6 +1,9 @@
 //
 // Object transformation matrix.
 //
+// The default transform is centered at the origin and its look direction is in
+// the positive z-axis direction.
+//
 // The transformations are applied in the following order:
 // scale
 // rotation
@@ -201,6 +204,13 @@ class Transform
     void rotateEuler( const glm::vec3& rotation );
 
     /**
+     * Rotate the transform about the specified point and axis.
+     * @param point The point.
+     * @param rotation The rotation to apply.
+     */
+    void rotateAround( const glm::vec3& point, const glm::quat& rotation );
+
+    /**
      * Scale the transform.
      *
      * This does not effect translation.
@@ -217,7 +227,8 @@ class Transform
 
 // CONSTRUCTORS
 inline
-Transform::Transform()
+Transform::Transform() : _matrix(), _position(), _scale( 1.0f ), _rotation(),
+                         _hasChanged()
 {
 }
 

@@ -35,6 +35,17 @@ void Transform::rotateEuler( const glm::vec3& rotation )
     recomputeMatrix();
 }
 
+void Transform::rotateAround( const glm::vec3& point,
+                              const glm::quat& rotation )
+{
+    glm::vec4 pos = rotation * glm::vec4( _position - point, 1.0f );
+
+    _position = glm::vec3( pos.x / pos.w, pos.y / pos.w, pos.z / pos.w ) +
+        point;
+    _rotation *= rotation;
+    recomputeMatrix();
+}
+
 // HELPER FUNCTIONS
 void Transform::recomputeMatrix()
 {
