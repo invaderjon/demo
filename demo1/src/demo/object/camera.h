@@ -8,9 +8,11 @@
 namespace demo
 {
 
-namespace obj {
+namespace obj
+{
 
-class Camera {
+class Camera
+{
   private:
 
 
@@ -89,8 +91,6 @@ class Camera {
      * @param position
      */
     void setPosition( void* position );
-
-
 };
 
 } // End nspc obj
