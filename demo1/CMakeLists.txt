@@ -20,12 +20,26 @@ set(
         SOURCE_FILES
         # root
         main.cpp
-        # src
+        # src/demo
+        src/demo/demo.cpp
+        src/demo/demo.h
+        # src/demo
         src/demo/object/camera.cpp
         src/demo/object/camera.h
-        # src/object
+        # src/demo/object
+        src/demo/object/itickable.cpp
+        src/demo/object/itickable.h
+        src/demo/object/object.cpp
+        src/demo/object/object.h
         src/demo/object/transform.cpp
         src/demo/object/transform.h
+        # src/demo/render
+        src/demo/render/irendertarget.cpp
+        src/demo/render/irendertarget.h
+        src/demo/render/renderer.cpp
+        src/demo/render/renderer.h
+        src/demo/render/window.cpp
+        src/demo/render/window.h
 )
 
 # Build
