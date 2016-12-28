@@ -13,7 +13,11 @@ find_package(GLM REQUIRED)
 find_package(GLFW REQUIRED)
 
 # Includes
-include_directories(${OPENGL_INCLUDE_DIR} ${GLFW_INCLUDE_DIRS})
+include_directories(
+        ${OPENGL_INCLUDE_DIR}
+        ${GLFW_INCLUDE_DIRS}
+        src
+)
 
 # Sources
 set(
@@ -23,14 +27,45 @@ set(
         # src/demo
         src/demo/demo.cpp
         src/demo/demo.h
-        # src/demo
+        src/demo/intdef.cpp
+        src/demo/intdef.h
+        src/demo/port.cpp
+        src/demo/port.h
+        src/demo/strdef.cpp
+        src/demo/strdef.h
+        # src/demo/container
+        src/demo/container/dynamic_array.cpp
+        src/demo/container/dynamic_array.h
+        src/demo/container/fixed_array.cpp
+        src/demo/container/fixed_array.h
+        src/demo/container/list.cpp
+        src/demo/container/list.h
+        src/demo/container/map.cpp
+        src/demo/container/map.h
+        src/demo/container/set.cpp
+        src/demo/container/set.h
+        # src/demo/memory
+        src/demo/memory/allocator_guard.cpp
+        src/demo/memory/allocator_guard.h
+        src/demo/memory/counting_allocator.cpp
+        src/demo/memory/counting_allocator.h
+        src/demo/memory/default_allocator.cpp
+        src/demo/memory/default_allocator.h
+        src/demo/memory/iallocator.cpp
+        src/demo/memory/iallocator.h
+        src/demo/memory/memory_utils.cpp
+        src/demo/memory/memory_utils.h
+        src/demo/memory/stack_guard.cpp
+        src/demo/memory/stack_guard.h
+        # src/demo/objecct
         src/demo/object/camera.cpp
         src/demo/object/camera.h
-        # src/demo/object
         src/demo/object/itickable.cpp
         src/demo/object/itickable.h
         src/demo/object/object.cpp
         src/demo/object/object.h
+        src/demo/object/scene.cpp
+        src/demo/object/scene.h
         src/demo/object/transform.cpp
         src/demo/object/transform.h
         # src/demo/render

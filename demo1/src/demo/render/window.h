@@ -5,17 +5,31 @@
 #ifndef DEMO_WINDOW_H
 #define DEMO_WINDOW_H
 
+#include "demo/render/irendertarget.h"
+
 namespace demo
 {
 
 namespace rndr
 {
 
-class Window
+class Window : public IRenderTarget
 {
   private:
 
+
   public:
+    // MEMBER FUNCTIONS
+    /**
+     * Active as a render target.
+     */
+    virtual void activate() = 0;
+
+    /**
+     * Check if this is the active render target.
+     * @return Is it active?
+     */
+    virtual bool isActive() = 0;
 };
 
 } // End nspc rndr
