@@ -75,6 +75,11 @@ set(
         src/demo/render/renderer.h
         src/demo/render/window.cpp
         src/demo/render/window.h
+        # src/demo/utility
+        src/demo/utility/hasher.cpp
+        src/demo/utility/hasher.h
+        src/demo/utility/hash_utils.cpp
+        src/demo/utility/hash_utils.h
 )
 
 # Build
