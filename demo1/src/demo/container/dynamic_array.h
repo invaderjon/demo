@@ -173,7 +173,7 @@ class DynamicArray
     /**
      * Resizes the array to the specified size.
      */
-    void resize(uint32 newCapacity);
+    void resize( uint32 newCapacity );
 
     /**
      * Shifts the given number of items forward one spot starting at the given
