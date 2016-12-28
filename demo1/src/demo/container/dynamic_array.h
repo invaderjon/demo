@@ -18,7 +18,6 @@
 #include <stdexcept>
 #include <utility>
 
-#include "demo/intdef.h"
 #include "demo/port.h"
 #include "demo/memory/allocator_guard.h"
 #include "demo/memory/iallocator.h"
@@ -177,7 +176,7 @@ class DynamicArray
     /**
      * Resizes the array.
      */
-    void resize(uint32 newCapacity);
+    void resize( uint32 newCapacity );
 
     /**
      * Shifts the given number of items forward one spot starting at the given
@@ -400,7 +399,7 @@ class DynamicArray
 
 // CONSTANTS
 template <typename T>
-constexpr size DynamicArray<T>::MIN_CAPACITY;
+constexpr uint32 DynamicArray<T>::MIN_CAPACITY;
 
 // CONSTRUCTORS
 template <typename T>

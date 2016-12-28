@@ -1,4 +1,7 @@
 // set.h
+//
+// A hash set implementation.
+//
 #ifndef DEMO_SET_H
 #define DEMO_SET_H
 

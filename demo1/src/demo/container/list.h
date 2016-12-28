@@ -1,6 +1,6 @@
 // list.h
 //
-// Defines a circularly linked list.
+// A circularly linked list.
 //
 #ifndef DEMO_LIST_H
 #define DEMO_LIST_H
