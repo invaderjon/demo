@@ -20,7 +20,7 @@
 #include "demo/memory/memory_utils.h"
 #include "demo/port.h"
 
-namespace nge
+namespace demo
 {
 
 namespace cntr
@@ -1023,6 +1023,6 @@ bool DynamicArray<T>::ArrayIterator<APTR, TREF, CTREF, TPTR>::operator!=(
 
 } // End nspc cntr
 
-} // End nspc nge
+} // End nspc demo
 
 #endif // DEMO_DYNAMIC_ARRAY_H
