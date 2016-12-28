@@ -1,6 +1,18 @@
 // list.h
 //
-// A circularly linked list.
+// The list is a container that is optimized for random removal and insertion.
+// It performs best when items are iterated in a linear manner as random
+// access operations are performed in O(i) time where i is the index of the
+// item where the worst case is O(n).
+//
+// resizeable array that automatically grows and shrinks as
+// items are added or removed respectively.
+//
+// This is implemented as a doubly linked circular list meaning that each
+// item knows the index of the next and previous item.
+//
+// todo: implement a version of this class which utilizes a lookup table
+// todo: to optimize for random access. call this class array list
 //
 #ifndef DEMO_LIST_H
 #define DEMO_LIST_H
@@ -10,11 +22,10 @@
 #include <stdexcept>
 #include <utility>
 
-#include "demo/intdef.h"
-#include "demo/port.h"
 #include "demo/memory/allocator_guard.h"
 #include "demo/memory/iallocator.h"
 #include "demo/memory/memory_utils.h"
+#include "demo/port.h"
 
 namespace demo
 {
@@ -55,7 +66,7 @@ class List
         /**
          * The current index in the internal array.
          *
-         * This is the memory location of the current index.
+         * This is the mem location of the current index.
          */
         uint32 _iterIndex;
 
@@ -494,71 +505,22 @@ template <typename T>
 inline
 List<T>::List( const List<T>& list )
     : _alloc( list._alloc ), _nodes( nullptr ),
-      _first( 0 ), _count( list._count ),
-      _firstFree( 0 ), _freeCount( 0 ),
-      _capacity( MIN_CAPACITY )
+      _first( list._first ), _count( list._count ),
+      _firstFree( list._firstFree ), _freeCount( list._freeCount ),
+      _capacity( list._capacity )
 {
-    uint32 i;
-
-    while( _capacity < _count )
-    {
-        _capacity <<= 1;
-    }
-
     _nodes = _alloc.get( _capacity );
-
-    if ( list._nodes != nullptr && _count > 0 )
-    {
-        // copy the items in order
-        _nodes[0].value = list[0];
-        _nodes[0].prev = _count - 1;
-        _nodes[0].next = 1 % _count;
-        for ( i = 1; i < _count; ++i )
-        {
-            _nodes[i].value = list[i];
-            _nodes->next = ( i + 1 ) % _count;
-            _nodes->prev = i - 1;
-        }
-    }
+    mem::MemoryUtils::copy( _nodes, list._nodes, _capacity );
 }
 
 template <typename T>
 inline
 List<T>::List( cntr::List<T>&& list )
-    : _alloc( list._alloc ), _nodes( nullptr ),
-      _first( 0 ), _count( list._count ),
-      _firstFree( 0 ), _freeCount( 0 ),
-      _capacity( MIN_CAPACITY )
+    : _alloc( std::move( list._alloc ) ), _nodes( list._nodes ),
+      _first( list._first ), _count( list._count ),
+      _firstFree( list._firstFree ), _freeCount( list._freeCount ),
+      _capacity( list._capacity )
 {
-    uint32 i;
-
-    while( _capacity < _count )
-    {
-        _capacity <<= 1;
-    }
-
-    _nodes = _alloc.get( _capacity );
-
-    if ( list._nodes != nullptr && _count > 0 )
-    {
-        // copy the items in order
-        _nodes[0].value = std::move( list[0] );
-        _nodes[0].prev = _count - 1;
-        _nodes[0].next = 1 % _count;
-        for ( i = 1; i < _count; ++i )
-        {
-            _nodes[i].value = std::move( list[i] );
-            _nodes->next = ( i + 1 ) % _count;
-            _nodes->prev = i - 1;
-        }
-    }
-
-    // release source
-    if ( list._nodes != nullptr )
-    {
-        list._alloc.release( list._nodes, list._capacity );
-    }
-
     list._nodes = nullptr;
     list._first = 0;
     list._count = 0;
@@ -598,33 +560,14 @@ List<T>& List<T>::operator=( const List<T>& list )
 
     // create minimally size internal array
     _alloc = list._alloc;
-    _first = 0;
+    _first = list._first;
     _count = list._count;
-    _firstFree = 0;
-    _freeCount = 0;
-    _capacity = MIN_CAPACITY;
-
-    while( _capacity < _count )
-    {
-        _capacity <<= 1;
-    }
+    _firstFree = list._firstFree;
+    _freeCount = list._freeCount;
+    _capacity = list._capacity;
 
     _nodes = _alloc.get( _capacity );
-
-    if ( list._nodes != nullptr && _count > 0 )
-    {
-        // copy the items in order
-        _nodes[0].value = list[0];
-        _nodes[0].prev = _count - 1;
-        _nodes[0].next = 1 % _count;
-
-        for ( i = 1; i < _count; ++i )
-        {
-            _nodes[i].value = list[i];
-            _nodes->next = ( i + 1 ) % _count;
-            _nodes->prev = i - 1;
-        }
-    }
+    mem::MemoryUtils::copy( _nodes, list._nodes, _capacity );
 
     return *this;
 }
@@ -633,49 +576,19 @@ template <typename T>
 inline
 List<T>& List<T>::operator=( cntr::List<T>&& list )
 {
-    uint32 i;
-
     if ( _nodes != nullptr )
     {
         _alloc.release( _nodes, _capacity );
         _nodes = nullptr;
     }
 
-    // create minimally size internal array
-    _alloc = list._alloc;
-    _first = 0;
+    _alloc = std::move( list._alloc );
+    _nodes = list._nodes;
+    _first = list._first;
     _count = list._count;
-    _firstFree = 0;
-    _freeCount = 0;
-    _capacity = MIN_CAPACITY;
-
-    while( _capacity < _count )
-    {
-        _capacity <<= 1;
-    }
-
-    _nodes = _alloc.get( _capacity );
-
-    if ( list._nodes != nullptr && _count > 0 )
-    {
-        // copy the items in order
-        _nodes[0].value = std::move( list[0] );
-        _nodes[0].prev = _count - 1;
-        _nodes[0].next = 1 % _count;
-
-        for ( i = 1; i < _count; ++i )
-        {
-            _nodes[i].value = std::move( list[i] );
-            _nodes->next = ( i + 1 ) % _count;
-            _nodes->prev = i - 1;
-        }
-    }
-
-    // release source
-    if ( list._nodes != nullptr )
-    {
-        list._alloc.release( list._nodes, list._capacity );
-    }
+    _firstFree = list._firstFree;
+    _freeCount = list._freeCount;
+    _capacity = list._capacity;
 
     list._nodes = nullptr;
     list._first = 0;

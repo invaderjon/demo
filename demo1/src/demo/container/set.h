@@ -1,6 +1,14 @@
 // set.h
 //
-// A hash set implementation.
+// The set is a resizable container that restrains each value in the
+// container to a single copy. This container will automatically grow and
+// shrink as items are added or removed respectively.
+//
+// This is implemented using a hash function and a set of bins that determine
+// the location of the item.
+//
+// Due to the nature of a set there is only a constant iterator defined for
+// this container.
 //
 #ifndef DEMO_SET_H
 #define DEMO_SET_H
@@ -8,7 +16,6 @@
 #include <functional>
 
 #include "demo/intdef.h"
-#include "demo/container/list.h"
 #include "demo/container/dynamic_array.h"
 #include "demo/memory/allocator_guard.h"
 #include "demo/utility/hasher.h"
@@ -21,9 +28,134 @@ namespace cntr
 
 // TODO: consider using progressive bin copy after resize if necessary
 // TODO: cache hashes in separate array if necessary
+// TODO: define non-constant iterator without *() operator
 template <typename T>
 class Set
 {
+  private:
+    // CONSTANTS
+    /**
+     * The minimum number of bins.
+     */
+    static constexpr uint32 MIN_BINS = 32;
+
+    /**
+     * Defines a bin that is empty and does not hold a value.
+     */
+    static constexpr uint32 BIN_EMPTY = static_cast<uint32>( -1 );
+
+    /**
+     * The threshold percentage at which the map grows.
+     */
+    static constexpr uint32 GROW_THRESHOLD = 70;
+
+    /**
+     * The threshold percentage at which the map shrinks.
+     */
+    static constexpr uint32 SHRINK_THRESHOLD = 30;
+
+    // MEMBERS
+    /**
+     * The bin allocator.
+     */
+    mem::AllocatorGuard<uint32> _binAlloc;
+
+    /**
+     * The values in the array.
+     */
+    DynamicArray<T> _values;
+
+    /**
+     * The hash function.
+     */
+    std::function<uint32( const T& )> _hashFunc;
+
+    /**
+     * The bins.
+     */
+    uint32* _bins;
+
+    /**
+     * The number of bins currently in use.
+     */
+    uint32 _binsInUse;
+
+    /**
+     * The total number of bins.
+     */
+    uint32 _binCount;
+
+    // HELPER FUNCTIONS
+    /**
+     * Gets the index of a bin that should hold the given value.
+     *
+     * The returned index may already hold that value and needs to be
+     * checked that it is empty.
+     */
+    uint32 findBinForValue( const T& value ) const;
+
+    /**
+     * Computes the hash for the given value.
+     */
+    uint32 hash( const T& value ) const;
+
+    /**
+     * Probes for the next position.
+     */
+    uint32 probe( uint32 probes ) const;
+
+    /**
+     * Wraps the bin index to be within the bounds.
+     */
+    uint32 wrap( uint32 index ) const;
+
+    /**
+     * Checks if the bin at the given index is empty.
+     *
+     * Behavior is undefined when:
+     * binIndex is invalid.
+     */
+    bool isBinEmpty( uint32 binIndex ) const;
+
+    /**
+     * Checks if the bin at the given index contains the given value.
+     *
+     * This will return false if binIndex is invalid.
+     */
+    bool doesBinContain( uint32 binIndex, const T& value ) const;
+
+    /**
+     * Checks if the bin array should shrink.
+     */
+    bool shouldShrink() const;
+
+    /**
+     * Checks if the bin array should grow.
+     */
+    bool shouldGrow() const;
+
+    /**
+     * Grows the bin array to twice the current capacity.
+     */
+    void grow();
+
+    /**
+     * Shrinks the bin array to half the current capacity.
+     */
+    void shrink();
+
+    /**
+     * Resizes the bin array to the specified size.
+     */
+    void resize( uint32 newSize );
+
+    /**
+     * Resets all of the bins back to empty.
+     *
+     * This does not reset _binsInUse.
+     */
+    void clearBins();
+
   public:
     // CLASSES
     /**
@@ -115,131 +247,6 @@ class Set
         bool operator!=( const ConstIterator& iter ) const;
     };
 
-  private:
-    // CONSTANTS
-    /**
-     * The minimum number of bins.
-     */
-    static constexpr uint32 MIN_BINS = 32;
-
-    /**
-     * Defines a bin that is empty and does not hold a value.
-     */
-    static constexpr uint32 BIN_EMPTY = static_cast<uint32>( -1 );
-
-    /**
-     * The threshold percentage at which the map grows.
-     */
-    static constexpr uint32 GROW_THRESHOLD = 70;
-
-    /**
-     * The threshold percentage at which the map shrinks.
-     */
-    static constexpr uint32 SHRINK_THRESHOLD = 30;
-
-    // MEMBERS
-    /**
-     * The bin allocator.
-     */
-    mem::AllocatorGuard<uint32> _binAlloc;
-
-    /**
-     * The values in the array.
-     */
-    DynamicArray<T> _values;
-
-    /**
-     * The hash function.
-     */
-    std::function<uint32( const T& )> _hashFunc;
-
-    /**
-     * The bins.
-     */
-    uint32* _bins;
-
-    /**
-     * The number of bins currently in use.
-     */
-    uint32 _binsInUse;
-
-    /**
-     * The total number of bins.
-     */
-    uint32 _binCount;
-
-    // HELPER FUNCTIONS
-    /**
-     * Gets the index of a bin that should hold the given value.
-     *
-     * The returned index may already hold that value and needs to be
-     * checked that it is empty.
-     */
-    uint32 findBinForValue( const T& value ) const;
-
-    /**
-     * Computes the hash for the given value.
-     */
-    uint32 hash( const T& value ) const;
-
-    /**
-     * Linearly probes for the next position.
-     */
-    uint32 probe( uint32 probes ) const;
-
-    /**
-     * Wraps the bin index to be within the bounds.
-     */
-    uint32 wrap( uint32 index ) const;
-
-    /**
-     * Checks if the bin at the given index is empty.
-     *
-     * Behavior is undefined when:
-     * binIndex is invalid.
-     */
-    bool isBinEmpty( uint32 binIndex ) const;
-
-    /**
-     * Checks if the bin at the given index contains the given value.
-     *
-     * This will return false if binIndex is invalid.
-     */
-    bool doesBinContain( uint32 binIndex, const T& value ) const;
-
-    /**
-     * Checks if the bin array should shrunk.
-     */
-    bool shouldShrink() const;
-
-    /**
-     * Checks if the bin array should grow.
-     */
-    bool shouldGrow() const;
-
-    /**
-     * Grows the bin array to twice the current capacity.
-     */
-    void grow();
-
-    /**
-     * Shrinks the bin array to half the current capacity.
-     */
-    void shrink();
-
-    /**
-     * Resizes the bin array to the specified size.
-     */
-    void resize( uint32 newSize );
-
-    /**
-     * Resets all of the bins back to empty.
-     *
-     * This does not reset _binsInUse.
-     */
-    void clearBins();
-
-  public:
     // CONSTRUCTORS
     /**
      * Constructs a new sset.
@@ -254,13 +261,13 @@ class Set
     /**
      * Constructs a new set that uses the given hash function.
      */
-    Set( std::function<uint32( const T& )> hashFunc );
+    Set( const std::function<uint32( const T& )>& hashFunc );
 
     /**
      * Constructs a new set with the given initial capacity that uses
      * the given hash function.
      */
-    Set( uint32 capacity, std::function<uint32( const T& )> hashFunc );
+    Set( uint32 capacity, const std::function<uint32( const T& )>& hashFunc );
 
     /**
      * Constructs a new set that uses the given allocators.
@@ -277,17 +284,17 @@ class Set
      * Constructs a new set using the given allocators and hash function.
      */
     Set( mem::IAllocator<T>* valueAlloc, mem::IAllocator<uint32>* intAlloc,
-         std::function<uint32( const T& )> hashFunc );
+         const std::function<uint32( const T& )>& hashFunc );
 
     /**
      * Constructs a new set using the given allocators, initial capacity, and
      * hash function.
      */
     Set( mem::IAllocator<T>* valueAlloc, mem::IAllocator<uint32>* intAlloc,
-         uint32 capacity, std::function<uint32( const T& )> hashFunc );
+         uint32 capacity, const std::function<uint32( const T& )>& hashFunc );
 
     /**
-     * Constructs a copy of the give nset.
+     * Constructs a copy of the given set.
      */
     Set( const Set<T>& set );
 
@@ -314,7 +321,7 @@ class Set
 
     /**
      * Gets the item in the set at the given index.
-     * <p>
+     *
      * Item order preservation is not guaranteed and this should only be
      * used to iterate over all of the items in the set.
      */
@@ -411,7 +418,7 @@ Set<T>::Set( uint32 capacity )
 
 template <typename T>
 inline
-Set<T>::Set( std::function<uint32( const T& )> hashFunc )
+Set<T>::Set( const std::function<uint32( const T& )>& hashFunc )
     : _binAlloc(), _values(), _hashFunc( hashFunc ), _bins( nullptr ),
       _binsInUse( 0 ), _binCount( MIN_BINS )
 {
@@ -421,7 +428,8 @@ Set<T>::Set( std::function<uint32( const T& )> hashFunc )
 
 template <typename T>
 inline
-Set<T>::Set( uint32 capacity, std::function<uint32( const T& )> hashFunc )
+Set<T>::Set( uint32 capacity,
+             const std::function<uint32( const T& )>& hashFunc )
     : _binAlloc(), _values( capacity ), _hashFunc( hashFunc ),
       _bins( nullptr ), _binsInUse( 0 ), _binCount( MIN_BINS )
 {
@@ -466,7 +474,7 @@ Set<T>::Set( mem::IAllocator<T>* valueAlloc,
 template <typename T>
 inline
 Set<T>::Set( mem::IAllocator<T>* valueAlloc, mem::IAllocator<uint32>* intAlloc,
-             std::function<uint32( const T& )> hashFunc )
+             const std::function<uint32( const T& )>& hashFunc )
     : _binAlloc( intAlloc ), _values( valueAlloc ), _hashFunc( hashFunc ),
       _bins( nullptr ), _binsInUse( 0 ), _binCount( MIN_BINS )
 {
@@ -477,7 +485,8 @@ Set<T>::Set( mem::IAllocator<T>* valueAlloc, mem::IAllocator<uint32>* intAlloc,
 template <typename T>
 inline
 Set<T>::Set( mem::IAllocator<T>* valueAlloc, mem::IAllocator<uint32>* intAlloc,
-             uint32 capacity, std::function<uint32( const T& )> hashFunc )
+             uint32 capacity,
+             const std::function<uint32( const T& )>& hashFunc )
     : _binAlloc( intAlloc ), _values( valueAlloc, capacity ),
       _hashFunc( hashFunc ), _bins( nullptr ), _binsInUse( 0 ),
       _binCount( MIN_BINS )
@@ -541,9 +550,10 @@ Set<T>& Set<T>::operator=( const Set<T>& set )
     _binAlloc = set._binAlloc;
     _values = set._values;
     _hashFunc = set._hashFunc;
-    _bins = _binAlloc.get( _binCount );
     _binCount = set._binCount;
     _binsInUse = set._binsInUse;
+
+    _bins = _binAlloc.get( _binCount );
     mem::MemoryUtils::copy( _bins, set._bins, _binCount );
 
     return *this;
@@ -738,7 +748,7 @@ inline
 bool Set<T>::doesBinContain( uint32 binIndex, const T& value ) const
 {
     return binIndex < _binCount && !isBinEmpty( binIndex ) &&
-        hash( _values[_bins[binIndex]] ) == hash( value );
+        _values[_bins[binIndex]] == value;
 }
 
 template <typename T>
@@ -774,7 +784,7 @@ template <typename T>
 void Set<T>::resize( uint32 newSize )
 {
     assert( _bins != nullptr );
-    _binAlloc.release( _bins, newSize );
+    _binAlloc.release( _bins, _binCount );
     _bins = _binAlloc.get( newSize );
     _binCount = newSize;
     clearBins();

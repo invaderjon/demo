@@ -4,11 +4,8 @@
 // as items are added or removed respectively.
 //
 // The implementation is circular meaning that the internally the index zero
-// may actually mean the 5th position in the memory block and the last item
-// may actually be in the 4th position in memory.
-//
-// When the array grows or shrinks it gradually copies over the old items to
-// reduce the overhead of resizing.
+// may actually mean the 5th position in the mem block and the last item
+// may actually be in the 4th position in mem.
 //
 #ifndef DEMO_DYNAMIC_ARRAY_H
 #define DEMO_DYNAMIC_ARRAY_H
@@ -18,12 +15,12 @@
 #include <stdexcept>
 #include <utility>
 
-#include "demo/port.h"
 #include "demo/memory/allocator_guard.h"
 #include "demo/memory/iallocator.h"
 #include "demo/memory/memory_utils.h"
+#include "demo/port.h"
 
-namespace demo
+namespace nge
 {
 
 namespace cntr
@@ -174,9 +171,9 @@ class DynamicArray
     void shrink();
 
     /**
-     * Resizes the array.
+     * Resizes the array to the specified size.
      */
-    void resize( uint32 newCapacity );
+    void resize(uint32 newCapacity);
 
     /**
      * Shifts the given number of items forward one spot starting at the given
@@ -450,59 +447,22 @@ DynamicArray<T>::DynamicArray( mem::IAllocator<T>* allocator, uint32 capacity )
 
 template <typename T>
 DynamicArray<T>::DynamicArray( const DynamicArray<T>& array )
-    : _allocator( array._allocator ), _values( nullptr ), _first( 0 ),
-      _size( array._size ), _capacity( array._capacity )
+    : _allocator( array._allocator ), _values( nullptr ),
+      _first( array._first ), _size( array._size ),
+      _capacity( array._capacity )
 {
     using namespace mem;
 
-    uint32 a;
-    uint32 b;
-    if ( array._values != nullptr )
-    {
-        _values = _allocator.get( _capacity );
-        a = array._capacity - ( array._first + array._size );
-        b = ( array._first + array._size ) % array._capacity;
-
-        if ( a >= array._size )
-        {
-            MemoryUtils::copy( _values, array._values + array._first,
-                               array._size );
-        }
-        else
-        {
-            MemoryUtils::copy( _values, array._values + array._first, a );
-            MemoryUtils::copy( _values + a, array._values, b );
-        }
-    }
+    _values = _allocator.get( _capacity );
+    MemoryUtils::copy( _values, array._values, _capacity );
 }
 
 template <typename T>
 DynamicArray<T>::DynamicArray( DynamicArray<T>&& array )
-    : _allocator( array._allocator ), _values( nullptr ), _first( 0 ),
-      _size( array._size ), _capacity( array._capacity )
+    : _allocator( array._allocator ), _values( array._values ),
+      _first( array._first ), _size( array._size ),
+      _capacity( array._capacity )
 {
-    using namespace mem;
-
-    uint32 a;
-    uint32 b;
-    if ( array._values != nullptr )
-    {
-        _values = _allocator.get( _capacity );
-        a = array._capacity - ( array._first + array._size );
-        b = ( array._first + array._size ) % array._capacity;
-
-        if ( a >= array._size )
-        {
-            MemoryUtils::move( _values, array._values + array._first,
-                               array._size );
-        }
-        else
-        {
-            MemoryUtils::move( _values, array._values + array._first, a );
-            MemoryUtils::move( _values + a, array._values, b );
-        }
-    }
-
     array._allocator = nullptr;
     array._values = nullptr;
     array._first = 0;
@@ -536,29 +496,12 @@ DynamicArray<T>& DynamicArray<T>::operator=(
     }
 
     _allocator = array._allocator;
-    _first = 0;
+    _first = array._first;
     _size = array._size;
     _capacity = array._capacity;
 
-    uint32 a;
-    uint32 b;
-    if ( array._values != nullptr )
-    {
-        _values = _allocator.get( _capacity );
-        a = array._capacity - ( array._first + array._size );
-        b = ( array._first + array._size ) % array._capacity;
-
-        if ( a >= array._size )
-        {
-            MemoryUtils::copy( _values, array._values + array._first,
-                               array._size );
-        }
-        else
-        {
-            MemoryUtils::copy( _values, array._values + array._first, a );
-            MemoryUtils::copy( _values + a, array._values, b );
-        }
-    }
+    _values = _allocator.get( _capacity );
+    MemoryUtils::copy( _values, array._values, _capacity );
 
     return *this;
 }
@@ -566,33 +509,17 @@ DynamicArray<T>& DynamicArray<T>::operator=(
 template <typename T>
 DynamicArray<T>& DynamicArray<T>::operator=( cntr::DynamicArray<T>&& array )
 {
-    using namespace mem;
+    if ( _values != nullptr )
+    {
+        _allocator.release( _values, _capacity );
+        _values = nullptr;
+    }
 
     _allocator = array._allocator;
-    _values = nullptr;
-    _first = 0;
+    _values = array._values;
+    _first = array._first;
     _size = array._size;
     _capacity = array._capacity;
-
-    uint32 a;
-    uint32 b;
-    if ( array._values != nullptr )
-    {
-        _values = _allocator.get( _capacity );
-        a = array._capacity - ( array._first + array._size );
-        b = ( array._first + array._size ) % array._capacity;
-
-        if ( a >= array._size )
-        {
-            MemoryUtils::move( _values, array._values + array._first,
-                               array._size );
-        }
-        else
-        {
-            MemoryUtils::move( _values, array._values + array._first, a );
-            MemoryUtils::move( _values + a, array._values, b );
-        }
-    }
 
     array._allocator = nullptr;
     array._values = nullptr;
@@ -779,7 +706,7 @@ inline
 bool DynamicArray<T>::remove( const T& value )
 {
     uint32 index = indexOf( value );
-    if ( value == static_cast<uint32>( -1 ) )
+    if ( index == static_cast<uint32>( -1 ) )
     {
         return false;
     }
@@ -1096,6 +1023,6 @@ bool DynamicArray<T>::ArrayIterator<APTR, TREF, CTREF, TPTR>::operator!=(
 
 } // End nspc cntr
 
-} // End nspc demo
+} // End nspc nge
 
 #endif // DEMO_DYNAMIC_ARRAY_H
