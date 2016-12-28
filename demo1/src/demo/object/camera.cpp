@@ -1,4 +1,2 @@
-//
-// Created by Class2016 on 12/25/2016.
-//
+// camera.cpp
 #include "camera.h"

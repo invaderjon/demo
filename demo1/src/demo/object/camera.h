@@ -1,9 +1,6 @@
+// camera.h
 //
-// Skeleton camera class.
-//
-// Jonathan DiGiacomo
-//
-// TODO: replace void*'s with actual types.
+// A camera that can be used to render a scene.
 //
 #ifndef DEMO_CAMERA_H
 #define DEMO_CAMERA_H
@@ -11,8 +8,9 @@
 namespace demo
 {
 
-class Camera
-{
+namespace obj {
+
+class Camera {
   private:
 
 
@@ -94,6 +92,8 @@ class Camera
 
 
 };
+
+} // End nspc obj
 
 } // End nspc demo
 
