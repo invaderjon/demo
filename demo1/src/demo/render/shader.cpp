@@ -71,7 +71,7 @@ void Shader::load()
         String line;
         while ( !file.eof() )
         {
-            getline( buffer, line );
+            getline( file, line );
             buffer << line << "\n";
         }
 

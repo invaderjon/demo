@@ -9,8 +9,10 @@
 #if defined(__MINGW32__) || defined(_MSC_VER)
 
 #define _GLEW_
-#define GLEW_STATIC
+
+#define GL_GLEXT_PROTOTYPES
 #include <GL/glew.h>
+#include <GL/gl.h>
 
 #else
 

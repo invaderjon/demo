@@ -95,4 +95,4 @@ set(
 
 # Build
 add_executable(demo1 ${SOURCE_FILES})
-target_link_libraries(demo1 ${OPENGL_gl_LIBRARY} ${GLFW_LIBRARIES} ${GLEW_LIBRARIES})
+target_link_libraries(demo1 ${OPENGL_gl_LIBRARY} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES})
