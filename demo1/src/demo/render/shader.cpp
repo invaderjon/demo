@@ -92,13 +92,13 @@ void Shader::load()
         {
             // display error
             glGetShaderiv( handle, GL_INFO_LOG_LENGTH, &logLength );
-            std::vector<char> shaderError( ( logLength > 1 ) ? logLength : 1 );
+            std::vector<char> error( ( logLength > 1 ) ? logLength : 1 );
 
-            glGetShaderInfoLog( handle, logLength, nullptr, &shaderError[0] );
+            glGetShaderInfoLog( handle, logLength, nullptr, &error[0] );
 
             std::cout << "Failed to compile " << shaders[i].filename <<
                 std::endl;
-            std::cout << &shaderError[0] << std::endl;
+            std::cout << &error[0] << std::endl;
 
             // release resources and remove from list
             glDeleteShader( handle );
@@ -126,11 +126,11 @@ void Shader::load()
     {
         // display error
         glGetProgramiv( program, GL_INFO_LOG_LENGTH, &logLength );
-        std::vector<char> programError( ( logLength > 1 ) ? logLength : 1 );
-        glGetProgramInfoLog( program, logLength, nullptr, &programError[0] );
+        std::vector<char> error( ( logLength > 1 ) ? logLength : 1 );
+        glGetProgramInfoLog( program, logLength, nullptr, &error[0] );
 
         std::cout << "Failed to link " << _setName << std::endl;
-        std::cout << &programError[0] << std::endl;
+        std::cout << &error[0] << std::endl;
 
         // release resources and delete program
         glDeleteProgram( program );
