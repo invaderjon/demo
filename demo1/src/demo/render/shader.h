@@ -165,6 +165,10 @@ Shader::Shader( const Shader& other )
 inline
 Shader::~Shader()
 {
+    if ( isLoaded() )
+    {
+        release();
+    }
 }
 
 // OPERATORS
