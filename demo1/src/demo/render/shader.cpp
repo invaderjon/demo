@@ -28,6 +28,7 @@ void Shader::load()
         return;
     }
 
+    // create array of shaders
     cntr::FixedArray<GlShader> shaders( 6 );
     for ( uint32 i = 0; i < 6; ++i )
     {
@@ -145,6 +146,7 @@ void Shader::load()
 
     // store program
     _program = program;
+    bindAttributes();
 }
 
 void Shader::release()
@@ -156,6 +158,12 @@ void Shader::release()
 
     glDeleteProgram( _program );
     _program = 0;
+}
+
+// HELPER FUNCTIONS
+void Shader::bindAttributes()
+{
+    // todo: bind attributes
 }
 
 } // End nspc rndr

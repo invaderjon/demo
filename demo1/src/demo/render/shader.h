@@ -68,6 +68,12 @@ class Shader
      * The OpenGL program handle.
      */
     uint32 _program;
+
+    // HELPER FUNCTIONS
+    /**
+     * Bind the OpenGL attributes.
+     */
+    void bindAttributes();
   
   public:
     // CONSTRUCTORS
