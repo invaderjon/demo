@@ -15,6 +15,9 @@ class ITickable
 {
   public:
     // CONSTRUCTORS
+    /**
+     * Destruct the tickable.
+     */
     ~ITickable();
 
     // MEMBER FUNCTIONS
@@ -25,7 +28,7 @@ class ITickable
 
     /**
      * Update the object.
-     * @param dt The elapsed time.
+     * @param dt The elapsed time in seconds.
      */
     virtual void tick( float dt ) = 0;
 
@@ -36,6 +39,7 @@ class ITickable
 };
 
 // CONSTRUCTORS
+inline
 ITickable::~ITickable()
 {
 }
