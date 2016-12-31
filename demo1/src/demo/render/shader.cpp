@@ -144,7 +144,7 @@ void Shader::load()
         glDetachShader( program, shaders[i].handle );
     }
 
-    // store program
+    // store program and bind attributes
     _program = program;
     bindAttributes();
 }
