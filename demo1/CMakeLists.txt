@@ -16,6 +16,10 @@ if (WIN32)
         find_package(GLEW REQUIRED)
 endif()
 
+# Copy Resources
+file( GLOB RESOURCES "res/*" )
+file( COPY ${RESOURCES} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/res" )
+
 # Includes
 include_directories(
         ${OPENGL_INCLUDE_DIR}

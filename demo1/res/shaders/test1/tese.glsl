@@ -1,4 +1,4 @@
-#version 400
+#version 330
 
 layout(triangles, equal_spacing, cw) in;
 in vec3 tcPosition[];

@@ -62,7 +62,7 @@ void Shader::load()
         // shader of that type doesn't exist so ignore it
         if ( !file )
         {
-            shaders.removeAt( i-- );
+            shaders.removeAt(static_cast<uint32>( i-- ) );
             continue;
         }
 
@@ -93,7 +93,9 @@ void Shader::load()
         {
             // display error
             glGetShaderiv( handle, GL_INFO_LOG_LENGTH, &logLength );
-            std::vector<char> error( ( logLength > 1 ) ? logLength : 1 );
+            logLength = std::max( logLength, 1 );
+
+            std::vector<GLchar> error( static_cast<uint32>( logLength ) );
 
             glGetShaderInfoLog( handle, logLength, nullptr, &error[0] );
 
@@ -103,7 +105,7 @@ void Shader::load()
 
             // release resources and remove from list
             glDeleteShader( handle );
-            shaders.removeAt( i-- );
+            shaders.removeAt( static_cast<uint32>( i-- ) );
             continue;
         }
     }
@@ -127,7 +129,9 @@ void Shader::load()
     {
         // display error
         glGetProgramiv( program, GL_INFO_LOG_LENGTH, &logLength );
-        std::vector<char> error( ( logLength > 1 ) ? logLength : 1 );
+        logLength = std::max( logLength, 1 );
+
+        std::vector<GLchar> error( static_cast<uint32>( logLength ) );
         glGetProgramInfoLog( program, logLength, nullptr, &error[0] );
 
         std::cout << "Failed to link " << _setName << std::endl;

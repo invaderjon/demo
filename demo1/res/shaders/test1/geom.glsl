@@ -1,4 +1,4 @@
-#version 400
+#version 330
 
 uniform mat4 ModelView;
 uniform mat4 NormalMatrix;
@@ -14,7 +14,7 @@ void main()
 {
     vec3 A = tePosition[2] - tePosition[0];
     vec3 B = tePosition[1] - tePosition[0];
-    gFacetNormal = NormalMatrix * normalize(cross(A, B));
+    gFacetNormal = (NormalMatrix * vec4(normalize(cross(A, B)), 1)).xyz;
 
     gPatchDistance = tePatchDistance[0];
     gTriDistance = vec3(1, 0, 0);

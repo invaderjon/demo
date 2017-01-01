@@ -11,14 +11,11 @@ int main()
     using namespace demo;
 
     glfwInit();
-    GLFWwindow* win = glfwCreateWindow( 300, 400, "test", nullptr, nullptr );;
+    GLFWwindow* win = glfwCreateWindow( 300, 400, "test", nullptr, nullptr );
+    glfwMakeContextCurrent( win );
 
-    GLenum err = glewInit();
-    if (err != GLEW_OK)
-    {
-        std::cout << "Failed to load glew" << err << std::endl;
-        return -1;
-    }
+    printf("OpenGL version is (%s)\n", glGetString(GL_VERSION));
+
     rndr::Shader test( "test1" );
     test.load();
     std::cout << "Hello, World!" << std::endl;

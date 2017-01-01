@@ -1,4 +1,4 @@
-#version 400
+#version 330
 
 layout(vertices = 3) out;
 in vec3 vPosition;
