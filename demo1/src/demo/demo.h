@@ -39,8 +39,9 @@ class Demo
     // MEMBER FUNCTIONS
     /**
      * Prepare the demo.
+     * @return Whether it starts up successfully.
      */
-    void startup();
+    bool startup();
 
     /**
      * Run the demo.

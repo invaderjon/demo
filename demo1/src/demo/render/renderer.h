@@ -10,6 +10,9 @@
 #define DEMO_RENDERER_H
 
 #include "demo/object/camera.h"
+#include "demo/object/scene.h"
+#include "demo/render/irendertarget.h"
+#include "demo/render/shader.h"
 
 namespace demo
 {
@@ -19,6 +22,18 @@ namespace rndr
 
 class Renderer
 {
+  private:
+    // MEMBERS
+    /**
+     * The shader set used to draw the scene.
+     */
+    Shader* _shader;
+
+    /**
+     * The render target that the renderer draws to.
+     */
+    IRenderTarget* _target;
+
   public:
     // CONSTRUCTORS
     /**
@@ -45,13 +60,66 @@ class Renderer
      */
     Renderer& operator=( const Renderer& other );
 
+    // MUTATOR FUNCTIONS
+    /**
+     * Set the shader used to draw.
+     * @param shader The shader.
+     */
+    void setShader( Shader* shader );
+
+    /**
+     * Set the render target.
+     * @param target The render target.
+     */
+    void setRenderTarget( IRenderTarget* target );
+
     // MEMBER FUNCTIONS
     /**
      * Render the specified scene from the viewpoint of the specified camera.
-     * @param camera The camera
+     * @param camera The camera to use to render.
+     * @param scene The scene to render.
      */
-    void render( const obj::Camera& camera );
+    void render( const obj::Camera& camera, const obj::Scene& scene );
 };
+
+// CONSTRUCTORS
+inline
+Renderer::Renderer() : _shader( nullptr ), _target( nullptr )
+{
+}
+
+inline
+Renderer::Renderer( const Renderer& other ) 
+    : _shader( other._shader ), _target( other._target )
+{
+}
+
+inline
+Renderer::~Renderer()
+{
+}
+
+// OPERATORS
+inline
+Renderer& Renderer::operator=( const Renderer& other )
+{
+    _shader = other._shader;
+    _target = other._target;
+    return *this;
+}
+
+// MUTATOR FUNCTIONS
+inline
+void Renderer::setShader( Shader* shader )
+{
+    _shader = shader;
+}
+
+inline
+void Renderer::setRenderTarget( IRenderTarget* target )
+{
+    _target = target;
+}
 
 } // End nspc rndr
 

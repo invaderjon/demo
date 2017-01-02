@@ -12,9 +12,18 @@ find_package(OpenGL REQUIRED)
 find_package(GLM REQUIRED)
 find_package(GLFW REQUIRED)
 
+if (WIN32)
+        find_package(GLEW REQUIRED)
+endif()
+
+# Copy Resources
+file( GLOB RESOURCES "res/*" )
+file( COPY ${RESOURCES} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/res" )
+
 # Includes
 include_directories(
         ${OPENGL_INCLUDE_DIR}
+        ${GLEW_INCLUDE_DIRS}
         ${GLFW_INCLUDE_DIRS}
         src
 )
@@ -69,10 +78,16 @@ set(
         src/demo/object/transform.cpp
         src/demo/object/transform.h
         # src/demo/render
+        src/demo/render/grapi.cpp
+        src/demo/render/grapi.h
+        src/demo/render/irenderable.cpp
+        src/demo/render/irenderable.h
         src/demo/render/irendertarget.cpp
         src/demo/render/irendertarget.h
         src/demo/render/renderer.cpp
         src/demo/render/renderer.h
+        src/demo/render/shader.cpp
+        src/demo/render/shader.h
         src/demo/render/window.cpp
         src/demo/render/window.h
         # src/demo/utility
@@ -84,4 +99,4 @@ set(
 
 # Build
 add_executable(demo1 ${SOURCE_FILES})
-target_link_libraries(demo1 ${OPENGL_gl_LIBRARY} ${GLFW_LIBRARIES})
+target_link_libraries(demo1 ${OPENGL_gl_LIBRARY} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES})

@@ -229,7 +229,7 @@ class Transform
 // CONSTRUCTORS
 inline
 Transform::Transform() : _matrix(), _position(), _scale( 1.0f ), _rotation(),
-                         _hasChanged()
+                         _hasChanged( true )
 {
 }
 
@@ -237,7 +237,7 @@ inline
 Transform::Transform( const Transform& other )
     : _matrix( other._matrix ), _position( other._position ),
       _scale( other._scale ), _rotation( other._rotation ),
-      _hasChanged( other._hasChanged )
+      _hasChanged( true )
 {
 }
 
@@ -254,7 +254,7 @@ Transform& Transform::operator=( const Transform& other )
     _position = other._position;
     _rotation = other._rotation;
     _scale = other._scale;
-    _hasChanged = other._hasChanged;
+    _hasChanged = true;
 
     return *this;
 }
