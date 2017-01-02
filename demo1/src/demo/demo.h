@@ -78,6 +78,7 @@ Demo::~Demo()
 }
 
 // OPERATORS
+inline
 Demo& Demo::operator=( const Demo& other )
 {
     // TODO: copy over data
