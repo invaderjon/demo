@@ -10,30 +10,22 @@ namespace demo
 
 bool Demo::startup()
 {
-    // initialize graphics
-    if ( !rndr::GrApi::init() )
-    {
-        return false;
-    }
-
-    glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 4 );
-    glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 1 );
-    GLFWwindow* win = glfwCreateWindow( 300, 400, "test", nullptr, nullptr );
-    glfwMakeContextCurrent( win );
-
-    // display opengl version
-    printf( "OpenGL version is (%s)\n", glGetString( GL_VERSION ) );
-
-    rndr::GrApi::terminate();
-    return 0;
+    return rndr::GrApi::init();
 }
 
 void Demo::run()
 {
-}
+    _window.open();
+    _window.activate();
+    printf( "OpenGL version is (%s)\n", glGetString( GL_VERSION ) );
 
-bool Demo::isRunning() const
-{
+    // run while the window is open
+    while ( _window.isOpen() )
+    {
+        glfwPollEvents();
+
+        _window.update();
+    }
 }
 
 void Demo::shutdown()

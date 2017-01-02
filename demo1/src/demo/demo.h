@@ -5,11 +5,31 @@
 #ifndef DEMO_DEMO_H
 #define DEMO_DEMO_H
 
+#include <demo/render/window.h>
+
 namespace demo
 {
 
 class Demo
 {
+  private:
+    // MEMBERS
+    /**
+     * The window the demo is running on.
+     */
+    rndr::Window _window;
+
+    // HIDDEN FUNCTIONS
+    /**
+     * Hidden constructor.
+     */
+    Demo( const Demo& other ) = delete;
+
+    /**
+     * Hidden operator.
+     */
+    Demo& operator=( const Demo& other ) = delete;
+
   public:
     // CONSTRUCTORS
     /**
@@ -21,20 +41,11 @@ class Demo
      * Construct a copy of the other demo.
      * @param other The other demo.
      */
-    Demo( const Demo& other );
 
     /**
      * Destruct the demo.
      */
     ~Demo();
-
-    // OPERATORS
-    /**
-     * Assign this as a copy of another demo.
-     * @param other The other demo.
-     * @return This.
-     */
-    Demo& operator=( const Demo& other );
 
     // MEMBER FUNCTIONS
     /**
@@ -62,14 +73,8 @@ class Demo
 
 // CONSTRUCTORS
 inline
-Demo::Demo()
+Demo::Demo() : _window()
 {
-}
-
-inline
-Demo::Demo( const Demo& other )
-{
-    // TODO: copy over data
 }
 
 inline
@@ -77,13 +82,11 @@ Demo::~Demo()
 {
 }
 
-// OPERATORS
+// MEMBER FUNCTIONS
 inline
-Demo& Demo::operator=( const Demo& other )
+bool Demo::isRunning() const
 {
-    // TODO: copy over data
-
-    return *this;
+    return _window.isOpen();
 }
 
 } // End nspc demo
