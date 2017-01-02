@@ -8,13 +8,13 @@ namespace rndr
 {
 
 // UTILITY FUNCTIONS
-void GrApi::init()
+bool GrApi::init()
 {
     #ifdef _GLEW_
     glewInit();
     #endif
 
-    glfwInit();
+    return glfwInit() != 0;
 }
 
 void GrApi::terminate()

@@ -37,8 +37,9 @@ struct GrApi
     /**
      * Initialize the graphics api.
      * This must be called before any graphics api can be used.
+     * @return Was the api successfully initialized?
      */
-    static void init();
+    static bool init();
 
     /**
      * Unload the graphics api.
