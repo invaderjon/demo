@@ -11,7 +11,7 @@
 
 #include "demo/object/camera.h"
 #include "demo/object/scene.h"
-#include "demo/render/irendertarget.h"
+#include "demo/render/rendertarget.h"
 #include "demo/render/shader.h"
 
 namespace demo
@@ -32,7 +32,7 @@ class Renderer
     /**
      * The render target that the renderer draws to.
      */
-    IRenderTarget* _target;
+    RenderTarget* _target;
 
   public:
     // CONSTRUCTORS
@@ -71,7 +71,7 @@ class Renderer
      * Set the render target.
      * @param target The render target.
      */
-    void setRenderTarget( IRenderTarget* target );
+    void setRenderTarget( RenderTarget* target );
 
     // MEMBER FUNCTIONS
     /**
@@ -116,7 +116,7 @@ void Renderer::setShader( Shader* shader )
 }
 
 inline
-void Renderer::setRenderTarget( IRenderTarget* target )
+void Renderer::setRenderTarget( RenderTarget* target )
 {
     _target = target;
 }

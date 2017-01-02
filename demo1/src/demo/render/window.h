@@ -5,7 +5,8 @@
 #ifndef DEMO_WINDOW_H
 #define DEMO_WINDOW_H
 
-#include "demo/render/irendertarget.h"
+#include "demo/render/grapi.h"
+#include "demo/render/rendertarget.h"
 
 namespace demo
 {
@@ -13,32 +14,53 @@ namespace demo
 namespace rndr
 {
 
-class Window : public IRenderTarget
+class Window : public RenderTarget
 {
   private:
+    // MEMBERS
+    /**
+     * The window.
+     */
+    GLFWwindow* _window;
 
+    // HIDDEN FUNCTIONS
+    /**
+     * Hidden constructor.
+     */
+    Window( const Window& other ) = delete;
+
+    /**
+     * Hidden operator.
+     */
+    Window& operator=( const Window& other ) = delete;
+
+  protected:
+    // ABSTRACT FUNCTIONS
+    /**
+     * Activate the render target.
+     */
+    virtual void activateTarget();
 
   public:
     // CONSTRUCTORS
     /**
+     * Construct an empty window.
+     */
+    Window();
+
+    /**
      * Destruct the window.
      */
-    virtual ~Window() = 0;
-
-    // MEMBER FUNCTIONS
-    /**
-     * Active as a render target.
-     */
-    virtual void activate() = 0;
-
-    /**
-     * Check if this is the active render target.
-     * @return Is it active?
-     */
-    virtual bool isActive() = 0;
+    virtual ~Window();
 };
 
 // CONSTRUCTORS
+inline
+Window::Window() : _window( nullptr )
+{
+}
+
+inline
 Window::~Window()
 {
 }
