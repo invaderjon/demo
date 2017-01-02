@@ -20,6 +20,7 @@ void Demo::run()
     {
         glfwPollEvents();
 
+        _window.swapBuffer();
         _window.update();
     }
 }

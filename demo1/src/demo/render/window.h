@@ -128,6 +128,11 @@ class Window : public RenderTarget
     void update();
 
     /**
+     * Swap the buffer.
+     */
+    void swapBuffer();
+
+    /**
      * Close the window.
      * This does nothing if the window is not open.
      * The size will be invalid after the window is closed.
@@ -223,6 +228,12 @@ void Window::setSize( int32 width, int32 height )
 }
 
 // MEMBER FUNCTIONS
+inline
+void Window::swapBuffer()
+{
+    glfwSwapBuffers( _window );
+}
+
 inline
 bool Window::isOpen() const
 {
