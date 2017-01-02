@@ -21,19 +21,30 @@
 
 #endif
 
+#define GLFW_DLL
+#include <GLFW/glfw3.h>
+
 namespace demo
 {
 
 namespace rndr
 {
 
+
 struct GrApi
 {
+    // UTILITY FUNCTIONS
     /**
      * Initialize the graphics api.
      * This must be called before any graphics api can be used.
      */
     static void init();
+
+    /**
+     * Unload the graphics api.
+     * This should be called when finished.
+     */
+    static void terminate();
 };
 
 } // End nspc rndr
