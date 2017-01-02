@@ -4,9 +4,8 @@
 
 int main()
 {
-    using namespace demo;
     // create demo
-    Demo demo;
+    demo::Demo demo;
 
     // run demo
     demo.startup();
