@@ -18,7 +18,7 @@ class ITickable
     /**
      * Destruct the tickable.
      */
-    ~ITickable();
+    virtual ~ITickable() = 0;
 
     // MEMBER FUNCTIONS
     /**

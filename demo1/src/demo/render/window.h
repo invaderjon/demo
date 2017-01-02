@@ -19,6 +19,12 @@ class Window : public IRenderTarget
 
 
   public:
+    // CONSTRUCTORS
+    /**
+     * Destruct the window.
+     */
+    virtual ~Window() = 0;
+
     // MEMBER FUNCTIONS
     /**
      * Active as a render target.
@@ -31,6 +37,11 @@ class Window : public IRenderTarget
      */
     virtual bool isActive() = 0;
 };
+
+// CONSTRUCTORS
+Window::~Window()
+{
+}
 
 } // End nspc rndr
 

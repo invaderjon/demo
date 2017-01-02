@@ -63,7 +63,7 @@ class Object : public ITickable
     /**
      * Destruct the object.
      */
-    ~Object();
+    virtual ~Object();
 
     // OPERATORS
     /**

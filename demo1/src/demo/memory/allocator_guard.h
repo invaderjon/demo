@@ -51,7 +51,7 @@ class AllocatorGuard : public IAllocator<T>
     /**
      * Deconstructs the wrapper.
      */
-    ~AllocatorGuard();
+    virtual ~AllocatorGuard();
 
     // MEMBER FUNCTIONS
     /**

@@ -18,7 +18,7 @@ class IRenderable
     /**
      * Destruct the renderable.
      */
-    ~IRenderable();
+    virtual ~IRenderable() = 0;
 
     // MEMBER FUNCTIONS
     /**

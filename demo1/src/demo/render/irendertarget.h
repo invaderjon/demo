@@ -18,7 +18,7 @@ class IRenderTarget
     /**
      * Destruct the render target.
      */
-    ~IRenderTarget();
+    virtual ~IRenderTarget() = 0;
 
     // MEMBER FUNCTIONS
     /**
