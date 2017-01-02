@@ -1,7 +1,7 @@
-#version 330
+#version 400
 
 layout(vertices = 3) out;
-in vec3 vPosition;
+in vec3 vPosition[];
 out vec3 tcPosition[];
 uniform float TessLevelInner;
 uniform float TessLevelOuter;

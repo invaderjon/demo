@@ -1,4 +1,4 @@
-#version 330
+#version 400
 
 in vec4 position;
 out vec3 vPosition;

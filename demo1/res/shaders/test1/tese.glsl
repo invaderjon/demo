@@ -1,4 +1,4 @@
-#version 330
+#version 400
 
 layout(triangles, equal_spacing, cw) in;
 in vec3 tcPosition[];
@@ -7,7 +7,7 @@ out vec3 tePatchDistance;
 uniform mat4 Projection;
 uniform mat4 ModelView;
 
-void main
+void main()
 {
     vec3 p0 = gl_TessCoord.x * tcPosition[0];
     vec3 p1 = gl_TessCoord.y * tcPosition[1];
