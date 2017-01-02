@@ -82,8 +82,8 @@ set(
         src/demo/render/grapi.h
         src/demo/render/irenderable.cpp
         src/demo/render/irenderable.h
-        src/demo/render/irendertarget.cpp
-        src/demo/render/irendertarget.h
+        src/demo/render/rendertarget.cpp
+        src/demo/render/rendertarget.h
         src/demo/render/renderer.cpp
         src/demo/render/renderer.h
         src/demo/render/shader.cpp
