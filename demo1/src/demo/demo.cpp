@@ -1,10 +1,6 @@
 // demo.cpp
 #include "demo.h"
 
-#include <iostream>
-
-#include "demo/render/grapi.h"
-
 namespace demo
 {
 
