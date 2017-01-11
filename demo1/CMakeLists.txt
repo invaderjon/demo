@@ -11,6 +11,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 find_package(OpenGL REQUIRED)
 find_package(GLM REQUIRED)
 find_package(GLFW REQUIRED)
+find_package(ASSIMP REQUIRED)
 
 if (WIN32)
         find_package(GLEW REQUIRED)
@@ -25,6 +26,7 @@ include_directories(
         ${OPENGL_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIRS}
         ${GLFW_INCLUDE_DIRS}
+        ${ASSIMP_INCLUDE_DIRS}
         src
 )
 
@@ -99,4 +101,5 @@ set(
 
 # Build
 add_executable(demo1 ${SOURCE_FILES})
-target_link_libraries(demo1 ${OPENGL_gl_LIBRARY} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES})
+target_link_libraries(demo1 ${OPENGL_gl_LIBRARY} ${GLEW_LIBRARIES}
+        ${GLFW_LIBRARIES} ${ASSIMP_LIBRARIES})

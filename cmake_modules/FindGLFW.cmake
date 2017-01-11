@@ -29,7 +29,7 @@ if (WIN32)
             DOC "The directory where GLFW/glfw.h resides"
     )
 
-    # Use glfw3.llib for static library
+    # Use glfw3.lib for static library
     if (GLFW_USE_STATIC_LIBS)
         set(GLFW_LIBRARY_NAME glfw3)
     else()
@@ -43,6 +43,7 @@ if (WIN32)
             PATHS
             $ENV{PROGRAMFILES}/lib
             ${GLFW_ROOT_DIR}/lib
+            DOC "The GLFW library"
     )
 
     unset(GLFW_LIBRARY_NAME)
@@ -56,6 +57,7 @@ else()
             /usr/local/include
             /sw/include
             /opt/local/include
+            ${GLFW_ROOT_DIR}/include
             DOC "The directory where GLFW/glfw3.h resides"
     )
 

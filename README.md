@@ -15,6 +15,7 @@ This project officially supports Windows 7 and Ubuntu 16.04+.
  * OpenGL
  * GLFW 3
  * GLM
+ * Assimp 2.0+
 
 ### Windows 7 ###
  * CMake 3.6+
@@ -23,3 +24,4 @@ This project officially supports Windows 7 and Ubuntu 16.04+.
  * OpenGL
  * GLFW 3
  * GLM
+ * Assimp 2.0+
