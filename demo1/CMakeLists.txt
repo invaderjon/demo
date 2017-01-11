@@ -84,6 +84,8 @@ set(
         src/demo/render/grapi.h
         src/demo/render/irenderable.cpp
         src/demo/render/irenderable.h
+        src/demo/render/model.cpp
+        src/demo/render/model.h
         src/demo/render/rendertarget.cpp
         src/demo/render/rendertarget.h
         src/demo/render/renderer.cpp
