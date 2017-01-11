@@ -148,7 +148,7 @@ class Window : public RenderTarget
 
 // CONSTRUCTORS
 inline
-Window::Window() : _window( nullptr ), _width(), _height()
+Window::Window() : _window( nullptr ), _width( 800 ), _height( 600 )
 {
 }
 
@@ -231,7 +231,10 @@ void Window::setSize( int32 width, int32 height )
 inline
 void Window::swapBuffer()
 {
-    glfwSwapBuffers( _window );
+    if ( isOpen() )
+    {
+        glfwSwapBuffers( _window );
+    }
 }
 
 inline

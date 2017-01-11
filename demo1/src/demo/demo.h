@@ -5,7 +5,8 @@
 #ifndef DEMO_DEMO_H
 #define DEMO_DEMO_H
 
-#include <demo/render/window.h>
+#include "demo/render/grapi.h"
+#include "demo/render/window.h"
 
 namespace demo
 {

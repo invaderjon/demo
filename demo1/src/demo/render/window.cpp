@@ -11,6 +11,7 @@ namespace rndr
 void Window::activateTarget()
 {
     glfwMakeContextCurrent( _window );
+    glViewport( 0, 0, _width, _height );
 }
 
 // MEMBER FUNCTIONS
@@ -23,7 +24,9 @@ void Window::open()
 
     glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 4 );
     glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 1 );
-    _window = glfwCreateWindow( 800, 600, _title.c_str(), nullptr, nullptr );
+    glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
+    _window = glfwCreateWindow( _width, _height, _title.c_str(), nullptr,
+                                nullptr );
 }
 
 void Window::update()
