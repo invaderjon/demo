@@ -34,16 +34,13 @@ void Model::load( const String& path )
         return;
     }
 
-    if ( path.empty() )
-    {
-        throw std::runtime_error( "File not specified!" );
-    }
+	assert( !path.empty() );
 
     // load file
     Assimp::Importer importer;
     const aiScene* data = importer.ReadFile( path, aiProcess_SortByPType );
 
-    if ( !data )
+    if ( data == nullptr )
     {
         throw std::runtime_error( importer.GetErrorString() );
     }
