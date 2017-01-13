@@ -69,6 +69,36 @@ class Shader
      */
     uint32 _program;
 
+    /**
+     * The projection matrix attribute.
+     */
+    int32 _matProjAttrib;
+
+    /**
+     * The view matrix attribute.
+     */
+    int32 _matViewAttrib;
+
+    /**
+     * The model matrix attribute.
+     */
+    int32 _matModelAttrib;
+
+    /**
+     * The normal matrix attribute.
+     */
+    int32 _matNormAttrib;
+
+    /**
+     * The vertex position attribute.
+     */
+    int32 _vertPosAttrib;
+
+    /**
+     * The vertex normal attribute.
+     */
+    int32 _vertNormAttrib;
+
     // HELPER FUNCTIONS
     /**
      * Bind the OpenGL attributes.
@@ -114,6 +144,42 @@ class Shader
     uint64 id() const;
 
     /**
+     * Get the projection matrix attribute id.
+     * @return The projection matrix attribute.
+     */
+    int32 matProjectionAttr() const;
+
+    /**
+     * Get the view matrix attribute id.
+     * @return The view matrix attribute.
+     */
+    int32 matViewAttrib() const;
+
+    /**
+     * Get the model matrix attribute id.
+     * @return The model matrix attribute.
+     */
+    int32 matModelAttrib() const;
+
+    /**
+     * Get the normal matrix attribute id.
+     * @return The normal matrix attribute.
+     */
+    int32 matNormalAttrib() const;
+
+    /**
+     * Get the vertex position attribute id.
+     * @return The vertex position attribute.
+     */
+    int32 vertPositionAttrib() const;
+
+    /**
+     * Get the vertex normal attribute id.
+     * @return The vertex normal attribute.
+     */
+    int32 vertNormalAttrib() const;
+
+    /**
      * Check if the shader is ready to be used.
      * @return Is loaded?
      */
@@ -152,19 +218,23 @@ class Shader
 
 // CONSTRUCTORS
 inline
-Shader::Shader() : _setName(), _id( ++g_nextId ), _program( 0 )
+Shader::Shader() : _setName(), _id( ++g_nextId ), _program(), _vertPosAttrib(),
+                   _vertNormAttrib()
 {
 }
 
 inline
 Shader::Shader( const String& name ) 
-    : _setName( name ), _id( ++g_nextId ), _program( 0 )
+    : _setName( name ), _id( ++g_nextId ), _program(), _vertPosAttrib(),
+      _vertNormAttrib()
 {
 }
 
 inline
 Shader::Shader( const Shader& other ) 
-    : _setName( other._setName ), _id( other._id ), _program( other._program )
+    : _setName( other._setName ), _id( other._id ), _program( other._program ),
+      _vertPosAttrib( other._vertPosAttrib ),
+      _vertNormAttrib( other._vertNormAttrib )
 {
 }
 
@@ -177,20 +247,47 @@ Shader::~Shader()
     }
 }
 
-// OPERATORS
-inline
-Shader& Shader::operator=( const Shader& other )
-{
-    _id = other._id;
-    _program = other._program;
-    return *this;
-}
-
 // ACCESSOR FUNCTIONS
 inline
 uint64 Shader::id() const
 {
     return _id;
+}
+
+inline
+int32 Shader::matProjectionAttr() const
+{
+    return _matProjAttrib;
+}
+
+inline
+int32 Shader::matViewAttrib() const
+{
+    return _matViewAttrib;
+}
+
+inline
+int32 Shader::matModelAttrib() const
+{
+    return _matModelAttrib;
+}
+
+inline
+int32 Shader::matNormalAttrib() const
+{
+    return _matNormAttrib;
+}
+
+inline
+int32 Shader::vertPositionAttrib() const
+{
+    return _vertPosAttrib;
+}
+
+inline
+int32 Shader::vertNormalAttrib() const
+{
+    return _vertNormAttrib;
 }
 
 inline

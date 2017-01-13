@@ -5,6 +5,8 @@
 #ifndef DEMO_IRENDERABLE_H
 #define DEMO_IRENDERABLE_H
 
+#include "demo/render/shader.h"
+
 namespace demo
 {
 
@@ -23,8 +25,9 @@ class IRenderable
     // MEMBER FUNCTIONS
     /**
      * Render the object.
+      * @param shader The shader to use during rendering.
      */
-    virtual void render() = 0;
+    virtual void render( const Shader& shader ) = 0;
 };
 
 // CONSTRUCTORS

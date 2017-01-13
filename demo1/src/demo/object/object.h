@@ -8,6 +8,7 @@
 #include "demo/intdef.h"
 #include "demo/object/itickable.h"
 #include "demo/object/transform.h"
+#include "demo/render/irenderable.h"
 #include "demo/strdef.h"
 
 namespace demo
@@ -16,7 +17,7 @@ namespace demo
 namespace obj
 {
 
-class Object : public ITickable
+class Object : public ITickable, rndr::IRenderable
 {
   private:
     // GLOBALS
@@ -132,23 +133,24 @@ class Object : public ITickable
     /**
      * Prepare for the next tick cycle.
      */
-    virtual void preTick();
+    void preTick() override;
 
     /**
      * Update the object.
      * @param dt The elapsed time in seconds.
      */
-    virtual void tick( float dt );
+    void tick( float dt ) override;
 
     /**
      * Clean up after the tick cycle.
      */
-    virtual void postTick();
+    void postTick() override;
 
     /**
      * Render the object.
+     * @param shader The shader to use during rendering.
      */
-    virtual void render();
+    void render( const rndr::Shader& shader ) override;
 };
 
 // CONSTRUCTORS
@@ -251,7 +253,7 @@ void Object::postTick()
 }
 
 inline
-void Object::render()
+void Object::render( const rndr::Shader& shader )
 {
 }
 

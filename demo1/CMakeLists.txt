@@ -84,6 +84,8 @@ set(
         src/demo/render/grapi.h
         src/demo/render/irenderable.cpp
         src/demo/render/irenderable.h
+        src/demo/render/mesh.cpp
+        src/demo/render/mesh.h
         src/demo/render/model.cpp
         src/demo/render/model.h
         src/demo/render/rendertarget.cpp
@@ -99,7 +101,7 @@ set(
         src/demo/utility/hasher.h
         src/demo/utility/hash_utils.cpp
         src/demo/utility/hash_utils.h
-)
+        src/demo/object/model_object.cpp src/demo/object/model_object.h)
 
 # Build
 add_executable(demo1 ${SOURCE_FILES})

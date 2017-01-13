@@ -7,7 +7,10 @@
 
 #include <assimp/scene.h>
 
+#include "demo/intdef.h"
+#include "demo/container/fixed_array.h"
 #include "demo/render/irenderable.h"
+#include "demo/render/mesh.h"
 #include "demo/strdef.h"
 
 namespace demo
@@ -19,59 +22,66 @@ namespace rndr
 class Model : public IRenderable
 {
   private:
+    // MEMBERS
     /**
-     * The model data.
+     * The meshes that make up the model.
      */
-    const aiScene* _data;
-
-    /**
-     * The file path.
-     */
-    String _path;
+    cntr::FixedArray<Mesh> _meshes;
 
     /**
      * Is the model on the GPU.
      */
     bool _isOnGpu;
 
-    // HIDDEN FUNCTIONS
-    /**
-     * Hidden constructor.
-     */
-    Model( const Model& other ) = delete;
-
-    /**
-     * Hidden operator.
-     */
-    Model& operator=( const Model& other ) = delete;
-
   public:
     // CONSTRUCTORS
     /**
-     * Construct a blank model.
+     * Construct an empty model.
      */
     Model();
 
     /**
      * Construct a new model from the file at the specified path.
+     * This will immediately load the file.
      * @param path The model file path.
-     * @param autoLoad Should the model automatically load.
      */
-    Model( const String& path, bool autoLoad = false );
+    Model( const String& path );
+
+    /**
+     * Construct a copy of another model.
+     * The copy will not be on the GPU.
+     * @param other The other model.
+     */
+    Model( const Model& other );
+
+    /**
+     * Move model to new variable.
+     * @param other The model to copy.
+     */
+    Model( Model&& other );
 
     /**
      * Destruct the model.
      */
     ~Model();
 
-    // MEMBER FUNCTIONS
+    // OPERATORS
     /**
-     * Load the model at the path specified during construction.
-     * This does nothing if already loaded.
-     * @throw File failed to load.
+     * Assign as a copy of another model.
+     * The copy will not be on the GPU.
+     * @param other The other model.
+     * @return This.
      */
-    void load();
+    Model& operator=( const Model& other );
 
+    /**
+     * Move a model to this variable.
+     * @param other The other model.
+     * @return This.
+     */
+    Model& operator=( Model&& other );
+
+    // MEMBER FUNCTIONS
     /**
      * Load the model at the specified path.
      * If a file was specified during construction this will override it.
@@ -84,14 +94,23 @@ class Model : public IRenderable
     /**
      * Push the model's data to the GPU.
      * This does nothing if already on the GPU.
+     * @param shader The shader to bind to.
      */
-    void push();
+    void push( const Shader& shader );
 
     /**
      * Render the model.
      * This does nothing if not on the GPU.
+     * This must be rendered with the the same shader it was pushed with.
+     * @param shader The shader to render with.
      */
-    virtual void render();
+    virtual void render( const Shader& shader );
+
+    /**
+     * Remove from the GPU.
+     * This does nothing if not on the GPU.
+     */
+    void remove();
 
     /**
      * Check if the model is on the GPU.
@@ -108,40 +127,52 @@ class Model : public IRenderable
 
 // CONSTRUCTORS
 inline
-Model::Model() : _data( nullptr ), _path(), _isOnGpu( false )
+Model::Model() : _meshes(), _isOnGpu( false )
 {
 }
 
 inline
-Model::Model( const String& path, bool autoLoad )
-        : _data( nullptr ), _path( path ), _isOnGpu( false )
+Model::Model( const String& path ) : _meshes(), _isOnGpu( false )
 {
-    if ( autoLoad )
-    {
-        load( path );
-    }
+    load( path );
+}
+
+inline
+Model::Model( const Model& other ) : _meshes( other._meshes ), _isOnGpu()
+{
+}
+
+inline
+Model::Model( Model&& other ) : _meshes( std::move( other._meshes ) ),
+                                _isOnGpu( other._isOnGpu )
+{
+    other._isOnGpu = false;
 }
 
 inline
 Model::~Model()
 {
-    if ( _data != nullptr )
+}
+
+// OPERATORS
+inline
+Model& Model::operator=( const Model& other )
+{
+    if ( isOnGpu() )
     {
-        delete _data;
+        remove();
     }
+
+    _meshes = other._meshes;
+
+    return *this;
 }
 
 // MEMBER FUNCTIONS
 inline
-void Model::load()
-{
-    load( _path );
-}
-
-inline
 bool Model::isLoaded() const
 {
-    return _data != nullptr;
+    return _meshes.size() > 0;
 }
 
 inline

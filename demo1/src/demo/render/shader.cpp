@@ -19,6 +19,18 @@ namespace rndr
 uint64 Shader::g_activeId = 0L;
 uint64 Shader::g_nextId = 0L;
 
+// OPERATORS
+Shader& Shader::operator=( const Shader& other )
+{
+    _setName = other._setName;
+    _id = other._id;
+    _program = other._program;
+    _vertPosAttrib = other._vertPosAttrib;
+    _vertNormAttrib = other._vertNormAttrib;
+
+    return *this;
+}
+
 // MEMBER FUNCTIONS
 void Shader::load()
 {
@@ -167,7 +179,13 @@ void Shader::release()
 // HELPER FUNCTIONS
 void Shader::bindAttributes()
 {
-    // todo: bind attributes
+    _matProjAttrib = glGetUniformLocation( _program, "matProjection" );
+    _matViewAttrib = glGetUniformLocation( _program, "matView" );
+    _matModelAttrib = glGetUniformLocation( _program, "matModel" );
+    _matNormAttrib = glGetUniformLocation( _program, "matNormal" );
+
+    _vertPosAttrib = glGetAttribLocation( _program, "vertPosition" );
+    _vertNormAttrib = glGetAttribLocation( _program, "vertNormal" );
 }
 
 } // End nspc rndr

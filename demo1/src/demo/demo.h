@@ -5,7 +5,12 @@
 #ifndef DEMO_DEMO_H
 #define DEMO_DEMO_H
 
+#include <demo/object/model_object.h>
+#include "demo/object/camera.h"
+#include "demo/object/scene.h"
 #include "demo/render/grapi.h"
+#include "demo/render/renderer.h"
+#include "demo/render/shader.h"
 #include "demo/render/window.h"
 
 namespace demo
@@ -16,9 +21,34 @@ class Demo
   private:
     // MEMBERS
     /**
+     * The renderer.
+     */
+    rndr::Renderer _renderer;
+
+    /**
+     * The shader.
+     */
+    rndr::Shader _shader;
+
+    /**
      * The window the demo is running on.
      */
     rndr::Window _window;
+
+    /**
+     * The camera.
+     */
+    obj::Camera _camera;
+
+    /**
+     * The cube.
+     */
+    obj::ModelObject _cube;
+
+    /**
+     * The scene.
+     */
+    obj::Scene _scene;
 
     // HIDDEN FUNCTIONS
     /**
@@ -74,7 +104,7 @@ class Demo
 
 // CONSTRUCTORS
 inline
-Demo::Demo() : _window()
+Demo::Demo() : _renderer(), _shader(), _window(), _camera(), _scene()
 {
 }
 

@@ -66,6 +66,25 @@ class RenderTarget
      */
     RenderTarget& operator=( const RenderTarget& other );
 
+    // ACCESSOR FUNCTIONS
+    /**
+     * Get the target width.
+     * @return The width.
+     */
+    virtual int32 width() const = 0;
+
+    /**
+     * Get the target height.
+     * @return The height.
+     */
+    virtual int32 height() const = 0;
+
+    /**
+     * Get the target aspect ratio.
+     * @return The aspect ratio.
+     */
+    virtual float aspectRatio() const = 0;
+
     // MEMBER FUNCTIONS
     /**
      * Activate the render target.

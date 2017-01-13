@@ -55,7 +55,7 @@ class Window : public RenderTarget
     /**
      * Activate the render target.
      */
-    virtual void activateTarget();
+    void activateTarget() override;
 
   public:
     // CONSTRUCTORS
@@ -80,13 +80,19 @@ class Window : public RenderTarget
      * Get the width.
      * @return The width.
      */
-    int32 width() const;
+    int32 width() const override;
 
     /**
      * Get the height.
      * @return The height.
      */
-    int32 height() const;
+    int32 height() const override;
+
+    /**
+     * Get the aspect ratio.
+     * @return The aspect ratio.
+     */
+    float aspectRatio() const override;
 
     // MUTATOR FUNCTIONS
     /**
@@ -180,6 +186,12 @@ int32 Window::height() const
     return _height;
 }
 
+inline
+float Window::aspectRatio() const
+{
+    return static_cast<float>( width() ) /
+            static_cast<float>( height() );
+}
 
 // MUTATOR FUNCTIONS
 inline

@@ -5,7 +5,7 @@
 //
 // This is different from DynamicArray in that accessing the internal
 // array is a valid operation. This also differs from DynamicArray
-// in that it guarantees that items are contiguous in mem and
+// in that it guarantees that items are contiguous in memory and
 // start at the beginning of the array.
 //
 #ifndef DEMO_FIXED_ARRAY_H
