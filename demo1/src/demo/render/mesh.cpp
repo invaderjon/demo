@@ -96,11 +96,11 @@ void Mesh::push( const Shader& shader )
 
     glEnableVertexAttribArray( posAttrib );
     glVertexAttribPointer( posAttrib, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
-                           nullptr );
+                           ( GLvoid* )offsetof( Vertex, position ) );
 
     glEnableVertexAttribArray( normAttrib );
     glVertexAttribPointer( normAttrib, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
-                           nullptr );
+                           ( GLvoid* )offsetof( Vertex, normal) );
 
     // unbind vertex array object
     glBindVertexArray( 0 );
