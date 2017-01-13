@@ -179,13 +179,19 @@ void Shader::release()
 // HELPER FUNCTIONS
 void Shader::bindAttributes()
 {
-    _matProjAttrib = glGetUniformLocation( _program, "matProjection" );
-    _matViewAttrib = glGetUniformLocation( _program, "matView" );
-    _matModelAttrib = glGetUniformLocation( _program, "matModel" );
-    _matNormAttrib = glGetUniformLocation( _program, "matNormal" );
-
-    _vertPosAttrib = glGetAttribLocation( _program, "vertPosition" );
-    _vertNormAttrib = glGetAttribLocation( _program, "vertNormal" );
+    // assume valid attributes
+    _matProjAttrib = static_cast<uint32>(
+            glGetUniformLocation( _program, "matProjection" ) );
+    _matViewAttrib = static_cast<uint32>(
+            glGetUniformLocation( _program, "matView" ) );
+    _matModelAttrib = static_cast<uint32>(
+            glGetUniformLocation( _program, "matModel" ) );
+    _matNormAttrib = static_cast<uint32>(
+            glGetUniformLocation( _program, "matNormal" ) );
+    _vertPosAttrib = static_cast<uint32>(
+            glGetAttribLocation( _program, "vertPosition" ) );
+    _vertNormAttrib = static_cast<uint32>(
+            glGetAttribLocation( _program, "vertNormal" ) );
 }
 
 } // End nspc rndr

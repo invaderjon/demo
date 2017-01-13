@@ -72,32 +72,32 @@ class Shader
     /**
      * The projection matrix attribute.
      */
-    int32 _matProjAttrib;
+    uint32 _matProjAttrib;
 
     /**
      * The view matrix attribute.
      */
-    int32 _matViewAttrib;
+    uint32 _matViewAttrib;
 
     /**
      * The model matrix attribute.
      */
-    int32 _matModelAttrib;
+    uint32 _matModelAttrib;
 
     /**
      * The normal matrix attribute.
      */
-    int32 _matNormAttrib;
+    uint32 _matNormAttrib;
 
     /**
      * The vertex position attribute.
      */
-    int32 _vertPosAttrib;
+    uint32 _vertPosAttrib;
 
     /**
      * The vertex normal attribute.
      */
-    int32 _vertNormAttrib;
+    uint32 _vertNormAttrib;
 
     // HELPER FUNCTIONS
     /**
@@ -147,37 +147,37 @@ class Shader
      * Get the projection matrix attribute id.
      * @return The projection matrix attribute.
      */
-    int32 matProjectionAttr() const;
+    uint32 matProjectionAttr() const;
 
     /**
      * Get the view matrix attribute id.
      * @return The view matrix attribute.
      */
-    int32 matViewAttrib() const;
+    uint32 matViewAttrib() const;
 
     /**
      * Get the model matrix attribute id.
      * @return The model matrix attribute.
      */
-    int32 matModelAttrib() const;
+    uint32 matModelAttrib() const;
 
     /**
      * Get the normal matrix attribute id.
      * @return The normal matrix attribute.
      */
-    int32 matNormalAttrib() const;
+    uint32 matNormalAttrib() const;
 
     /**
      * Get the vertex position attribute id.
      * @return The vertex position attribute.
      */
-    int32 vertPositionAttrib() const;
+    uint32 vertPositionAttrib() const;
 
     /**
      * Get the vertex normal attribute id.
      * @return The vertex normal attribute.
      */
-    int32 vertNormalAttrib() const;
+    uint32 vertNormalAttrib() const;
 
     /**
      * Check if the shader is ready to be used.
@@ -255,37 +255,37 @@ uint64 Shader::id() const
 }
 
 inline
-int32 Shader::matProjectionAttr() const
+uint32 Shader::matProjectionAttr() const
 {
     return _matProjAttrib;
 }
 
 inline
-int32 Shader::matViewAttrib() const
+uint32 Shader::matViewAttrib() const
 {
     return _matViewAttrib;
 }
 
 inline
-int32 Shader::matModelAttrib() const
+uint32 Shader::matModelAttrib() const
 {
     return _matModelAttrib;
 }
 
 inline
-int32 Shader::matNormalAttrib() const
+uint32 Shader::matNormalAttrib() const
 {
     return _matNormAttrib;
 }
 
 inline
-int32 Shader::vertPositionAttrib() const
+uint32 Shader::vertPositionAttrib() const
 {
     return _vertPosAttrib;
 }
 
 inline
-int32 Shader::vertNormalAttrib() const
+uint32 Shader::vertNormalAttrib() const
 {
     return _vertNormAttrib;
 }
