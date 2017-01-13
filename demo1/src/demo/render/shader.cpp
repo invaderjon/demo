@@ -105,7 +105,7 @@ void Shader::load()
         {
             // display error
             glGetShaderiv( handle, GL_INFO_LOG_LENGTH, &logLength );
-            logLength = std::max( logLength, 1 );
+            logLength = logLength > 1 ? logLength : 1;
 
             std::vector<GLchar> error( static_cast<uint32>( logLength ) );
 
@@ -124,7 +124,7 @@ void Shader::load()
     
     // create program and attach shaders (also delete shaders)
     uint32 program = glCreateProgram();
-    for ( int32 i = 0; i < shaders.size(); ++i )
+    for ( uint32 i = 0; i < shaders.size(); ++i )
     {
         glAttachShader( program, shaders[i].handle );
         glDeleteShader( shaders[i].handle );
@@ -141,7 +141,7 @@ void Shader::load()
     {
         // display error
         glGetProgramiv( program, GL_INFO_LOG_LENGTH, &logLength );
-        logLength = std::max( logLength, 1 );
+        logLength = logLength > 1 ? logLength : 1;
 
         std::vector<GLchar> error( static_cast<uint32>( logLength ) );
         glGetProgramInfoLog( program, logLength, nullptr, &error[0] );
