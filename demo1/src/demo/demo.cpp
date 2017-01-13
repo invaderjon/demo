@@ -42,12 +42,12 @@ bool Demo::startup()
 
     // set up camera
     _camera.setFarPlane( 100.0f );
-    _camera.setNearPlane( -1.0f );
+    _camera.setNearPlane( 0.01f );
     _camera.setFieldOfView( 45.0f );
-    _camera.transform().setPosition( glm::vec3( 0.0f, 0.0f, -5.0f ) );
+    _camera.transform().setPosition( glm::vec3( 0.0f, 0.0f, 5.0f ) );
 
     // load cube
-    rndr::Model model( "res/models/cube.obj" );
+    rndr::Model model( "res/models/sphere.obj" );
     model.push( _shader );
 
     _cube.setModel( std::move( model ) );
@@ -67,17 +67,17 @@ void Demo::run()
     while ( _window.isOpen() )
     {
         glViewport( 0, 0, _window.width(), _window.height() );
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
         _renderer.render( _camera, _scene );
 
-        glfwPollEvents();
-
-        uint32 error = glGetError();
+        int32 error = glGetError();
         if ( error != GL_NO_ERROR )
         {
             std::cout << error << std::endl;
         }
 
+        glfwPollEvents();
         _window.swapBuffer();
         _window.update();
     }
