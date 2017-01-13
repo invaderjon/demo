@@ -61,6 +61,13 @@ class ModelObject : public Object
      */
     ModelObject& operator=( const ModelObject& other );
 
+    // ACCESSOR FUNCTIONS
+    /**
+     * Check if the object is renderable.
+     * @return Is it renderable?
+     */
+    bool isRenderable() const override;
+
     // MUTATOR FUNCTIONS
     /**
      * Set the model.
@@ -118,6 +125,13 @@ ModelObject& ModelObject::operator=( const ModelObject& other )
     _model = other._model;
 
     return *this;
+}
+
+// ACCESSOR FUNCTIONS
+inline
+bool ModelObject::isRenderable() const
+{
+    return _model.isLoaded();
 }
 
 // MUTATOR FUNCTIONS
