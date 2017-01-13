@@ -9,7 +9,6 @@
 #
 # The following variables can be set as arguments for the module:
 # - ASSIMP_ROOT_DIR: Root directory of Assimp
-# - ASSIMP_USE_STATIC_LIBS: Specifies to use static versions of Assimp (Windows)
 #
 
 # Additional modules
@@ -26,17 +25,10 @@ if (WIN32)
             DOC "The directory where assimp/version.h resides"
     )
 
-    # Use assimp.lib for static library
-    if (ASSIMP_USE_STATIC_LIBS)
-        set(ASSIMP_LIBRARY_NAME assimp)
-    else()
-        set(ASSIMP_LIBRARY_NAME assimpdll)
-    endif()
-
     # Find library files
     find_library(
             ASSIMP_LIBRARY
-            NAMES ${ASSIMP_LIBRARY_NAME}
+            NAMES assimp
             PATHS
             $ENV{PROGRAMFILES}/lib
             ${ASSIMP_ROOT_DIR}/lib
