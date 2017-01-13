@@ -38,18 +38,16 @@ void Model::load( const String& path )
 
     // load file
     Assimp::Importer importer;
-    const aiScene* data = importer.ReadFile( path, aiProcess_SortByPType );
+    const aiScene* scene = importer.ReadFile( path, aiProcess_Triangulate );
 
-    if ( data == nullptr )
+    if ( scene == nullptr || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE ||
+            !scene->mRootNode )
     {
         throw std::runtime_error( importer.GetErrorString() );
     }
 
     // generate meshes
-    for ( uint32 i = 0; i < data->mNumMeshes; ++i )
-    {
-        _meshes.push( std::move( Mesh( *( data->mMeshes[i] ) ) ) );
-    }
+    processNode( scene->mRootNode, scene );
 }
 
 void Model::push( const Shader& shader )
@@ -93,6 +91,26 @@ void Model::remove()
     }
 
     _isOnGpu = false;
+}
+
+// HELPER FUNCTIONS
+void Model::processNode( aiNode* node, const aiScene* scene )
+{
+    assert( node );
+    assert( scene );
+
+    // process the node's meshes (if any)
+    for ( uint32 i = 0; i < node->mNumMeshes; ++i )
+    {
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        _meshes.push( std::move( Mesh( *mesh ) ) );
+    }
+
+    // process children
+    for ( uint32 i = 0; i < node->mNumChildren; ++i )
+    {
+        processNode( node->mChildren[i], scene );
+    }
 }
 
 } // End nspc rndr

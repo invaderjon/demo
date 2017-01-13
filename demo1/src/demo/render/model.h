@@ -8,7 +8,7 @@
 #include <assimp/scene.h>
 
 #include "demo/intdef.h"
-#include "demo/container/fixed_array.h"
+#include "demo/container/dynamic_array.h"
 #include "demo/render/irenderable.h"
 #include "demo/render/mesh.h"
 #include "demo/strdef.h"
@@ -26,12 +26,20 @@ class Model : public IRenderable
     /**
      * The meshes that make up the model.
      */
-    cntr::FixedArray<Mesh> _meshes;
+    cntr::DynamicArray<Mesh> _meshes;
 
     /**
      * Is the model on the GPU.
      */
     bool _isOnGpu;
+
+    // HELPER FUNCTIONS
+    /**
+     * Process the specified node.
+     * @param node The node to process.
+     * @param scene The scene that the node is in.
+     */
+    void processNode( aiNode* node, const aiScene* scene );
 
   public:
     // CONSTRUCTORS
