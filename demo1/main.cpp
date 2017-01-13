@@ -5,9 +5,6 @@
 
 int main()
 {
-    // test load model
-    demo::rndr::Model cube( "res/models/cube.obj" );
-
     // run demo
     demo::Demo demo;
     demo.startup();
