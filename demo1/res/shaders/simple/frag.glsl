@@ -4,7 +4,7 @@ sample in vec3 vPositionInterp;
 sample in vec3 vNormalInterp;
 
 // fixed color attributes
-const vec3 lightPosition = vec3( 1.0, 1.0, 1.0 );
+const vec3 lightPosition = vec3( 2.0, 2.0, 2.0 );
 const vec3 lightAmbient = vec3( 0.1, 0.1, 0.1 );
 const vec3 colorDiffuse = vec3( 0.5, 0.5, 0.5 );
 const vec3 colorSpecular = vec3( 1.0, 1.0, 1.0 );
@@ -36,5 +36,5 @@ void main()
             specular * colorSpecular;
     vec3 color = pow( colorNoGamma, vec3( 1.0 / gamma ) );
 
-    gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 );
+    gl_FragColor = vec4( color, 1.0 );
 }
