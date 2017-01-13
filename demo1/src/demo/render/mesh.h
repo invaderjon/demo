@@ -202,7 +202,8 @@ Mesh::Mesh() : _vertices(), _indices(), _gl(), _isOnGpu()
 
 inline
 Mesh::Mesh( const aiMesh& mesh ): _vertices( mesh.mNumVertices ),
-                                  _indices( mesh.mNumFaces * 3 )
+                                  _indices( mesh.mNumFaces * 3 ),
+                                  _gl(), _isOnGpu()
 {
     loadAssimpMesh( mesh );
 }
