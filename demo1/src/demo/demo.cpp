@@ -21,6 +21,17 @@ bool Demo::startup()
     _window.activate();
     printf( "OpenGL version is (%s)\n", glGetString( GL_VERSION ) );
 
+	// set up GLEW (if necessary)
+    #ifdef _GLEW_
+	int32 output = glewInit();
+	if (GLEW_OK != output)
+	{
+		std::cout << "ERROR: " << glewGetErrorString(output)
+			<< std::endl;
+		return false;
+	}
+	#endif
+
     // create and compile shader
     _shader = rndr::Shader( "simple" );
     _shader.load();

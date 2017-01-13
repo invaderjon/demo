@@ -1,6 +1,11 @@
 // grapi.cpp
 #include "grapi.h"
 
+#include <iostream>
+
+#include "demo/intdef.h"
+#include "demo/render/window.h"
+
 namespace demo
 {
 
@@ -10,10 +15,6 @@ namespace rndr
 // UTILITY FUNCTIONS
 bool GrApi::init()
 {
-    #ifdef _GLEW_
-    glewInit();
-    #endif
-
     return glfwInit() != 0;
 }
 
