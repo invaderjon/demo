@@ -1,6 +1,8 @@
 // demo.cpp
 #include "demo.h"
 
+#include <iostream>
+
 namespace demo
 {
 
@@ -58,6 +60,12 @@ void Demo::run()
         _renderer.render( _camera, _scene );
 
         glfwPollEvents();
+
+        uint32 error = glGetError();
+        if ( error != GL_NO_ERROR )
+        {
+            std::cout << error << std::endl;
+        }
 
         _window.swapBuffer();
         _window.update();
