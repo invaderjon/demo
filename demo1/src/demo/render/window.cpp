@@ -37,7 +37,7 @@ void Window::update()
 
     glfwGetWindowSize( _window, &_width, &_height );
 
-    // if the window should close, close it
+    // if the window should close then do so
     if ( glfwWindowShouldClose( _window ) )
     {
         glfwDestroyWindow( _window );
