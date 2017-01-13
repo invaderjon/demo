@@ -29,14 +29,14 @@ void Renderer::render( const obj::Camera& camera, const obj::Scene& scene )
                                           camera.farPlane(),
                                           camera.nearPlane() );
 
-    glm::mat4 model = camera.transform().matrix();
+    glm::mat4 view = camera.transform().matrix();
 
     // push frame-constant matrices to GPU
     glUniformMatrix4fv( _shader->matProjectionAttr(), 1, GL_FALSE,
                         glm::value_ptr( project ) );
 
     glUniformMatrix4fv( _shader->matViewAttrib(), 1, GL_FALSE,
-                        glm::value_ptr( model ) );
+                        glm::value_ptr( view ) );
 
     // render objects
     cntr::DynamicArray<obj::Object*> objects = scene.getObjects();
@@ -47,12 +47,12 @@ void Renderer::render( const obj::Camera& camera, const obj::Scene& scene )
         if ( ( *iter )->isRenderable() && ( *iter )->isEnabled() )
         {
             // get matrices
-            glm::mat4 view = ( *iter )->transform().matrix();
+            glm::mat4 model = ( *iter )->transform().matrix();
             glm::mat4 normal = glm::inverseTranspose( view * model );
 
             // push matrices
-            glUniformMatrix4fv( _shader->matViewAttrib(), 1, GL_FALSE,
-                                glm::value_ptr( view ) );
+            glUniformMatrix4fv( _shader->matModelAttrib(), 1, GL_FALSE,
+                                glm::value_ptr( model ) );
             glUniformMatrix4fv( _shader->matNormalAttrib(), 1, GL_FALSE,
                                 glm::value_ptr( normal ) );
 
