@@ -25,3 +25,10 @@ This project officially supports Windows 7 and Ubuntu 16.04+.
  * GLFW 3
  * GLM
  * Assimp 2.0+
+ 
+## Demo Previews ##
+### Demo 1 - Simple Blinn-Phong Renderer ###
+Renders models as solid gray objects that are lit using the 
+Blinn-Phong shading method. There are no controls.
+![alt text](http://i.imgur.com/YFlAEFd.png "Demo 1 Preview 1")
+![alt text](http://i.imgur.com/YilEqRU.png "Demo 1 Preview 2")
