@@ -24,7 +24,7 @@ void Renderer::render( const obj::Camera& camera, const obj::Scene& scene )
         _target->activate();
     }
 
-    // compute projection matrix
+    // compute matrices
     glm::mat4 project = glm::perspective( glm::radians( camera.fieldOfView() ),
                                           _target->aspectRatio(),
                                           camera.nearPlane(),
