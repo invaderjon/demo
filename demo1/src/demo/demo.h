@@ -41,7 +41,7 @@ class Demo
     obj::Camera _camera;
 
     /**
-     * The cube.
+     * The model.
      */
     obj::ModelObject _model;
 
