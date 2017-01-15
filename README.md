@@ -30,5 +30,5 @@ This project officially supports Windows 7 and Ubuntu 16.04+.
 ### Demo 1 - Simple Blinn-Phong Renderer ###
 Renders models as solid gray objects that are lit using the 
 Blinn-Phong shading method. There are no controls.
-<img src="http://i.imgur.com/YFlAEFd.png" width="150" height="100" />
-<img src="http://i.imgur.com/YilEqRU.png" width="150" height="100" />
+<img src="http://i.imgur.com/YFlAEFd.png" width="300" height="200" />
+<img src="http://i.imgur.com/YilEqRU.png" width="300" height="200" />
