@@ -1,11 +1,19 @@
 // transform.cpp
 #include "transform.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace demo
 {
 
 namespace obj
 {
+
+// CONSTANTS
+const glm::vec3 Transform::FORWARD( glm::vec3( 0, 0, -1 ) );
+const glm::vec3 Transform::UP( glm::vec3( 0, 1, 0 ) );
+const glm::vec3 Transform::RIGHT( glm::vec3( -1, 0, 0 ) );
+const glm::vec3 Transform::ZERO( glm::vec3( 0, 0, 0 ) );
 
 // MUTATOR FUNCTIONS
 void Transform::setEulerRotation( const glm::vec3& rotation )
@@ -47,6 +55,47 @@ void Transform::rotateAround( const glm::vec3& point,
     recomputeMatrix();
 }
 
+void Transform::lookAt( const glm::vec3& eye, const glm::vec3& center,
+                        const glm::vec3& up )
+{
+    assert( eye != center );
+
+    glm::vec3 forwardDir = glm::normalize( center - eye );
+    glm::vec3 upDir = glm::normalize( up );
+
+    glm::vec3 lookAxis = glm::cross( FORWARD, forwardDir );
+    glm::vec3 upAxis = glm::cross( UP, upDir );
+
+    // prevent zero axis
+    if ( lookAxis == ZERO )
+    {
+        lookAxis = glm::vec3( 0, 0, 1 );
+    }
+
+    if ( upAxis == ZERO )
+    {
+        upAxis = glm::vec3( 0, 0, 1 );
+    }
+
+    lookAxis = glm::normalize( lookAxis );
+    upAxis = glm::normalize( upAxis );
+
+    float lookDot = glm::dot( FORWARD, forwardDir );
+    float lookAngle =  acosf( lookDot );
+
+    float upDot = glm::dot( UP, upDir );
+    float upAngle = acosf( upDot );
+
+    glm::quat lookQuat = glm::angleAxis( lookAngle, lookAxis );
+    glm::quat upQuat = glm::normalize( glm::quat( upAxis * upAngle ) );
+
+    _rotation = glm::quat_cast( glm::mat4_cast( lookQuat ) *
+                                glm::mat4_cast( upQuat ) );
+    _position = eye;
+
+    recomputeMatrix();
+}
+
 // HELPER FUNCTIONS
 void Transform::recomputeMatrix()
 {
@@ -57,8 +106,10 @@ void Transform::recomputeMatrix()
 
     glm::mat4 rot( glm::mat4_cast( _rotation ) );
 
-    glm::mat4 scale( _scale );
-    scale[3][3] = 1.0f;
+    glm::mat4 scale( _scale.x, 0, 0, 0,
+                     0, _scale.y, 0, 0,
+                     0, 0, _scale.z, 0,
+                     0, 0, 0, 1 );
 
     _matrix = trans * rot * scale;
     _hasChanged = true;
