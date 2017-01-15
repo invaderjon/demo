@@ -43,7 +43,7 @@ class Demo
     /**
      * The cube.
      */
-    obj::ModelObject _cube;
+    obj::ModelObject _model;
 
     /**
      * The scene.

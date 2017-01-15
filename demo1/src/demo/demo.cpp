@@ -52,10 +52,10 @@ bool Demo::startup()
     rndr::Model model( "res/models/monkey.obj" );
     model.push( _shader );
 
-    _cube.setModel( std::move( model ) );
+    _model.setModel( std::move( model ) );
 
     // prepare scene
-    _scene.addObject( &_cube );
+    _scene.addObject( &_model );
 
     return true;
 }
@@ -81,7 +81,7 @@ void Demo::run()
             std::cout << error << std::endl;
         }
 
-        _cube.transform().rotateEuler( 0, 0.01, 0 );
+        _model.transform().rotateEuler( 0, 0.01, 0 );
 
         glfwPollEvents();
         _window.swapBuffer();
