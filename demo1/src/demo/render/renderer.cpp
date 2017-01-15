@@ -27,10 +27,10 @@ void Renderer::render( const obj::Camera& camera, const obj::Scene& scene )
     // compute projection matrix
     glm::mat4 project = glm::perspective( glm::radians( camera.fieldOfView() ),
                                           _target->aspectRatio(),
-                                          camera.farPlane(),
-                                          camera.nearPlane() );
+                                          camera.nearPlane(),
+                                          camera.farPlane() );
 
-    glm::mat4 view = glm::lookAt( glm::vec3( 0, 0, -5 ),
+    glm::mat4 view = glm::lookAt( glm::vec3( 0, 0, 3 ),
                                   glm::vec3( 0, 0, 0 ),
                                   glm::vec3( 0, 1, 0 ) );
 
