@@ -44,7 +44,9 @@ bool Demo::startup()
     _camera.setFarPlane( 100.0f );
     _camera.setNearPlane( 0.01f );
     _camera.setFieldOfView( 45.0f );
-    _camera.transform().setPosition( glm::vec3( 0.0f, 0.0f, 4.0f ) );
+    _camera.transform().lookAt( glm::vec3( 0, 0, 3 ),
+                                glm::vec3( 0, 0, 0 ),
+                                glm::vec3( 0, 1, 0 ) );
 
     // load cube
     rndr::Model model( "res/models/monkey.obj" );
