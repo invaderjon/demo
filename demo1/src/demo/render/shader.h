@@ -42,6 +42,12 @@ class Shader
         uint32 handle;
     };
 
+    // CONSTANTS
+    /**
+     * The shader resource path.
+     */
+    static const String SHADER_PATH;
+
     // GLOBALS
     /**
      * The active shader id.

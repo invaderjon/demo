@@ -17,9 +17,20 @@ if (WIN32)
         find_package(GLEW REQUIRED)
 endif()
 
+# Define resource path
+set( SOURCE_PATH "${PROJECT_SOURCE_DIR}/src/demo" )
+set( RES_PATH "res/${PROJECT_NAME}" )
+
+# Configure build file
+configure_file( input/build.h.cmake.in ${SOURCE_PATH}/build.g.h )
+configure_file( input/build.cpp.cmake.in ${SOURCE_PATH}/build.g.cpp )
+
 # Copy Resources
 file( GLOB RESOURCES "res/*" )
-file( COPY ${RESOURCES} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/res" )
+file(
+        COPY ${RESOURCES}
+        DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${RES_PATH}"
+)
 
 # Includes
 include_directories(
@@ -36,6 +47,8 @@ set(
         # root
         main.cpp
         # src/demo
+        src/demo/build.g.cpp
+        src/demo/build.g.h
         src/demo/demo.cpp
         src/demo/demo.h
         src/demo/intdef.cpp
@@ -68,11 +81,13 @@ set(
         src/demo/memory/memory_utils.h
         src/demo/memory/stack_guard.cpp
         src/demo/memory/stack_guard.h
-        # src/demo/objecct
+        # src/demo/object
         src/demo/object/camera.cpp
         src/demo/object/camera.h
         src/demo/object/itickable.cpp
         src/demo/object/itickable.h
+        src/demo/object/model_object.cpp
+        src/demo/object/model_object.h
         src/demo/object/object.cpp
         src/demo/object/object.h
         src/demo/object/scene.cpp
@@ -101,7 +116,7 @@ set(
         src/demo/utility/hasher.h
         src/demo/utility/hash_utils.cpp
         src/demo/utility/hash_utils.h
-        src/demo/object/model_object.cpp src/demo/object/model_object.h)
+)
 
 # Build
 add_executable(demo1 ${SOURCE_FILES})

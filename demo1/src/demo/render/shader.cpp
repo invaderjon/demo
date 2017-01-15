@@ -4,9 +4,9 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <stdio.h>
 #include <vector>
 
+#include "demo/build.g.h"
 #include "demo/container/fixed_array.h"
 
 namespace demo
@@ -14,6 +14,9 @@ namespace demo
 
 namespace rndr
 {
+
+// CONSTANTS
+const String Shader::SHADER_PATH( DEMO_RES_PATH + "/shaders/" );
 
 // GLOBALS
 uint64 Shader::g_activeId = 0L;
@@ -48,22 +51,22 @@ void Shader::load()
     }
 
     // populate shader structures
-    shaders[0].filename = "res/shaders/" + _setName + "/vert.glsl";
+    shaders[0].filename = SHADER_PATH + _setName + "/vert.glsl";
     shaders[0].type = GL_VERTEX_SHADER;
 
-    shaders[1].filename = "res/shaders/" + _setName + "/tesc.glsl";
+    shaders[1].filename = SHADER_PATH + _setName + "/tesc.glsl";
     shaders[1].type = GL_TESS_CONTROL_SHADER;
 
-    shaders[2].filename = "res/shaders/" + _setName + "/tese.glsl";
+    shaders[2].filename = SHADER_PATH + _setName + "/tese.glsl";
     shaders[2].type = GL_TESS_EVALUATION_SHADER;
 
-    shaders[3].filename = "res/shaders/" + _setName + "/geom.glsl";
+    shaders[3].filename = SHADER_PATH + _setName + "/geom.glsl";
     shaders[3].type = GL_GEOMETRY_SHADER;
 
-    shaders[4].filename = "res/shaders/" + _setName + "/frag.glsl";
+    shaders[4].filename = SHADER_PATH + _setName + "/frag.glsl";
     shaders[4].type = GL_FRAGMENT_SHADER;
 
-    shaders[5].filename = "res/shaders/" + _setName + "/comp.glsl";
+    shaders[5].filename = SHADER_PATH + _setName + "/comp.glsl";
     shaders[5].type = GL_COMPUTE_SHADER;
 
     // compile shaders

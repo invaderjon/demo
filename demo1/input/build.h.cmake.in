@@ -1,0 +1,10 @@
+// build.g.h
+//
+// The build configuration file.
+//
+#ifndef DEMO_BUILD_H
+#define DEMO_BUILD_H
+
+#define DEMO_RES_PATH String("${RES_PATH}")
+
+#endif // DEMO_BUILD_H

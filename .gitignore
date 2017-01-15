@@ -34,3 +34,5 @@
 cmake
 build
 cmake-build-*
+src/demo/build.g.cpp
+src/demo/build.g.h

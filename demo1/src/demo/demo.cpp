@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "build.g.h"
+
 namespace demo
 {
 
@@ -49,7 +51,7 @@ bool Demo::startup()
                                 glm::vec3( 0, 1, 0 ) );
 
     // load cube
-    rndr::Model model( "res/models/monkey.obj" );
+    rndr::Model model( DEMO_RES_PATH + "/models/monkey.obj" );
     model.push( _shader );
 
     _model.setModel( std::move( model ) );
