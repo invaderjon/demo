@@ -44,10 +44,10 @@ bool Demo::startup()
     _camera.setFarPlane( 100.0f );
     _camera.setNearPlane( 0.01f );
     _camera.setFieldOfView( 45.0f );
-    _camera.transform().setPosition( glm::vec3( 0.0f, 0.0f, 5.0f ) );
+    _camera.transform().setPosition( glm::vec3( 0.0f, 0.0f, 4.0f ) );
 
     // load cube
-    rndr::Model model( "res/models/sphere.obj" );
+    rndr::Model model( "res/models/monkey.obj" );
     model.push( _shader );
 
     _cube.setModel( std::move( model ) );
@@ -61,6 +61,10 @@ bool Demo::startup()
 void Demo::run()
 {
     glEnable( GL_DEPTH_TEST );
+    glEnable( GL_CULL_FACE );
+    glCullFace( GL_BACK );
+    glFrontFace( GL_CW );
+
     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 
     // run while the window is open
@@ -76,6 +80,8 @@ void Demo::run()
         {
             std::cout << error << std::endl;
         }
+
+        _cube.transform().rotateEuler( 0, 0.01, 0 );
 
         glfwPollEvents();
         _window.swapBuffer();

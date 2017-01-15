@@ -4,25 +4,29 @@
 uniform mat4 matProjection;
 uniform mat4 matView;
 uniform mat4 matModel;
-uniform mat4 matNormal;
+uniform mat3 matNormal;
 
 // the vertex attributes
 in vec3 vertPosition;
 in vec3 vertNormal;
 
+// constants
+const vec3 lightPos = vec3( 0.0, 0.0, 5.0 );
+
 // outputs
-sample out vec3 vPositionInterp;
-sample out vec3 vNormalInterp;
+out vec3 vLightPos;
+sample out vec3 vPosition;
+sample out vec3 vNormal;
 
 void main()
 {
-    // compute position
     vec4 position = matView * matModel * vec4( vertPosition, 1.0 );
+    vec4 light = matView * vec4( lightPos, 1.0 );
 
-    // outputs
-    vPositionInterp = vec3( position ) / position.w;
-    vNormalInterp = vec3( matNormal * vec4( vertNormal, 0.0 ) );
+    vNormal = normalize( matNormal * vertNormal );
+    vPosition = vec3( position / position.w );
+    vLightPos = vec3( light / light.w );
 
-    // camera space position
-    gl_Position = matProjection * position;
+    gl_Position = matProjection * matView * matModel *
+            vec4( vertPosition, 1.0 );
 }

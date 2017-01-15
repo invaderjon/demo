@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <iostream>
 
 namespace demo
 {
@@ -24,12 +25,14 @@ void Renderer::render( const obj::Camera& camera, const obj::Scene& scene )
     }
 
     // compute projection matrix
-    glm::mat4 project = glm::perspective( camera.fieldOfView(),
+    glm::mat4 project = glm::perspective( glm::radians( camera.fieldOfView() ),
                                           _target->aspectRatio(),
                                           camera.farPlane(),
                                           camera.nearPlane() );
 
-    glm::mat4 view = camera.transform().matrix();
+    glm::mat4 view = glm::lookAt( glm::vec3( 0, 0, -5 ),
+                                  glm::vec3( 0, 0, 0 ),
+                                  glm::vec3( 0, 1, 0 ) );
 
     // push frame-constant matrices to GPU
     glUniformMatrix4fv( _shader->matProjectionAttr(), 1, GL_FALSE,
@@ -48,12 +51,14 @@ void Renderer::render( const obj::Camera& camera, const obj::Scene& scene )
         {
             // get matrices
             glm::mat4 model = ( *iter )->transform().matrix();
-            glm::mat4 normal = glm::inverseTranspose( view * model );
+            glm::mat3 normal = glm::mat3( glm::transpose( glm::inverse(
+                    view * model ) ) );
 
             // push matrices
             glUniformMatrix4fv( _shader->matModelAttrib(), 1, GL_FALSE,
                                 glm::value_ptr( model ) );
-            glUniformMatrix4fv( _shader->matNormalAttrib(), 1, GL_FALSE,
+
+            glUniformMatrix3fv( _shader->matNormalAttrib(), 1, GL_FALSE,
                                 glm::value_ptr( normal ) );
 
             // render object
