@@ -7,8 +7,12 @@ A handful of rendering and game demos.
 This project officially supports Windows 7 and Ubuntu 16.04+.
 
 ## Completed Demo List ###
-These are the demos that are completed and can be built and run successfully.
+These are the demos that are completed and can be built and run successfully:
  * demo1 - Simple Blinn-Phong Renderer
+ 
+### In Progress Demo List ###
+These are the demos that are currently being worked on:
+ * demo2 - Skinned Model Rendering (UV Mapping)
 
 ## Requirements ##
 
