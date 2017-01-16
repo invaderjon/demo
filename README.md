@@ -53,12 +53,24 @@ Note: If on a 64 bit system use the 64 bit libraries
 #### Building ####
 1. Clone project to desired location
 2. Open project folder in Explorer
-3. Create new directory named build
+3. Create a new directory named build
 4. Open CMake GUI
-5. Configure using Visual Studio 2015
-6. Once configuration completes press "Generate"
-7. After generation completes press "Open Project"
-8. TODO: include instructions to change working directory
+5. Set the source directory to the project root
+6. Set the build directory to the directory created in step 3
+7. Configure using Visual Studio 2015
+8. Once configuration completes press "Generate"
+9. After generation completes press "Open Project"
+10. Set the demo of choice as the startup project (ie demo1)
+11. Build
+12. It will fail to run however as it will complain that assimp is missing
+13. Copy assimp.dll (from the prep steps) to bin/Debug (in build)
+14. Copy the directory bin/res to bin/Debug (resulting in bin/Debug/res)
+15. Open the properties of the project you want to run
+16. Go to the debugging item in "Configuration Properties"
+17. Change the working directory to:  $(SolutionDir)/bin/Debug
+18. Run the application
+
+Note: If creating a release build than replace all instances of Debug with Release.
  
 ## Demo Previews ##
 ### Demo 1 - Simple Blinn-Phong Renderer ###

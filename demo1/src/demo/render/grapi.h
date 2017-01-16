@@ -11,6 +11,7 @@
 #define _GLEW_
 
 #define GL_GLEXT_PROTOTYPES
+#define GLEW_STATIC
 #include <GL/glew.h>
 #include <GL/gl.h>
 
@@ -21,7 +22,6 @@
 
 #endif
 
-#define GLFW_DLL
 #include <GLFW/glfw3.h>
 
 namespace demo

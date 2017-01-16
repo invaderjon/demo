@@ -38,7 +38,7 @@ void Model::load( const String& path )
 
     // load file
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile( path, aiProcess_Triangulate );
+    const aiScene* scene = importer.ReadFile( path, 0 );
 
     if ( scene == nullptr || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE ||
             !scene->mRootNode )
