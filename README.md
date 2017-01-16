@@ -6,6 +6,10 @@ A handful of rendering and game demos.
 ## Support ##
 This project officially supports Windows 7 and Ubuntu 16.04+.
 
+## Completed Demo List ###
+These are the demos that are completed and can be built and run successfully.
+ * demo1 - Simple Blinn-Phong Renderer
+
 ## Requirements ##
 
 ### Ubuntu ###
