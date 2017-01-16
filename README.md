@@ -46,7 +46,6 @@ This project officially supports Windows 7 and Ubuntu 16.04+.
   * C:\Program Files\include
 3. Copy the library (lib and dll) files to C:\Program Files\lib. (i.e. C:\Program Files\lib\assimp.lib) (see note)
 4. Copy the include directory contents to C:\Program Files\include (ie. C:\Program Files\include\assimp).
-5. Add C:\Program Files\lib to the path
 
 Note: If on a 64 bit system use the 64 bit libraries
 
