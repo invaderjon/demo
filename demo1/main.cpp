@@ -1,7 +1,4 @@
-#include <iostream>
-
 #include "demo/demo.h"
-#include "demo/render/model.h"
 
 int main()
 {
