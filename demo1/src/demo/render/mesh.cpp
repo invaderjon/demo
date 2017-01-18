@@ -91,8 +91,8 @@ void Mesh::push( const Shader& shader )
                   &_indices[0], GL_STATIC_DRAW );
 
     // set up attributes
-    uint32 posAttrib = shader.vertPositionAttrib();
-    uint32 normAttrib = shader.vertNormalAttrib();
+    uint32 posAttrib = shader.vertPositionAttr();
+    uint32 normAttrib = shader.vertNormalAttr();
 
     glEnableVertexAttribArray( posAttrib );
     glVertexAttribPointer( posAttrib, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),

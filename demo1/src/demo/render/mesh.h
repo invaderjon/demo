@@ -84,7 +84,7 @@ class Mesh : public IRenderable
      */
     bool _isOnGpu;
 
-    // HELPER METHODS
+    // HELPER FUNCTIONS
     /**
      * Load an Assimp mesh.
      */

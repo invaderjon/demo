@@ -191,7 +191,7 @@ class FixedArray
     typedef ArrayIterator<const FixedArray<T>*, const T&, const T&, const T*>
         ConstIterator;
 
-    // GLOBAL METHODS
+    // GLOBAL FUNCTIONS
     /**
      * Wraps a pre-allocated array.
      *
@@ -454,7 +454,7 @@ class FixedArray
 template <typename T>
 constexpr uint32 FixedArray<T>::DEFAULT_CAPACITY;
 
-// GLOBAL METHODS
+// GLOBAL FUNCTIONS
 template <typename T>
 inline
 FixedArray<T> FixedArray<T>::wrap( T* data, uint32 size )

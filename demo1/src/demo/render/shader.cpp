@@ -28,8 +28,8 @@ Shader& Shader::operator=( const Shader& other )
     _setName = other._setName;
     _id = other._id;
     _program = other._program;
-    _vertPosAttrib = other._vertPosAttrib;
-    _vertNormAttrib = other._vertNormAttrib;
+    _vertPosAttr = other._vertPosAttr;
+    _vertNormAttr = other._vertNormAttr;
 
     return *this;
 }
@@ -183,17 +183,17 @@ void Shader::release()
 void Shader::bindAttributes()
 {
     // assume valid attributes
-    _matProjAttrib = static_cast<uint32>(
+    _matProjAttr = static_cast<uint32>(
             glGetUniformLocation( _program, "matProjection" ) );
-    _matViewAttrib = static_cast<uint32>(
+    _matViewAttr = static_cast<uint32>(
             glGetUniformLocation( _program, "matView" ) );
-    _matModelAttrib = static_cast<uint32>(
+    _matModelAttr = static_cast<uint32>(
             glGetUniformLocation( _program, "matModel" ) );
-    _matNormAttrib = static_cast<uint32>(
+    _matNormAttr = static_cast<uint32>(
             glGetUniformLocation( _program, "matNormal" ) );
-    _vertPosAttrib = static_cast<uint32>(
+    _vertPosAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertPosition" ) );
-    _vertNormAttrib = static_cast<uint32>(
+    _vertNormAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertNormal" ) );
 }
 
