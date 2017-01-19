@@ -18,6 +18,8 @@ Mesh& Mesh::operator=( const Mesh& other )
     _vertices = other._vertices;
     _indices = other._indices;
     _gl = GlMesh();
+    _materialIndex = other._materialIndex;
+    _isLoaded = other._isLoaded;
     _isOnGpu = false;
 
     return *this;
@@ -33,43 +35,38 @@ Mesh& Mesh::operator=( Mesh&& other )
     _vertices = std::move( other._vertices );
     _indices = std::move( other._indices );
     _gl = std::move( other._gl );
+    _materialIndex = other._materialIndex;
+    _isLoaded = other._isLoaded;
     _isOnGpu = other._isOnGpu;
 
     other._gl = GlMesh();
+    other._materialIndex = NO_MATERIAL;
+    other._isLoaded = false;
     other._isOnGpu = false;
 
     return *this;
 }
 
 // MEMBER FUNCTIONS
-void Mesh::load( const aiMesh& mesh )
+void Mesh::load( cntr::FixedArray<Vertex>&& vertices,
+                 cntr::FixedArray<uint32>&& indices,
+                 uint32 materialIndex )
 {
     if ( isOnGpu() )
     {
         remove();
     }
 
-    _vertices = cntr::FixedArray<Vertex>( mesh.mNumVertices );
-    _indices = cntr::FixedArray<uint32>( mesh.mNumFaces * 3 );
+    _vertices = std::move( vertices );
+    _indices = std::move( indices );
+    _materialIndex = materialIndex;
 
-    loadAssimpMesh( mesh );
-}
-
-void Mesh::load( const cntr::FixedArray<Vertex>& vertices,
-                 const cntr::FixedArray<uint32>& indices )
-{
-    if ( isOnGpu() )
-    {
-        remove();
-    }
-
-    _vertices = vertices;
-    _indices = indices;
+    _isLoaded = true;
 }
 
 void Mesh::push( const Shader& shader )
 {
-    if ( isOnGpu() )
+    if ( !isLoaded() || isOnGpu() )
     {
         return;
     }
@@ -91,16 +88,22 @@ void Mesh::push( const Shader& shader )
                   &_indices[0], GL_STATIC_DRAW );
 
     // set up attributes
-    uint32 posAttrib = shader.vertPositionAttrib();
-    uint32 normAttrib = shader.vertNormalAttrib();
+    uint32 posAttr = shader.vertPositionAttr();
+    uint32 normAttr = shader.vertNormalAttr();
+    uint32 texCoordAttr = shader.vertTexCoordAttr();
 
-    glEnableVertexAttribArray( posAttrib );
-    glVertexAttribPointer( posAttrib, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
+    glEnableVertexAttribArray( posAttr );
+    glVertexAttribPointer( posAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
                            ( GLvoid* )offsetof( Vertex, position ) );
 
-    glEnableVertexAttribArray( normAttrib );
-    glVertexAttribPointer( normAttrib, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
+    glEnableVertexAttribArray( normAttr );
+    glVertexAttribPointer( normAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
                            ( GLvoid* )offsetof( Vertex, normal) );
+
+    glEnableVertexAttribArray( texCoordAttr );
+    glVertexAttribPointer( texCoordAttr, 2, GL_FLOAT, GL_FALSE,
+                           sizeof( Vertex ),
+                           ( GLvoid* )offsetof( Vertex, texCoord ) );
 
     // unbind vertex array object
     glBindVertexArray( 0 );
@@ -110,7 +113,7 @@ void Mesh::push( const Shader& shader )
 
 void Mesh::render( const Shader& shader )
 {
-    if ( !isOnGpu() )
+    if ( !isLoaded() || !isOnGpu() )
     {
         return;
     }
@@ -132,34 +135,6 @@ void Mesh::remove()
     glDeleteVertexArrays( 1, &_gl.vao );
     _isOnGpu = false;
 }
-
-// HELPER FUNCTIONS
-void Mesh::loadAssimpMesh( const aiMesh& mesh )
-{
-    // transfer vertices
-    for ( uint32 i = 0; i < mesh.mNumVertices; ++i )
-    {
-        Vertex vert;
-        aiVector3D* pos = &mesh.mVertices[i];
-        aiVector3D* norm = &mesh.mNormals[i];
-
-        vert.position = glm::vec3( pos->x, pos->y, pos->z );
-        vert.normal = glm::vec3( norm->x, norm->y, norm->z );
-
-        _vertices.push( vert );
-    }
-
-    // transfer faces
-    for ( uint32 i = 0; i < mesh.mNumFaces; ++i )
-    {
-        aiFace* face = &mesh.mFaces[i];
-
-        _indices.push( face->mIndices[0] );
-        _indices.push( face->mIndices[1] );
-        _indices.push( face->mIndices[2] );
-    }
-}
-
 
 } // End nspc rndr
 

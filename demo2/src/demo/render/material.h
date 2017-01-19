@@ -31,6 +31,18 @@ namespace demo
 namespace rndr
 {
 
+/**
+ * Defines a material.
+ */
+class Material;
+
+/**
+ * Defines a pointer to a material.
+ * This should be used anywhere a pointer would be used as this may eventually
+ * be replaced with a smart pointer for the resource manager.
+ */
+typedef Material* MaterialPtr;
+
 class Material
 {
   private:
@@ -38,7 +50,7 @@ class Material
     /**
      * The textures used by the material.
      */
-    cntr::DynamicArray<Texture*> _textures;
+    cntr::DynamicArray<TexturePtr> _textures;
 
     /**
      * The diffuse shading color.
@@ -132,7 +144,7 @@ class Material
      * @param specColor The specular color.
      * @param shininess The shininess.
      */
-    void load( cntr::DynamicArray<Texture*>&& textures,
+    void load( cntr::DynamicArray<TexturePtr>&& textures,
                glm::vec3&& diffColor,
                glm::vec3&& specColor,
                float shininess );

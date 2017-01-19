@@ -3,6 +3,8 @@
 // A 3D representation of a renderable object.
 //
 // Mesh data must be triangulated prior to use.
+// Mesh vertices must have exactly one UV coordinate set to have more is
+// considered an error and behavior is undefined in such scenarios.
 //
 #ifndef DEMO_MESH_H
 #define DEMO_MESH_H
@@ -12,6 +14,7 @@
 
 #include "demo/container/fixed_array.h"
 #include "demo/render/irenderable.h"
+#include "demo/render/material.h"
 
 namespace demo
 {
@@ -19,26 +22,28 @@ namespace demo
 namespace rndr
 {
 
+/**
+ * Defines a mesh.
+ */
+class Mesh;
+
+/**
+ * Defines a pointer to a mesh.
+ * This should be used anywhere a pointer would be used as this may eventually
+ * be replaced with a smart pointer for the resource manager.
+ */
+typedef Mesh* MeshPtr;
+
 class Mesh : public IRenderable
 {
-  private:
-    // STRUCTURES
+  public:
     /**
      * A mesh vertex.
      */
-    struct Vertex
-    {
-        /**
-         * The vertex position.
-         */
-        glm::vec3 position;
+    struct Vertex;
 
-        /**
-         * The vertex normal.
-         */
-        glm::vec3 normal;
-    };
-
+  private:
+    // STRUCTURES
     /**
      * The OpenGL mesh representation.
      */
@@ -80,38 +85,54 @@ class Mesh : public IRenderable
     GlMesh _gl;
 
     /**
+     * The index of the material to use from the model.
+     */
+    uint32 _materialIndex;
+
+    /**
+     * Whether the mesh has been loaded.
+     */
+    bool _isLoaded;
+
+    /**
      * Whether the mesh is on the GPU.
      */
     bool _isOnGpu;
 
-    // HELPER METHODS
-    /**
-     * Load an Assimp mesh.
-     */
-    void loadAssimpMesh( const aiMesh& mesh );
-
   public:
+    // STRUCTURES
+    /**
+     * A mesh vertex.
+     */
+    struct Vertex
+    {
+        /**
+         * The vertex position.
+         */
+        glm::vec3 position;
+
+        /**
+         * The vertex normal.
+         */
+        glm::vec3 normal;
+
+        /**
+         * The vertex texture mapping coordinates.
+         */
+        glm::vec2 texCoord;
+    };
+
+    // CONSTANTS
+    /**
+     * The material index that means no material.
+     */
+    static constexpr uint32 NO_MATERIAL = static_cast<uint32>( -1 );
+
     // CONSTRUCTORS
     /**
      * Constructs an empty mesh.
      */
     Mesh();
-
-    /**
-     * Construct a mesh from an Assimp mesh.
-     * This assumes a triangulated mesh.
-     * @param mesh The Assimp mesh.
-     */
-    Mesh( const aiMesh& mesh );
-
-    /**
-     * Construct a mesh with the given data.
-     * This assumes a triangulated mesh.
-     * @param vertices The mesh vertices.
-     * @param indices The mesh indices.
-     */
-    Mesh( const cntr::FixedArray<Vertex>& vertices,
-          const cntr::FixedArray<uint32>& indices );
 
     /**
      * Constructs a copy of another mesh.
@@ -147,24 +168,37 @@ class Mesh : public IRenderable
      */
     Mesh& operator=( Mesh&& other );
 
-    // MEMBER FUNCTIONS
+    // ACCESSOR FUNCTIONS
     /**
-     * Load the Assimp mesh.
-     * This assumes a triangulated mesh.
-     * This will cause the current data to be removed from the GPU.
-     * @param mesh The Assimp mesh.
+     * Get the index of the material used by the mesh.
+     * @return The material index.
      */
-    void load( const aiMesh& mesh );
+    uint32 materialIndex() const;
 
+    /**
+     * Check if the mesh has been loaded.
+     * @return Is it loaded?
+     */
+    bool isLoaded() const;
+
+    /**
+     * Check if the mesh is on the GPU.
+     * @return Is on the GPU?
+     */
+    bool isOnGpu() const;
+
+    // MEMBER FUNCTIONS
     /**
      * Load the given data.
      * This assumes a triangulated mesh.
      * This will cause the current data to be removed from the GPU.
      * @param vertices The mesh vertices.
      * @param indices The mesh indices.
+     * @param materialIndex The index of the material to use.
      */
-    void load( const cntr::FixedArray<Vertex>& vertices,
-               const cntr::FixedArray<uint32>& indices );
+    void load( cntr::FixedArray<Vertex>&& vertices,
+               cntr::FixedArray<uint32>&& indices,
+               uint32 materialIndex );
 
     /**
      * Push the mesh to the GPU.
@@ -186,49 +220,34 @@ class Mesh : public IRenderable
      * This does nothing if not on the GPU.
      */
     void remove();
-
-    /**
-     * Check if the mesh is on the GPU.
-     * @return Is on the GPU?
-     */
-    bool isOnGpu() const;
 };
 
 // CONSTRUCTORS
 inline
-Mesh::Mesh() : _vertices(), _indices(), _gl(), _isOnGpu()
-{
-}
-
-inline
-Mesh::Mesh( const aiMesh& mesh ): _vertices( mesh.mNumVertices ),
-                                  _indices( mesh.mNumFaces * 3 ),
-                                  _gl(), _isOnGpu()
-{
-    loadAssimpMesh( mesh );
-}
-
-inline
-Mesh::Mesh( const cntr::FixedArray<Vertex>& vertices,
-            const cntr::FixedArray<uint32>& indices )
-        : _vertices( vertices ), _indices( indices ), _gl(), _isOnGpu()
+Mesh::Mesh() : _vertices(), _indices(), _gl(), _materialIndex( NO_MATERIAL ),
+               _isLoaded(), _isOnGpu()
 {
 }
 
 inline
 Mesh::Mesh( const Mesh& other )
         : _vertices( other._vertices ), _indices( other._indices ),
-          _gl(), _isOnGpu()
+          _materialIndex( other._materialIndex ), _gl(),
+          _isLoaded( other._isLoaded ), _isOnGpu()
 {
 }
 
 inline
 Mesh::Mesh( Mesh&& other ) : _vertices( std::move( other._vertices ) ),
                              _indices( std::move( other._indices ) ),
+                             _materialIndex( other._materialIndex ),
                              _gl( std::move( other._gl ) ),
+                             _isLoaded( other._isLoaded ),
                              _isOnGpu( other._isOnGpu )
 {
     other._gl = GlMesh();
+    other._materialIndex = NO_MATERIAL;
+    other._isLoaded = false;
     other._isOnGpu = false;
 }
 
@@ -241,7 +260,20 @@ Mesh::~Mesh()
     }
 }
 
+// ACCESSOR FUNCTIONS
+inline
+uint32 Mesh::materialIndex() const
+{
+    return _materialIndex;
+}
+
 // MEMBER FUNCTIONS
+inline
+bool Mesh::isLoaded() const
+{
+    return _isLoaded;
+}
+
 inline
 bool Mesh::isOnGpu() const
 {

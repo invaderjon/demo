@@ -103,6 +103,8 @@ set(
 	src/demo/render/grapi.h
 	src/demo/render/irenderable.cpp
 	src/demo/render/irenderable.h
+	src/demo/render/material.cpp
+	src/demo/render/material.h
 	src/demo/render/mesh.cpp
 	src/demo/render/mesh.h
 	src/demo/render/model.cpp
@@ -113,8 +115,21 @@ set(
 	src/demo/render/renderer.h
 	src/demo/render/shader.cpp
 	src/demo/render/shader.h
+	src/demo/render/texture.cpp
+	src/demo/render/texture.h
 	src/demo/render/window.cpp
 	src/demo/render/window.h
+	# src/demo/resource
+	src/demo/resource/material_factory.cpp
+	src/demo/resource/material_factory.h
+	src/demo/resource/mesh_factory.cpp
+	src/demo/resource/mesh_factory.h
+	src/demo/resource/model_factory.cpp
+	src/demo/resource/model_factory.h
+	src/demo/resource/resource_manager.cpp
+	src/demo/resource/resource_manager.h
+	src/demo/resource/texture_factory.cpp
+	src/demo/resource/texture_factory.h
 	# src/demo/utility
 	src/demo/utility/hasher.cpp
 	src/demo/utility/hasher.h

@@ -8,5 +8,5 @@ set(
         ${CMAKE_MODULE_PATH}
 )
 
-add_subdirectory(demo1)
+#add_subdirectory(demo1)
 add_subdirectory(demo2)

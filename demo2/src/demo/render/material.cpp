@@ -66,7 +66,7 @@ Material& Material::operator=( Material&& other )
 }
 
 // MEMBER FUNCTIONS
-void Material::load( cntr::DynamicArray<Texture*>&& textures,
+void Material::load( cntr::DynamicArray<TexturePtr>&& textures,
                      glm::vec3&& diffColor, glm::vec3&& specColor,
                      float shininess )
 {

@@ -5,10 +5,8 @@
 #ifndef DEMO_MODEL_H
 #define DEMO_MODEL_H
 
-#include <assimp/scene.h>
-
 #include "demo/intdef.h"
-#include "demo/container/dynamic_array.h"
+#include "demo/container/fixed_array.h"
 #include "demo/render/irenderable.h"
 #include "demo/render/mesh.h"
 #include "demo/strdef.h"
@@ -19,6 +17,18 @@ namespace demo
 namespace rndr
 {
 
+/**
+ * Defines a model.
+ */
+class Model;
+
+/**
+ * Defines a pointer to a model.
+ * This should be used anywhere a pointer would be used as this will eventually
+ * be replaced with a smart pointer for the resource manager.
+ */
+typedef Model* ModelPtr;
+
 class Model : public IRenderable
 {
   private:
@@ -26,20 +36,22 @@ class Model : public IRenderable
     /**
      * The meshes that make up the model.
      */
-    cntr::DynamicArray<Mesh> _meshes;
+    cntr::FixedArray<Mesh> _meshes;
 
     /**
-     * Is the model on the GPU.
+     * The materials that are used by the meshes.
+     */
+    cntr::FixedArray<MaterialPtr> _materials;
+
+    /**
+     * Whether the model has been loaded.
+     */
+    bool _isLoaded;
+
+    /**
+     * Whether the model on the GPU.
      */
     bool _isOnGpu;
-
-    // HELPER FUNCTIONS
-    /**
-     * Process the specified node.
-     * @param node The node to process.
-     * @param scene The scene that the node is in.
-     */
-    void processNode( aiNode* node, const aiScene* scene );
 
   public:
     // CONSTRUCTORS
@@ -47,13 +59,6 @@ class Model : public IRenderable
      * Construct an empty model.
      */
     Model();
-
-    /**
-     * Construct a new model from the file at the specified path.
-     * This will immediately load the file.
-     * @param path The model file path.
-     */
-    Model( const String& path );
 
     /**
      * Construct a copy of another model.
@@ -73,6 +78,19 @@ class Model : public IRenderable
      */
     ~Model();
 
+    // ACCESSOR FUNCTIONS
+    /**
+     * Check if the model file has been loaded.
+     * @return Is it loaded?
+     */
+    bool isLoaded() const;
+
+    /**
+     * Check if the model is on the GPU.
+     * @return Is on the GPU?
+     */
+    bool isOnGpu() const;
+
     // OPERATORS
     /**
      * Assign as a copy of another model.
@@ -91,13 +109,13 @@ class Model : public IRenderable
 
     // MEMBER FUNCTIONS
     /**
-     * Load the model at the specified path.
-     * If a file was specified during construction this will override it.
-     * This does nothing if already loaded.
-     * @param path The file path.
-     * @throw File failed to load.
+     * Load the specified data.
+     * It is an error to call this while the model is on the GPU.
+     * @param meshes The meshes.
+     * @param materials The materials.
      */
-    void load( const String& path );
+    void load( cntr::FixedArray<Mesh>&& meshes,
+               cntr::FixedArray<MaterialPtr>&& materials );
 
     /**
      * Push the model's data to the GPU.
@@ -119,41 +137,28 @@ class Model : public IRenderable
      * This does nothing if not on the GPU.
      */
     void remove();
-
-    /**
-     * Check if the model is on the GPU.
-     * @return Is on the GPU?
-     */
-    bool isOnGpu() const;
-
-    /**
-     * Check if the model file has been loaded.
-     * @return Is it loaded?
-     */
-    bool isLoaded() const;
 };
 
 // CONSTRUCTORS
 inline
-Model::Model() : _meshes(), _isOnGpu( false )
+Model::Model() : _meshes( 1 ), _materials( 1 ), _isLoaded(), _isOnGpu()
 {
 }
 
 inline
-Model::Model( const String& path ) : _meshes(), _isOnGpu( false )
-{
-    load( path );
-}
-
-inline
-Model::Model( const Model& other ) : _meshes( other._meshes ), _isOnGpu()
+Model::Model( const Model& other )
+        : _meshes( other._meshes ), _materials( other._materials ),
+          _isLoaded( other._isLoaded ), _isOnGpu()
 {
 }
 
 inline
 Model::Model( Model&& other ) : _meshes( std::move( other._meshes ) ),
+                                _materials( std::move( other._materials ) ),
+                                _isLoaded( other._isLoaded ),
                                 _isOnGpu( other._isOnGpu )
 {
+    other._isLoaded = false;
     other._isOnGpu = false;
 }
 
@@ -172,15 +177,17 @@ Model& Model::operator=( const Model& other )
     }
 
     _meshes = other._meshes;
+    _materials = other._materials;
+    _isLoaded = other._isLoaded;
 
     return *this;
 }
 
-// MEMBER FUNCTIONS
+// ACCESSOR FUNCTIONS
 inline
 bool Model::isLoaded() const
 {
-    return _meshes.size() > 0;
+    return _isLoaded;
 }
 
 inline

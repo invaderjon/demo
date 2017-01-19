@@ -118,7 +118,7 @@ void Shader::load()
                 std::endl;
             std::cout << &error[0] << std::endl;
 
-            // release resources and remove from list
+            // release resource and remove from list
             glDeleteShader( handle );
             shaders.removeAt( static_cast<uint32>( i-- ) );
             continue;
@@ -152,7 +152,7 @@ void Shader::load()
         std::cout << "Failed to link " << _setName << std::endl;
         std::cout << &error[0] << std::endl;
 
-        // release resources and delete program
+        // release resource and delete program
         glDeleteProgram( program );
         return;
     }

@@ -36,7 +36,7 @@ void Renderer::render( const obj::Camera& camera, const obj::Scene& scene )
     glUniformMatrix4fv( _shader->matProjectionAttr(), 1, GL_FALSE,
                         glm::value_ptr( project ) );
 
-    glUniformMatrix4fv( _shader->matViewAttrib(), 1, GL_FALSE,
+    glUniformMatrix4fv( _shader->matViewAttr(), 1, GL_FALSE,
                         glm::value_ptr( view ) );
 
     // render objects
@@ -53,10 +53,10 @@ void Renderer::render( const obj::Camera& camera, const obj::Scene& scene )
                     view * model ) ) );
 
             // push matrices
-            glUniformMatrix4fv( _shader->matModelAttrib(), 1, GL_FALSE,
+            glUniformMatrix4fv( _shader->matModelAttr(), 1, GL_FALSE,
                                 glm::value_ptr( model ) );
 
-            glUniformMatrix3fv( _shader->matNormalAttrib(), 1, GL_FALSE,
+            glUniformMatrix3fv( _shader->matNormalAttr(), 1, GL_FALSE,
                                 glm::value_ptr( normal ) );
 
             // render object

@@ -1,8 +1,7 @@
 // allocator_guard.h
 //
-// Guards allocations to prevent memory leaks.
-//
-// When this is destructed it will deallocate the object.
+// A convenience that prevents having to define both an assigned allocator and
+// a default allocator when using allocators as members.
 //
 #ifndef DEMO_ALLOCATOR_GUARD_H
 #define DEMO_ALLOCATOR_GUARD_H

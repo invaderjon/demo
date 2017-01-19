@@ -21,7 +21,7 @@ class ModelObject : public Object
     /**
      * The 3D model.
      */
-    rndr::Model _model;
+    rndr::ModelPtr _model;
 
   public:
     // CONSTRUCTORS
@@ -34,13 +34,7 @@ class ModelObject : public Object
      * Construct an object with the given model.
      * @param model The model.
      */
-    ModelObject( const rndr::Model& model );
-
-    /**
-     * Construct an object with a model using the move operator.
-     * @param model The model.
-     */
-    ModelObject( rndr::Model&& model );
+    ModelObject( rndr::ModelPtr model );
 
     /**
      * Construct a copy of another ModelObject.
@@ -73,13 +67,7 @@ class ModelObject : public Object
      * Set the model.
      * @param model The model.
      */
-    void setModel( const rndr::Model& model );
-
-    /**
-     * Set the model using the move operator.
-     * @param model The model.
-     */
-    void setModel( rndr::Model&& model );
+    void setModel( const rndr::ModelPtr model );
 
     // MEMBER FUNCTIONS
     /**
@@ -96,12 +84,7 @@ ModelObject::ModelObject() : _model()
 }
 
 inline
-ModelObject::ModelObject( const rndr::Model& model ) : _model( model )
-{
-}
-
-inline
-ModelObject::ModelObject( rndr::Model&& model ) : _model( std::move( model ) )
+ModelObject::ModelObject( rndr::ModelPtr model ) : _model( model )
 {
 }
 
@@ -131,27 +114,21 @@ ModelObject& ModelObject::operator=( const ModelObject& other )
 inline
 bool ModelObject::isRenderable() const
 {
-    return _model.isLoaded();
+    return _model->isLoaded();
 }
 
 // MUTATOR FUNCTIONS
 inline
-void ModelObject::setModel( const rndr::Model& model )
+void ModelObject::setModel( rndr::ModelPtr model )
 {
     _model = model;
-}
-
-inline
-void ModelObject::setModel( rndr::Model&& model )
-{
-    _model = std::move( model );
 }
 
 // MEMBER FUNCTIONS
 inline
 void ModelObject::render( const rndr::Shader& shader )
 {
-    _model.render( shader );
+    _model->render( shader );
 }
 
 } // End nspc obj

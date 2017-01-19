@@ -3,14 +3,16 @@
 
 #include <iostream>
 
-#include "build.g.h"
+#include "demo/resource/resource_manager.h"
 
 namespace demo
 {
 
 bool Demo::startup()
 {
-    bool successful = rndr::GrApi::init();
+    // start up subsystems
+    bool successful = rndr::GrApi::startup();
+    res::ResourceManager::startup();
 
     if ( !successful )
     {
@@ -50,9 +52,11 @@ bool Demo::startup()
                                 glm::vec3( 0, 0, 0 ),
                                 glm::vec3( 0, 1, 0 ) );
 
-    // load cube
-    rndr::Model model( DEMO_RES_PATH + "/models/monkey.obj" );
-    model.push( _shader );
+    // load resources
+    res::ResourceManager* resMgr = res::ResourceManager::inst();
+
+    rndr::ModelPtr model = resMgr->loadModel( "models/monkey.obj" );
+    model->push( _shader );
 
     _model.setModel( std::move( model ) );
 
@@ -93,7 +97,9 @@ void Demo::run()
 
 void Demo::shutdown()
 {
-    rndr::GrApi::terminate();
+    _model.setModel( nullptr );
+    res::ResourceManager::shutdown();
+    rndr::GrApi::shutdown();
 }
 
 } // End nspc demo

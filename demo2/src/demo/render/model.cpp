@@ -1,9 +1,6 @@
 // model.cpp
 #include "model.h"
 
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-
 namespace demo
 {
 
@@ -27,27 +24,15 @@ Model& Model::operator=( Model&& other )
 }
 
 // MEMBER FUNCTIONS
-void Model::load( const String& path )
+void Model::load( cntr::FixedArray<Mesh>&& meshes,
+                  cntr::FixedArray<MaterialPtr>&& materials )
 {
-    if ( isLoaded() )
-    {
-        return;
-    }
+    assert( !isOnGpu() );
 
-	assert( !path.empty() );
-
-    // load file
-    Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile( path, 0 );
-
-    if ( scene == nullptr || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE ||
-            !scene->mRootNode )
-    {
-        throw std::runtime_error( importer.GetErrorString() );
-    }
-
-    // generate meshes
-    processNode( scene->mRootNode, scene );
+    _meshes = std::move( meshes );
+    _materials = std::move( materials );
+    _isLoaded = true;
+    _isOnGpu = false;
 }
 
 void Model::push( const Shader& shader )
@@ -74,7 +59,17 @@ void Model::render( const Shader& shader )
 
     for ( auto iter = _meshes.begin(); iter != _meshes.end(); ++iter )
     {
+        if ( _materials.size() > 0 )
+        {
+            _materials[iter->materialIndex()]->bind( shader );
+        }
+
         iter->render( shader );
+
+        if ( _materials.size() > 0 )
+        {
+            _materials[iter->materialIndex()]->unbind();
+        }
     }
 }
 
@@ -91,26 +86,6 @@ void Model::remove()
     }
 
     _isOnGpu = false;
-}
-
-// HELPER FUNCTIONS
-void Model::processNode( aiNode* node, const aiScene* scene )
-{
-    assert( node );
-    assert( scene );
-
-    // process the node's meshes (if any)
-    for ( uint32 i = 0; i < node->mNumMeshes; ++i )
-    {
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        _meshes.push( std::move( Mesh( *mesh ) ) );
-    }
-
-    // process children
-    for ( uint32 i = 0; i < node->mNumChildren; ++i )
-    {
-        processNode( node->mChildren[i], scene );
-    }
 }
 
 } // End nspc rndr

@@ -39,13 +39,13 @@ struct GrApi
      * This must be called before any graphics api can be used.
      * @return Was the api successfully initialized?
      */
-    static bool init();
+    static bool startup();
 
     /**
      * Unload the graphics api.
      * This should be called when finished.
      */
-    static void terminate();
+    static void shutdown();
 };
 
 } // End nspc rndr

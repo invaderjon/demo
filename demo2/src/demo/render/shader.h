@@ -78,32 +78,37 @@ class Shader
     /**
      * The projection matrix attribute.
      */
-    uint32 _matProjAttrib;
+    uint32 _matProjAttr;
 
     /**
      * The view matrix attribute.
      */
-    uint32 _matViewAttrib;
+    uint32 _matViewAttr;
 
     /**
      * The model matrix attribute.
      */
-    uint32 _matModelAttrib;
+    uint32 _matModelAttr;
 
     /**
      * The normal matrix attribute.
      */
-    uint32 _matNormAttrib;
+    uint32 _matNormAttr;
 
     /**
      * The vertex position attribute.
      */
-    uint32 _vertPosAttrib;
+    uint32 _vertPosAttr;
 
     /**
      * The vertex normal attribute.
      */
-    uint32 _vertNormAttrib;
+    uint32 _vertNormAttr;
+
+    /**
+     * The vertex texture coordinate attribute.
+     */
+    uint32 _vertTexCoordAttr;
 
     // HELPER FUNCTIONS
     /**
@@ -159,31 +164,37 @@ class Shader
      * Get the view matrix attribute id.
      * @return The view matrix attribute.
      */
-    uint32 matViewAttrib() const;
+    uint32 matViewAttr() const;
 
     /**
      * Get the model matrix attribute id.
      * @return The model matrix attribute.
      */
-    uint32 matModelAttrib() const;
+    uint32 matModelAttr() const;
 
     /**
      * Get the normal matrix attribute id.
      * @return The normal matrix attribute.
      */
-    uint32 matNormalAttrib() const;
+    uint32 matNormalAttr() const;
 
     /**
      * Get the vertex position attribute id.
      * @return The vertex position attribute.
      */
-    uint32 vertPositionAttrib() const;
+    uint32 vertPositionAttr() const;
 
     /**
      * Get the vertex normal attribute id.
      * @return The vertex normal attribute.
      */
-    uint32 vertNormalAttrib() const;
+    uint32 vertNormalAttr() const;
+
+    /**
+     * Get the vertex UV map attribute id.
+     * @return The vertex UV map attribute.
+     */
+    uint32 vertTexCoordAttr() const;
 
     /**
      * Check if the shader is ready to be used.
@@ -224,23 +235,23 @@ class Shader
 
 // CONSTRUCTORS
 inline
-Shader::Shader() : _setName(), _id( ++g_nextId ), _program(), _vertPosAttrib(),
-                   _vertNormAttrib()
+Shader::Shader() : _setName(), _id( ++g_nextId ), _program(), _vertPosAttr(),
+                   _vertNormAttr()
 {
 }
 
 inline
 Shader::Shader( const String& name ) 
-    : _setName( name ), _id( ++g_nextId ), _program(), _vertPosAttrib(),
-      _vertNormAttrib()
+    : _setName( name ), _id( ++g_nextId ), _program(), _vertPosAttr(),
+      _vertNormAttr()
 {
 }
 
 inline
 Shader::Shader( const Shader& other ) 
     : _setName( other._setName ), _id( other._id ), _program( other._program ),
-      _vertPosAttrib( other._vertPosAttrib ),
-      _vertNormAttrib( other._vertNormAttrib )
+      _vertPosAttr( other._vertPosAttr ),
+      _vertNormAttr( other._vertNormAttr )
 {
 }
 
@@ -263,37 +274,43 @@ uint64 Shader::id() const
 inline
 uint32 Shader::matProjectionAttr() const
 {
-    return _matProjAttrib;
+    return _matProjAttr;
 }
 
 inline
-uint32 Shader::matViewAttrib() const
+uint32 Shader::matViewAttr() const
 {
-    return _matViewAttrib;
+    return _matViewAttr;
 }
 
 inline
-uint32 Shader::matModelAttrib() const
+uint32 Shader::matModelAttr() const
 {
-    return _matModelAttrib;
+    return _matModelAttr;
 }
 
 inline
-uint32 Shader::matNormalAttrib() const
+uint32 Shader::matNormalAttr() const
 {
-    return _matNormAttrib;
+    return _matNormAttr;
 }
 
 inline
-uint32 Shader::vertPositionAttrib() const
+uint32 Shader::vertPositionAttr() const
 {
-    return _vertPosAttrib;
+    return _vertPosAttr;
 }
 
 inline
-uint32 Shader::vertNormalAttrib() const
+uint32 Shader::vertNormalAttr() const
 {
-    return _vertNormAttrib;
+    return _vertNormAttr;
+}
+
+inline
+uint32 Shader::vertTexCoordAttr() const
+{
+    return _vertTexCoordAttr;
 }
 
 inline

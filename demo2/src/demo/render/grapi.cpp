@@ -13,12 +13,12 @@ namespace rndr
 {
 
 // UTILITY FUNCTIONS
-bool GrApi::init()
+bool GrApi::startup()
 {
     return glfwInit() != 0;
 }
 
-void GrApi::terminate()
+void GrApi::shutdown()
 {
     glfwTerminate();
 }

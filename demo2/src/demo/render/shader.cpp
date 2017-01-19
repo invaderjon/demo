@@ -28,8 +28,8 @@ Shader& Shader::operator=( const Shader& other )
     _setName = other._setName;
     _id = other._id;
     _program = other._program;
-    _vertPosAttrib = other._vertPosAttrib;
-    _vertNormAttrib = other._vertNormAttrib;
+    _vertPosAttr = other._vertPosAttr;
+    _vertNormAttr = other._vertNormAttr;
 
     return *this;
 }
@@ -118,7 +118,7 @@ void Shader::load()
                 std::endl;
             std::cout << &error[0] << std::endl;
 
-            // release resources and remove from list
+            // release resource and remove from list
             glDeleteShader( handle );
             shaders.removeAt( static_cast<uint32>( i-- ) );
             continue;
@@ -152,7 +152,7 @@ void Shader::load()
         std::cout << "Failed to link " << _setName << std::endl;
         std::cout << &error[0] << std::endl;
 
-        // release resources and delete program
+        // release resource and delete program
         glDeleteProgram( program );
         return;
     }
@@ -183,18 +183,20 @@ void Shader::release()
 void Shader::bindAttributes()
 {
     // assume valid attributes
-    _matProjAttrib = static_cast<uint32>(
+    _matProjAttr = static_cast<uint32>(
             glGetUniformLocation( _program, "matProjection" ) );
-    _matViewAttrib = static_cast<uint32>(
+    _matViewAttr = static_cast<uint32>(
             glGetUniformLocation( _program, "matView" ) );
-    _matModelAttrib = static_cast<uint32>(
+    _matModelAttr = static_cast<uint32>(
             glGetUniformLocation( _program, "matModel" ) );
-    _matNormAttrib = static_cast<uint32>(
+    _matNormAttr = static_cast<uint32>(
             glGetUniformLocation( _program, "matNormal" ) );
-    _vertPosAttrib = static_cast<uint32>(
+    _vertPosAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertPosition" ) );
-    _vertNormAttrib = static_cast<uint32>(
+    _vertNormAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertNormal" ) );
+    _vertTexCoordAttr = static_cast<uint32>(
+            glGetAttribLocation( _program, "vertTexCoord" ) );
 }
 
 } // End nspc rndr
