@@ -16,6 +16,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLM REQUIRED)
 find_package(GLFW REQUIRED)
 find_package(ASSIMP REQUIRED)
+find_package(FreeImage REQUIRED)
 
 if (WIN32)
 	find_package(GLEW REQUIRED)
@@ -42,6 +43,7 @@ include_directories(
 	${GLEW_INCLUDE_DIRS}
 	${GLFW_INCLUDE_DIRS}
 	${ASSIMP_INCLUDE_DIRS}
+	${FREE_IMAGE_INCLUDE_DIRS}
 	src
 )
 
@@ -142,4 +144,4 @@ message(STATUS "${GLEW_LIBRARIES}")
 # Build
 add_executable(demo2 ${SOURCE_FILES})
 target_link_libraries(demo2 ${OPENGL_gl_LIBRARY} ${GLEW_LIBRARIES}
-        ${GLFW_LIBRARIES} ${ASSIMP_LIBRARIES})
+        ${GLFW_LIBRARIES} ${ASSIMP_LIBRARIES} ${FREE_IMAGE_LIBRARIES})

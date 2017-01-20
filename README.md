@@ -24,6 +24,7 @@ These are the demos that are currently being worked on:
  * GLFW 3
  * GLM
  * Assimp 2.0+
+ * FreeImage 3.1+
 
 ### Windows 7 ###
  * CMake 3.0+
@@ -34,6 +35,7 @@ These are the demos that are currently being worked on:
  * GLEW
  * GLM
  * Assimp 2.0+
+ * FreeImage 3.1+
  
 ## Build Instructions ##
 ### Ubuntu ###
@@ -48,14 +50,15 @@ These are the demos that are currently being worked on:
  
 ### Windows ###
 #### Prepatory Steps ####
-1. Download GLEW, GLFW, GLM, and Assimp binaries for Visual Studio
+1. Download GLEW, GLFW, GLM, FreeImage, and Assimp binaries for Visual Studio
 2. Create the following folders:
   * C:\Program Files\lib
   * C:\Program Files\include
 3. Copy the library (lib and dll) files to C:\Program Files\lib. (i.e. C:\Program Files\lib\assimp.lib) (see note)
-4. Copy the include directory contents to C:\Program Files\include (ie. C:\Program Files\include\assimp).
+4. Copy the include directory contents to C:\Program Files\include (ie. C:\Program Files\include\assimp). (see second note)
 
-Note: If on a 64 bit system use the 64 bit libraries
+Note: If on a 64 bit system use the 64 bit libraries.
+Note: The header file for FreeImage does not have a sub-folder and goes directly in the include folder.
 
 #### Building ####
 1. Clone project to desired location
@@ -69,8 +72,8 @@ Note: If on a 64 bit system use the 64 bit libraries
 9. After generation completes press "Open Project"
 10. Set the demo of choice as the startup project (ie demo1)
 11. Build
-12. It will fail to run however as it will complain that assimp is missing
-13. Copy assimp.dll (from the prep steps) to bin/Debug (in build)
+12. It will fail to run however as it will complain that Assimp and FreeImage are missing
+13. Copy assimp.dll and FreeImage.dll (from the prep steps) to bin/Debug (in build)
 14. Copy the directory bin/res to bin/Debug (resulting in bin/Debug/res)
 15. Open the properties of the project you want to run
 16. Go to the debugging item in "Configuration Properties"
