@@ -113,7 +113,7 @@ void Mesh::push( const Shader& shader )
 
 void Mesh::render( const Shader& shader )
 {
-    if ( !isLoaded() || !isOnGpu() )
+    if ( !isOnGpu() )
     {
         return;
     }

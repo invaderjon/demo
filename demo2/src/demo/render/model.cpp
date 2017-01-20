@@ -52,7 +52,7 @@ void Model::push( const Shader& shader )
 
 void Model::render( const Shader& shader )
 {
-    if ( !isLoaded() || !isOnGpu() )
+    if ( !isOnGpu() )
     {
         return;
     }
