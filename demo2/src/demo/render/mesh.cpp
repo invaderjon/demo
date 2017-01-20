@@ -1,6 +1,8 @@
 // mesh.h
 #include "mesh.h"
 
+#include <iostream>
+
 namespace demo
 {
 

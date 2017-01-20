@@ -48,14 +48,14 @@ bool Demo::startup()
     _camera.setFarPlane( 100.0f );
     _camera.setNearPlane( 0.01f );
     _camera.setFieldOfView( 45.0f );
-    _camera.transform().lookAt( glm::vec3( 0, 0, 3 ),
+    _camera.transform().lookAt( glm::vec3( 0, 0, 5 ),
                                 glm::vec3( 0, 0, 0 ),
                                 glm::vec3( 0, 1, 0 ) );
 
     // load resources
     res::ResourceManager* resMgr = res::ResourceManager::inst();
 
-    rndr::ModelPtr model = resMgr->loadModel( "models/monkey.obj" );
+    rndr::ModelPtr model = resMgr->loadModel( "models/box.obj" );
     model->push( _shader );
 
     _model.setModel( std::move( model ) );
@@ -81,11 +81,7 @@ void Demo::run()
 
         _renderer.render( _camera, _scene );
 
-        int32 error = glGetError();
-        if ( error != GL_NO_ERROR )
-        {
-            std::cout << error << std::endl;
-        }
+        checkForGlErrors();
 
         _model.transform().rotateEuler( 0, 0.01, 0 );
 
@@ -100,6 +96,16 @@ void Demo::shutdown()
     _model.setModel( nullptr );
     res::ResourceManager::shutdown();
     rndr::GrApi::shutdown();
+}
+
+// HELPER FUNCTIONS
+void Demo::checkForGlErrors() const
+{
+    int32 error = glGetError();
+    if ( error != GL_NO_ERROR )
+    {
+        std::cout << error << std::endl;
+    }
 }
 
 } // End nspc demo

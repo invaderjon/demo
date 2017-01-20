@@ -197,6 +197,28 @@ void Shader::bindAttributes()
             glGetAttribLocation( _program, "vertNormal" ) );
     _vertTexCoordAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertTexCoord" ) );
+    _colorDiffuse = static_cast<uint32>(
+            glGetUniformLocation( _program, "colorDiffuse" ) );
+    _colorSpecular = static_cast<uint32>(
+            glGetUniformLocation( _program, "colorSpecular" ) );
+    _colorAmbient = static_cast<uint32>(
+            glGetUniformLocation( _program, "colorAmbient" ) );
+    _valShininess = static_cast<uint32>(
+            glGetUniformLocation( _program, "valShininess" ) );
+    _valMatFlags = static_cast<uint32>(
+            glGetUniformLocation( _program, "valMatFlags" ) );
+
+    // assign texture locations
+    uint32 diffuse = static_cast<uint32>(
+            glGetUniformLocation( _program, "texDiffuse" ) );
+    uint32 specular = static_cast<uint32>(
+            glGetUniformLocation( _program, "texSpecular" ) );
+    uint32 bump = static_cast<uint32>(
+            glGetUniformLocation( _program, "texBump" ) );
+
+    glUniform1i( diffuse, 0 );
+    glUniform1i( specular, 1 );
+    glUniform1i( bump, 2 );
 }
 
 } // End nspc rndr

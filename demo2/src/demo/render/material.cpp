@@ -1,6 +1,8 @@
 // material.cpp
 #include "material.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 namespace demo
 {
 
@@ -95,12 +97,30 @@ void Material::bind( const Shader& shader )
         return;
     }
 
-    // todo: bind material
+    glUniform3fv( shader.colorDiffuse(), 1, glm::value_ptr( _diffColor ) );
+    glUniform3fv( shader.colorSpecular(), 1, glm::value_ptr( _specColor ) );
+    glUniform1f( shader.valShininess(), _shininess );
+    glUniform1i( shader.valMatFlags(), _texFlags );
+
+    // bind textures
+    for ( auto iter = _textures.begin(); iter != _textures.end(); ++iter )
+    {
+        ( *iter )->bind();
+    }
 }
 
 void Material::unbind()
 {
-    // todo: unbind material
+    if ( !isLoaded() )
+    {
+        return;
+    }
+
+    // unbind textures
+    for ( auto iter = _textures.begin(); iter != _textures.end(); ++iter )
+    {
+        ( *iter )->unbind();
+    }
 }
 
 } // End nspc rndr

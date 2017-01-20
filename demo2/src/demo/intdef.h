@@ -9,7 +9,7 @@ namespace demo
 {
 
 // SIZES
-typedef size_t size;
+typedef size_t Size;
 
 // INTEGERS
 typedef int8_t int8;

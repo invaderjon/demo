@@ -174,9 +174,15 @@ class FixedArray
 
     // CONSTRUCTORS
     /**
-     * Constructs a new fixed array that wraps pre-allocated data.
+     * Constructs a new fixed array that wraps pre-allocated data
      */
     FixedArray( T* data, uint32 size, uint32 capacity );
+
+    /**
+     * Construct a new fixed array that copies pre-allocated data.
+     */
+    FixedArray( mem::IAllocator<T>* allocator, T* data, uint32 size,
+                uint32 capacity );
 
   public:
     // TYPES
@@ -221,6 +227,32 @@ class FixedArray
      * wrapped data.
      */
     static FixedArray<T> wrap( T* data, uint32 size, uint32 capacity );
+
+    /**
+     * Creates a managed copy of a pre-allocated array.
+     *
+     * The size must be the number of items in use starting from index 0.
+     * The capacity must be the allocated number of items in the array.
+     *
+     * The fixed array will allocate a copy of the original data which will
+     * be released during destruction. After its creation the FixedArray
+     * instance will behave as one that was manually created and filled.
+     */
+    static FixedArray<T> copy( T* data, uint32 size, uint32 capacity );
+
+    /**
+     * Creates a managed copy of a pre-allocated array using a specified
+     * allocator.
+     *
+     * The size must be the number of items in use starting from index 0.
+     * The capacity must be the allocated number of items in the array.
+     *
+     * The fixed array will allocate a copy of the original data which will
+     * be released during destruction. After its creation the FixedArray
+     * instance will behave as one that was manually created and filled.
+     */
+    static FixedArray<T> copy( mem::IAllocator<T>* allocator, T* data,
+                               uint32 size, uint32 capacity );
 
     // CONSTRUCTORS
     /**
@@ -469,6 +501,21 @@ FixedArray<T> FixedArray<T>::wrap( T* data, uint32 size, uint32 capacity )
     return FixedArray<T>( data, size, capacity );
 }
 
+template <typename T>
+inline
+FixedArray<T> FixedArray<T>::copy( T* data, uint32 size, uint32 capacity )
+{
+    return copy( nullptr, data, size, capacity );
+}
+
+template <typename T>
+inline
+FixedArray<T> FixedArray<T>::copy( mem::IAllocator<T>* allocator, T* data,
+                                   uint32 size, uint32 capacity )
+{
+    return FixedArray<T>( allocator, data, size, capacity );
+}
+
 // CONSTRUCTORS
 template <typename T>
 inline
@@ -504,6 +551,18 @@ FixedArray<T>::FixedArray( T* data, uint32 size, uint32 capacity )
     : _allocator( nullptr ), _values( data ), _size( size ),
       _capacity( capacity ), _isDataExternal( true )
 {
+}
+
+
+template <typename T>
+inline
+FixedArray<T>::FixedArray( mem::IAllocator<T>* allocator, T* data, uint32 size,
+                           uint32 capacity )
+        : _allocator( allocator ), _values( nullptr ), _size( size ),
+          _capacity( capacity ), _isDataExternal( false )
+{
+    _values = _allocator.get( capacity );
+    mem::MemoryUtils::copy( _values, data, _size );
 }
 
 template <typename T>

@@ -28,7 +28,7 @@ void MeshFactory::create( const aiMesh& mesh, rndr::MeshPtr out )
         rndr::Mesh::Vertex vert;
         aiVector3D pos = mesh.mVertices[i];
         aiVector3D norm = mesh.mNormals[i];
-        aiVector3D uv = hasUv ? mesh.mTextureCoords[i][0] : aiVector3D();
+        aiVector3D uv = hasUv ? mesh.mTextureCoords[0][i] : aiVector3D();
 
         vert.position = glm::vec3( pos.x, pos.y, pos.z );
         vert.normal = glm::vec3( norm.x, norm.y, norm.z );

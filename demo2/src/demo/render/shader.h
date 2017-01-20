@@ -110,6 +110,31 @@ class Shader
      */
     uint32 _vertTexCoordAttr;
 
+    /**
+     * The mesh diffuse color.
+     */
+    uint32 _colorDiffuse;
+
+    /**
+     * The mesh specular color.
+     */
+    uint32 _colorSpecular;
+
+    /**
+     * The mesh ambient color.
+     */
+    uint32 _colorAmbient;
+
+    /**
+     * The mesh shininess.
+     */
+    uint32 _valShininess;
+
+    /**
+     * The material flags.
+     */
+    uint32 _valMatFlags;
+
     // HELPER FUNCTIONS
     /**
      * Bind the OpenGL attributes.
@@ -195,6 +220,36 @@ class Shader
      * @return The vertex UV map attribute.
      */
     uint32 vertTexCoordAttr() const;
+
+    /**
+     * Get the diffuse color attribute id.
+     * @return The diffuse color attribute.
+     */
+    uint32 colorDiffuse() const;
+
+    /**
+     * Get the specular color attribute id.
+     * @return The specular color attribute.
+     */
+    uint32 colorSpecular() const;
+
+    /**
+     * Get the ambient color attribute id.
+     * @return The ambient color attribute.
+     */
+    uint32 colorAmbient() const;
+
+    /**
+     * Get the shininess attribute id.
+     * @return The shininess attribute.
+     */
+    uint32 valShininess() const;
+
+    /**
+     * Get the material flags attribute id.
+     * @return The material flags attribute.
+     */
+    uint32 valMatFlags() const;
 
     /**
      * Check if the shader is ready to be used.
@@ -311,6 +366,36 @@ inline
 uint32 Shader::vertTexCoordAttr() const
 {
     return _vertTexCoordAttr;
+}
+
+inline
+uint32 Shader::colorDiffuse() const
+{
+    return _colorDiffuse;
+}
+
+inline
+uint32 Shader::colorSpecular() const
+{
+    return _colorSpecular;
+}
+
+inline
+uint32 Shader::colorAmbient() const
+{
+    return _colorAmbient;
+}
+
+inline
+uint32 Shader::valShininess() const
+{
+    return _valShininess;
+}
+
+inline
+uint32 Shader::valMatFlags() const
+{
+    return _valMatFlags;
 }
 
 inline
