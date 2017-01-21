@@ -41,7 +41,7 @@ class MaterialFactory
     static constexpr aiTextureType TEXTURE_TYPES[TEXTURE_TYPE_COUNT] = {
             aiTextureType_DIFFUSE,
             aiTextureType_SPECULAR,
-            aiTextureType_NORMALS
+            aiTextureType_HEIGHT
     };
 
     // HELPER FUNCTIONS

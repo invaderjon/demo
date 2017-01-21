@@ -25,7 +25,7 @@ Model& Model::operator=( Model&& other )
 
 // MEMBER FUNCTIONS
 void Model::load( cntr::FixedArray<Mesh>&& meshes,
-                  cntr::FixedArray<MaterialPtr>&& materials )
+                  cntr::FixedArray<Material>&& materials )
 {
     assert( !isOnGpu() );
 
@@ -47,6 +47,13 @@ void Model::push( const Shader& shader )
         iter->push( shader );
     }
 
+    for ( auto iter = _materials.begin(); iter != _materials.end(); ++iter )
+    {
+        iter->push( shader );
+    }
+
+    GrApi::logError( "Model.push" );
+
     _isOnGpu = true;
 }
 
@@ -61,16 +68,18 @@ void Model::render( const Shader& shader )
     {
         if ( _materials.size() > 0 )
         {
-            _materials[iter->materialIndex()]->bind( shader );
+            _materials[iter->materialIndex()].bind( shader );
         }
 
         iter->render( shader );
 
         if ( _materials.size() > 0 )
         {
-            _materials[iter->materialIndex()]->unbind();
+            _materials[iter->materialIndex()].unbind();
         }
     }
+
+    GrApi::logError( "Model.render" );
 }
 
 void Model::remove()
@@ -84,6 +93,13 @@ void Model::remove()
     {
         iter->remove();
     }
+
+    for ( auto iter = _materials.begin(); iter != _materials.end(); ++iter )
+    {
+        iter->remove();
+    }
+
+    GrApi::logError( "Model.remove" );
 
     _isOnGpu = false;
 }

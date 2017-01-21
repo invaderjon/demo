@@ -23,6 +23,15 @@ void GrApi::shutdown()
     glfwTerminate();
 }
 
+void GrApi::logError( const String& tag )
+{
+    int32 error = glGetError();
+    if ( error != GL_NO_ERROR )
+    {
+        std::cout << "GPU Error [" + tag + "]: " << error << std::endl;
+    }
+}
+
 } // End nspc rndr
 
 } // End nspc demo

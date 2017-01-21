@@ -71,6 +71,7 @@ rndr::TexturePtr MaterialFactory::getTexture( const aiMaterial& material,
             break;
 
         case aiTextureType_NORMALS:
+        case aiTextureType_HEIGHT:
             nativeType = rndr::Texture::Type::BUMP;
             break;
 

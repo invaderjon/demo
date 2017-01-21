@@ -78,9 +78,10 @@ Texture& Texture::operator=( Texture&& other )
 }
 
 // MEMBER FUNCTIONS
-void Texture::load( cntr::FixedArray<uint8>&& data, uint32 width, uint32 height,
-                    uint8 bpp )
+void Texture::load( Type type, cntr::FixedArray<uint8>&& data, uint32 width,
+                    uint32 height, uint8 bpp )
 {
+    _type = type;
     _data = std::move( data );
     _width = width;
     _height = height;
@@ -146,7 +147,7 @@ void Texture::push( const Shader& shader )
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                      GL_LINEAR_MIPMAP_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                     GL_LINEAR_MIPMAP_LINEAR );
+                     GL_LINEAR );
     glGenerateMipmap( GL_TEXTURE_2D );
 
     glBindTexture( GL_TEXTURE_2D, 0 );
@@ -155,15 +156,15 @@ void Texture::push( const Shader& shader )
     switch ( _type )
     {
         case Type::DIFFUSE:
-            _gl.textureInt = GL_TEXTURE0;
+            _gl.textureInt = GL_TEXTURE0 + Shader::TEXTURE_INT_DIFFUSE;
             break;
 
         case Type::SPECULAR:
-            _gl.textureInt  = GL_TEXTURE1;
+            _gl.textureInt  = GL_TEXTURE0 + Shader::TEXTURE_INT_SPECULAR;
             break;
 
         case Type::BUMP:
-            _gl.textureInt  = GL_TEXTURE2;
+            _gl.textureInt  = GL_TEXTURE0 + Shader::TEXTURE_INT_BUMP;
             break;
 
         default:
@@ -172,6 +173,8 @@ void Texture::push( const Shader& shader )
             assert( false );
             break;
     }
+
+    GrApi::logError( "Texture[" + typeName() + "].push" );
 
     _isOnGpu = true;
 }
@@ -183,9 +186,11 @@ void Texture::bind()
         return;
     }
 
-    // bind the texture
+    // bind the texture;
     glActiveTexture( _gl.textureInt );
     glBindTexture( GL_TEXTURE_2D, _gl.id );
+
+    GrApi::logError( "Texture[" + typeName() + "].bind" );
 
     _isBound = true;
 }
@@ -200,6 +205,8 @@ void Texture::unbind()
     glActiveTexture( _gl.textureInt );
     glBindTexture( GL_TEXTURE_2D, 0 );
 
+    GrApi::logError( "Texture[" + typeName() + "].unbind" );
+
     _isBound = false;
 }
 
@@ -213,6 +220,33 @@ void Texture::remove()
     glDeleteTextures( 1, &_gl.id );
 
     _isOnGpu = false;
+}
+
+// HELPER FUNCTIONS
+String Texture::typeName() const
+{
+    String name;
+    switch ( type() )
+    {
+        case DIFFUSE:
+            name = "diffuse";
+            break;
+
+        case SPECULAR:
+            name = "specular";
+            break;
+
+        case BUMP:
+            name = "bump";
+            break;
+
+        case UNKNOWN:
+        default:
+            name = "unknown";
+            break;
+    }
+
+    return name;
 }
 
 } // End nspc rndr

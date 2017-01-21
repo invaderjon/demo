@@ -54,6 +54,7 @@ bool Demo::startup()
 
     // load resources
     res::ResourceManager* resMgr = res::ResourceManager::inst();
+    rndr::GrApi::logError( "Model.push" );
 
     rndr::ModelPtr model = resMgr->loadModel( "models/box.obj" );
     model->push( _shader );
@@ -81,7 +82,7 @@ void Demo::run()
 
         _renderer.render( _camera, _scene );
 
-        checkForGlErrors();
+        rndr::GrApi::logError( "MainLoop (render)" );
 
         _model.transform().rotateEuler( 0, 0.01, 0 );
 
@@ -96,16 +97,6 @@ void Demo::shutdown()
     _model.setModel( nullptr );
     res::ResourceManager::shutdown();
     rndr::GrApi::shutdown();
-}
-
-// HELPER FUNCTIONS
-void Demo::checkForGlErrors() const
-{
-    int32 error = glGetError();
-    if ( error != GL_NO_ERROR )
-    {
-        std::cout << error << std::endl;
-    }
 }
 
 } // End nspc demo

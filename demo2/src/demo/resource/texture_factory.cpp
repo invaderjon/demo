@@ -84,7 +84,7 @@ void TextureFactory::create( const String& path, rndr::Texture::Type type,
     uint32 size = imageWidth * imageHeight * ( desiredBpp / 8 );
 
     // load texture with data
-    out->load( cntr::FixedArray<uint8>::copy( imageData, size, size ),
+    out->load( type, cntr::FixedArray<uint8>::copy( imageData, size, size ),
                imageWidth, imageHeight, desiredBpp );
 
     // release FreeImage resources

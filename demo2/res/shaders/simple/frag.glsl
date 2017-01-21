@@ -30,6 +30,13 @@ void main()
     vec3 normal = normalize( vNormal );
     vec3 lightDir = normalize( vLightPos - vPosition );
 
+    // use normal map if available
+    if ( ( valMatFlags & BUMP_MAP_FLAG ) != 0 )
+    {
+        vec3 bumpSample = texture( texBump, vTexCoord ).rgb;
+        normal = normalize( bumpSample * 2.0 - 1.0 );
+    }
+
     // compute lambertian (diffuse) light
     float lambertian = max( dot( lightDir, normal ), 0.0 );
     float specular = 0.0;
@@ -45,7 +52,7 @@ void main()
         if ( ( valMatFlags & SPECULAR_MAP_FLAG ) != 0 )
         {
             float sampleShininess = texture( texSpecular, vTexCoord ).r;
-            specular = pow( specAngle, valShininess * sampleShininess );
+            specular = pow( specAngle, valShininess );
         }
         else
         {

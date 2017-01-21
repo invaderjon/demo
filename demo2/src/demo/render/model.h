@@ -41,7 +41,7 @@ class Model : public IRenderable
     /**
      * The materials that are used by the meshes.
      */
-    cntr::FixedArray<MaterialPtr> _materials;
+    cntr::FixedArray<Material> _materials;
 
     /**
      * Whether the model has been loaded.
@@ -115,7 +115,7 @@ class Model : public IRenderable
      * @param materials The materials.
      */
     void load( cntr::FixedArray<Mesh>&& meshes,
-               cntr::FixedArray<MaterialPtr>&& materials );
+               cntr::FixedArray<Material>&& materials );
 
     /**
      * Push the model's data to the GPU.

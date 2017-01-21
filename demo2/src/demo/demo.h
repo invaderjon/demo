@@ -61,12 +61,6 @@ class Demo
      */
     Demo& operator=( const Demo& other ) = delete;
 
-    // HELPER FUNCTIONS
-    /**
-     * Check for OpenGL errors and print them.
-     */
-    void checkForGlErrors() const;
-
   public:
     // CONSTRUCTORS
     /**

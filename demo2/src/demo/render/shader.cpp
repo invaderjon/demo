@@ -165,6 +165,9 @@ void Shader::load()
 
     // store program and bind attributes
     _program = program;
+    rndr::GrApi::logError( "Shader.load" );
+
+    glUseProgram( _program );
     bindAttributes();
 }
 
@@ -216,9 +219,11 @@ void Shader::bindAttributes()
     uint32 bump = static_cast<uint32>(
             glGetUniformLocation( _program, "texBump" ) );
 
-    glUniform1i( diffuse, 0 );
-    glUniform1i( specular, 1 );
-    glUniform1i( bump, 2 );
+    glUniform1i( diffuse, TEXTURE_INT_DIFFUSE );
+    glUniform1i( specular, TEXTURE_INT_SPECULAR );
+    glUniform1i( bump, TEXTURE_INT_BUMP );
+
+    GrApi::logError( "Shader.bindAttributes" );
 }
 
 } // End nspc rndr

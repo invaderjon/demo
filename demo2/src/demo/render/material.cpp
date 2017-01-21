@@ -40,6 +40,8 @@ Material& Material::operator=( const Material& other )
     _specColor = other._specColor;
     _shininess = other._shininess;
     _texFlags = other._texFlags;
+    _isLoaded = other._isLoaded;
+    _isBound = false;
 
     return *this;
 }
@@ -56,12 +58,14 @@ Material& Material::operator=( Material&& other )
     _specColor = std::move( other._specColor );
     _shininess = other._shininess;
     _texFlags = other._texFlags;
+    _isLoaded = other._isLoaded;
     _isBound = other._isBound;
 
     other._diffColor = glm::vec3();
     other._specColor = glm::vec3();
     other._shininess = 0.0f;
     other._texFlags = 0;
+    other._isLoaded = false;
     other._isBound = false;
 
     return *this;
@@ -97,16 +101,18 @@ void Material::bind( const Shader& shader )
         return;
     }
 
-    glUniform3fv( shader.colorDiffuse(), 1, glm::value_ptr( _diffColor ) );
-    glUniform3fv( shader.colorSpecular(), 1, glm::value_ptr( _specColor ) );
-    glUniform1f( shader.valShininess(), _shininess );
-    glUniform1i( shader.valMatFlags(), _texFlags );
-
     // bind textures
     for ( auto iter = _textures.begin(); iter != _textures.end(); ++iter )
     {
         ( *iter )->bind();
     }
+
+    glUniform3fv( shader.colorDiffuse(), 1, glm::value_ptr( _diffColor ) );
+    glUniform3fv( shader.colorSpecular(), 1, glm::value_ptr( _specColor ) );
+    glUniform1f( shader.valShininess(), _shininess );
+    glUniform1ui( shader.valMatFlags(), _texFlags );
+
+    GrApi::logError( "Material.bind" );
 }
 
 void Material::unbind()
@@ -121,6 +127,8 @@ void Material::unbind()
     {
         ( *iter )->unbind();
     }
+
+    GrApi::logError( "Material.unbind" );
 }
 
 } // End nspc rndr

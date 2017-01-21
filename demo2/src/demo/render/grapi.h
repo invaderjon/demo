@@ -24,6 +24,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "demo/strdef.h"
+
 namespace demo
 {
 
@@ -46,6 +48,12 @@ struct GrApi
      * This should be called when finished.
      */
     static void shutdown();
+
+    /**
+     * Print the most recent gpu error.
+     * @param The log tag.
+     */
+    static void logError( const String& tag );
 };
 
 } // End nspc rndr

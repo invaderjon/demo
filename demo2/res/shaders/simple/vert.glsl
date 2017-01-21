@@ -18,6 +18,8 @@ const vec3 lightPos = vec3( 0.0, 0.0, 5.0 );
 out vec3 vLightPos;
 sample out vec3 vPosition;
 sample out vec3 vNormal;
+sample out vec3 vTangent;
+sample out vec3 vBitangent;
 sample out vec2 vTexCoord;
 
 void main()

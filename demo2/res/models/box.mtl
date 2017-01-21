@@ -11,5 +11,5 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd textures/box_diffuse.png
-map_Ks textures/box_specular.png
 map_Bump textures/box_bump.png
+map_Ks textures/box_specular.png

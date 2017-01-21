@@ -150,6 +150,13 @@ class Material
                float shininess );
 
     /**
+     * Push the material to the GPU.
+     * This prepares the textures for usage.
+     * @param shader The shader to push to.
+     */
+    void push( const Shader& shader );
+
+    /**
      * Bind the texture for rendering.
      * @param shader The shader to bind to.
      */
@@ -161,6 +168,11 @@ class Material
      * an error.
      */
     void unbind();
+
+    /**
+     * Remove the shader from the GPU.
+     */
+    void remove();
 };
 
 // CONSTRUCTORS
@@ -196,6 +208,29 @@ inline
 bool Material::isBound() const
 {
     return _isBound;
+}
+
+// MEMBER FUNCTIONS
+inline
+void Material::push( const Shader& shader )
+{
+    for ( auto iter = _textures.begin(); iter != _textures.end(); ++iter )
+    {
+        ( *iter )->push( shader );
+    }
+
+    GrApi::logError( "Material.push" );
+}
+
+inline
+void Material::remove()
+{
+    for ( auto iter = _textures.begin(); iter != _textures.end(); ++iter )
+    {
+        ( *iter )->remove();
+    }
+
+    GrApi::logError( "Material.remove" );
 }
 
 } // End npsc rndr

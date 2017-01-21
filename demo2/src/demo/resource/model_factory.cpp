@@ -4,6 +4,7 @@
 #include <assimp/Importer.hpp>
 
 #include "demo/resource/mesh_factory.h"
+#include "material_factory.h"
 
 namespace demo
 {
@@ -27,15 +28,20 @@ void ModelFactory::create( const String& path, rndr::ModelPtr out )
         throw std::runtime_error( importer.GetErrorString() );
     }
 
-    // process data
+    // process meshes
     cntr::FixedArray<rndr::Mesh> meshes( scene->mNumMeshes );
     processNode( &meshes, scene->mRootNode, scene );
 
-    cntr::FixedArray<rndr::MaterialPtr> materials( scene->mNumMaterials );
+    // process materials
+    MaterialFactory materialFactory;
+    cntr::FixedArray<rndr::Material> materials( scene->mNumMaterials );
     for ( uint32 i = 0; i < scene->mNumMaterials; ++i )
     {
+        rndr::Material nativeMaterial;
         aiMaterial* material = scene->mMaterials[i];
-        // todo: use resource manager to load each material
+        materialFactory.create( *material, &nativeMaterial );
+
+        materials.push( std::move( nativeMaterial ) );
     }
 
     out->load( std::move( meshes ), std::move( materials ) );

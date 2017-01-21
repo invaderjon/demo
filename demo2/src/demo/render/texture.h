@@ -99,6 +99,12 @@ class Texture
 
     // HELPER FUNCTIONS
     /**
+     * Get the type name for logging.
+     * @return The type name.
+     */
+    String typeName() const;
+
+    /**
      * Check if the tyep is UNKNOWN.
      * This is a convenience method.
      * @return Is unknown type?
@@ -130,7 +136,7 @@ class Texture
         /**
          * An unknown texture type.
          */
-        UNKNOWN
+        UNKNOWN = 0x80000000
     };
 
     // CONSTRUCTORS
@@ -206,8 +212,8 @@ class Texture
       * @param height The height.
       * @param bpp The bits per pixel.
       */
-    void load( cntr::FixedArray<uint8>&& data, uint32 width, uint32 height,
-               uint8 bpp );
+    void load( Type type, cntr::FixedArray<uint8>&& data, uint32 width,
+               uint32 height, uint8 bpp );
 
     /**
      * Push the texture to the GPU.

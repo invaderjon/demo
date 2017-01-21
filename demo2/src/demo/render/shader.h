@@ -142,6 +142,22 @@ class Shader
     void bindAttributes();
   
   public:
+    // CONSTANTS
+    /**
+     * The diffuse map binding number.
+     */
+    static constexpr uint32 TEXTURE_INT_DIFFUSE = 0;
+
+    /**
+     * The specular map binding number.
+     */
+    static constexpr uint32 TEXTURE_INT_SPECULAR = 1;
+
+    /**
+     * The bump map binding number.
+     */
+    static constexpr uint32 TEXTURE_INT_BUMP = 2;
+
     // CONSTRUCTORS
     /**
      * Construct a shader.
