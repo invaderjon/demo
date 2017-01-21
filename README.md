@@ -86,10 +86,12 @@ Note: If creating a release build than replace all instances of Debug with Relea
 ### Demo 1 - Simple Blinn-Phong Renderer ###
 Renders models as solid gray objects that are lit using the 
 Blinn-Phong shading method. There are no controls.
+
 <img src="http://i.imgur.com/YFlAEFd.png" width="300" height="200" />
 <img src="http://i.imgur.com/YilEqRU.png" width="300" height="200" />
 
 ### Demo 2 - Texture Mapping ###
 Rendering a box with a diffuse, specular, and normal map. 
 There are no controls.
+
 <img src="http://i.imgur.com/gewy1rr.png" width="300" height="200" />
