@@ -9,6 +9,7 @@ uniform mat3 matNormal;
 // the vertex attributes
 in vec3 vertPosition;
 in vec3 vertNormal;
+in vec3 vertTangent;
 in vec2 vertTexCoord;
 
 // constants
@@ -28,6 +29,8 @@ void main()
     vec4 light = matView * vec4( lightPos, 1.0 );
 
     vNormal = normalize( matNormal * vertNormal );
+    vTangent = normalize( matNormal * vertTangent );
+    vBitangent = cross( vTangent, vNormal );
     vPosition = vec3( position / position.w );
     vTexCoord = vertTexCoord;
     vLightPos = vec3( light / light.w );

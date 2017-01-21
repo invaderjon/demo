@@ -28,8 +28,18 @@ Shader& Shader::operator=( const Shader& other )
     _setName = other._setName;
     _id = other._id;
     _program = other._program;
+    _matProjAttr = other._matProjAttr;
+    _matViewAttr = other._matViewAttr;
+    _matNormAttr = other._matNormAttr;
     _vertPosAttr = other._vertPosAttr;
     _vertNormAttr = other._vertNormAttr;
+    _vertTangAttr = other._vertTangAttr;
+    _vertTexCoordAttr = other._vertTexCoordAttr;
+    _colorDiffuse = other._colorDiffuse;
+    _colorSpecular = other._colorSpecular;
+    _colorAmbient = other._colorAmbient;
+    _valShininess = other._valShininess;
+    _valMatFlags = other._valMatFlags;
 
     return *this;
 }
@@ -198,6 +208,8 @@ void Shader::bindAttributes()
             glGetAttribLocation( _program, "vertPosition" ) );
     _vertNormAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertNormal" ) );
+    _vertTangAttr = static_cast<uint32>(
+            glGetAttribLocation( _program, "vertTangent" ) );
     _vertTexCoordAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertTexCoord" ) );
     _colorDiffuse = static_cast<uint32>(

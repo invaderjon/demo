@@ -4,6 +4,8 @@
 in vec3 vLightPos;
 sample in vec3 vPosition;
 sample in vec3 vNormal;
+sample in vec3 vTangent;
+sample in vec3 vBitangent;
 sample in vec2 vTexCoord;
 
 // material values
@@ -30,11 +32,17 @@ void main()
     vec3 normal = normalize( vNormal );
     vec3 lightDir = normalize( vLightPos - vPosition );
 
-    // use normal map if available
+    // use bump map if available
     if ( ( valMatFlags & BUMP_MAP_FLAG ) != 0 )
     {
-        vec3 bumpSample = texture( texBump, vTexCoord ).rgb;
-        normal = normalize( bumpSample * 2.0 - 1.0 );
+        // compute normal from bump map
+        mat3 bumpTrans = mat3( normalize( vTangent ),
+                               normalize( vBitangent ),
+                               normalize( vNormal ) );
+
+        vec3 bumpNormal = texture( texBump, vTexCoord ).rgb * 2.0 - 1.0;
+
+        normal = normalize( bumpTrans * bumpNormal );;
     }
 
     // compute lambertian (diffuse) light
@@ -51,8 +59,9 @@ void main()
         // use specular map if available
         if ( ( valMatFlags & SPECULAR_MAP_FLAG ) != 0 )
         {
-            float sampleShininess = texture( texSpecular, vTexCoord ).r;
-            specular = pow( specAngle, valShininess );
+            float sampleShininess = clamp( texture( texSpecular, vTexCoord ).r,
+                                           0.001, 0.999 );
+            specular = pow( specAngle, valShininess * ( 1.0 - sampleShininess ) );
         }
         else
         {

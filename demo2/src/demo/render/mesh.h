@@ -117,6 +117,11 @@ class Mesh : public IRenderable
         glm::vec3 normal;
 
         /**
+         * The vertex tangent.
+         */
+        glm::vec3 tangent;
+
+        /**
          * The vertex texture mapping coordinates.
          */
         glm::vec2 texCoord;

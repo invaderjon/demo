@@ -2,6 +2,7 @@
 #include "model_factory.h"
 
 #include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
 
 #include "demo/resource/mesh_factory.h"
 #include "material_factory.h"
@@ -20,7 +21,8 @@ void ModelFactory::create( const String& path, rndr::ModelPtr out )
 
     // load file
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile( path, 0 );
+    const aiScene* scene = importer.ReadFile( path,
+                                              aiProcess_CalcTangentSpace );
 
     if ( scene == nullptr || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE ||
          !scene->mRootNode )

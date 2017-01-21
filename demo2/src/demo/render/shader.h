@@ -106,6 +106,11 @@ class Shader
     uint32 _vertNormAttr;
 
     /**
+     * The vertex tangent attribute.
+     */
+    uint32 _vertTangAttr;
+
+    /**
      * The vertex texture coordinate attribute.
      */
     uint32 _vertTexCoordAttr;
@@ -232,6 +237,12 @@ class Shader
     uint32 vertNormalAttr() const;
 
     /**
+     * Get the vertex tangent attribute id.
+     * @return The vertex tangent attribute.
+     */
+    uint32 vertTangentAttr() const;
+
+    /**
      * Get the vertex UV map attribute id.
      * @return The vertex UV map attribute.
      */
@@ -306,23 +317,39 @@ class Shader
 
 // CONSTRUCTORS
 inline
-Shader::Shader() : _setName(), _id( ++g_nextId ), _program(), _vertPosAttr(),
-                   _vertNormAttr()
+Shader::Shader() : _setName(), _id( ++g_nextId ), _program(), _matProjAttr(),
+                   _matViewAttr(), _matModelAttr(), _matNormAttr(),
+                   _vertPosAttr(), _vertNormAttr(), _vertTangAttr(),
+                   _vertTexCoordAttr(), _colorDiffuse(), _colorSpecular(),
+                   _colorAmbient(), _valShininess(), _valMatFlags()
 {
 }
 
 inline
 Shader::Shader( const String& name ) 
-    : _setName( name ), _id( ++g_nextId ), _program(), _vertPosAttr(),
-      _vertNormAttr()
+    : _setName( name ), _id( ++g_nextId ), _program(), _matProjAttr(),
+      _matViewAttr(), _matModelAttr(), _matNormAttr(),
+      _vertPosAttr(), _vertNormAttr(), _vertTangAttr(),
+      _vertTexCoordAttr(), _colorDiffuse(), _colorSpecular(), _colorAmbient(),
+      _valShininess(), _valMatFlags()
 {
 }
 
 inline
 Shader::Shader( const Shader& other ) 
     : _setName( other._setName ), _id( other._id ), _program( other._program ),
+      _matProjAttr( other._matProjAttr ),
+      _matViewAttr( other._matViewAttr ),
+      _matNormAttr( other._matNormAttr ),
       _vertPosAttr( other._vertPosAttr ),
-      _vertNormAttr( other._vertNormAttr )
+      _vertNormAttr( other._vertNormAttr ),
+      _vertTangAttr( other._vertTangAttr ),
+      _vertTexCoordAttr( other._vertTexCoordAttr ),
+      _colorDiffuse( other._colorDiffuse ),
+      _colorSpecular( other._colorSpecular ),
+      _colorAmbient( other._colorAmbient ),
+      _valShininess( other._valShininess ),
+      _valMatFlags( other._valMatFlags )
 {
 }
 
@@ -376,6 +403,12 @@ inline
 uint32 Shader::vertNormalAttr() const
 {
     return _vertNormAttr;
+}
+
+inline
+uint32 Shader::vertTangentAttr() const
+{
+    return _vertTangAttr;
 }
 
 inline

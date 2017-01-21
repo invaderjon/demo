@@ -92,6 +92,7 @@ void Mesh::push( const Shader& shader )
     // set up attributes
     uint32 posAttr = shader.vertPositionAttr();
     uint32 normAttr = shader.vertNormalAttr();
+    uint32 tangAttr = shader.vertTangentAttr();
     uint32 texCoordAttr = shader.vertTexCoordAttr();
 
     glEnableVertexAttribArray( posAttr );
@@ -100,7 +101,11 @@ void Mesh::push( const Shader& shader )
 
     glEnableVertexAttribArray( normAttr );
     glVertexAttribPointer( normAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
-                           ( GLvoid* )offsetof( Vertex, normal) );
+                           ( GLvoid* )offsetof( Vertex, normal ) );
+
+    glEnableVertexAttribArray( tangAttr );
+    glVertexAttribPointer( tangAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
+                           ( GLvoid* )offsetof( Vertex, tangent ) );
 
     glEnableVertexAttribArray( texCoordAttr );
     glVertexAttribPointer( texCoordAttr, 2, GL_FLOAT, GL_FALSE,
