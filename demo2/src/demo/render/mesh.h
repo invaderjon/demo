@@ -122,6 +122,11 @@ class Mesh : public IRenderable
         glm::vec3 tangent;
 
         /**
+         * The vertex bitangent.
+         */
+        glm::vec3 bitangent;
+
+        /**
          * The vertex texture mapping coordinates.
          */
         glm::vec2 texCoord;

@@ -110,15 +110,6 @@ void Texture::push( const Shader& shader )
         case Type::DIFFUSE:
         case Type::SPECULAR:
         case Type::BUMP:
-            #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_BGR
-            cpuFormat = GL_BGR;
-            #else
-            cpuFormat = GL_RGB;
-            #endif
-
-            gpuFormat = GL_RGB;
-            break;
-
         default:
             #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_BGR
             cpuFormat = GL_BGRA;
@@ -146,9 +137,11 @@ void Texture::push( const Shader& shader )
     // generate mip maps (requires OpenGL 3.0)
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                      GL_LINEAR_MIPMAP_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                     GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glGenerateMipmap( GL_TEXTURE_2D );
+
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
 
     glBindTexture( GL_TEXTURE_2D, 0 );
 

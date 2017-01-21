@@ -7,8 +7,7 @@
 // behavior is undefined.
 //
 // When a material has both a diffuse color and a diffuse map the diffuse color
-// is multiplied by the diffuse texture sample. This allows for tinting. To
-// avoid this the diffuse color must be white (1.0f, 1.0f, 1.0f).
+// is an accumulation of the two.
 //
 // When a material has a specularity map the shininess value is ignored.
 //

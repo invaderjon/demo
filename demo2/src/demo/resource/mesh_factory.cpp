@@ -29,11 +29,13 @@ void MeshFactory::create( const aiMesh& mesh, rndr::MeshPtr out )
         aiVector3D pos = mesh.mVertices[i];
         aiVector3D norm = mesh.mNormals[i];
         aiVector3D tang = mesh.mTangents[i];
+        aiVector3D bitang = mesh.mBitangents[i];
         aiVector3D uv = hasUv ? mesh.mTextureCoords[0][i] : aiVector3D();
 
         vert.position = glm::vec3( pos.x, pos.y, pos.z );
         vert.normal = glm::vec3( norm.x, norm.y, norm.z );
         vert.tangent = glm::vec3( tang.x, tang.y, tang.z );
+        vert.bitangent = glm::vec3( bitang.x, bitang.y, bitang.z );
         vert.texCoord = glm::vec2( uv.x, uv.y );
 
         vertices.push( vert );

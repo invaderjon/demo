@@ -39,9 +39,6 @@ void TextureFactory::create( const String& path, rndr::Texture::Type type,
         case rndr::Texture::Type::BUMP:
         case rndr::Texture::Type::DIFFUSE:
         case rndr::Texture::Type::SPECULAR:
-            desiredBpp = 24;
-            break;
-
         default:
             desiredBpp = 32;
             break;

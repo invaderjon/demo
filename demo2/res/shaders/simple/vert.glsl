@@ -10,10 +10,11 @@ uniform mat3 matNormal;
 in vec3 vertPosition;
 in vec3 vertNormal;
 in vec3 vertTangent;
+in vec3 vertBitangent;
 in vec2 vertTexCoord;
 
 // constants
-const vec3 lightPos = vec3( 0.0, 0.0, 5.0 );
+const vec3 lightPos = vec3( 0.0, 20.0, 20.0 );
 
 // outputs
 out vec3 vLightPos;
@@ -30,7 +31,7 @@ void main()
 
     vNormal = normalize( matNormal * vertNormal );
     vTangent = normalize( matNormal * vertTangent );
-    vBitangent = cross( vTangent, vNormal );
+    vBitangent = normalize( matNormal * vertBitangent );
     vPosition = vec3( position / position.w );
     vTexCoord = vertTexCoord;
     vLightPos = vec3( light / light.w );

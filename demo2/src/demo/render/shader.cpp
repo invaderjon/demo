@@ -34,6 +34,7 @@ Shader& Shader::operator=( const Shader& other )
     _vertPosAttr = other._vertPosAttr;
     _vertNormAttr = other._vertNormAttr;
     _vertTangAttr = other._vertTangAttr;
+    _vertBtngAttr = other._vertBtngAttr;
     _vertTexCoordAttr = other._vertTexCoordAttr;
     _colorDiffuse = other._colorDiffuse;
     _colorSpecular = other._colorSpecular;
@@ -210,6 +211,8 @@ void Shader::bindAttributes()
             glGetAttribLocation( _program, "vertNormal" ) );
     _vertTangAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertTangent" ) );
+    _vertBtngAttr = static_cast<uint32>(
+            glGetAttribLocation( _program, "vertBitangent" ) );
     _vertTexCoordAttr = static_cast<uint32>(
             glGetAttribLocation( _program, "vertTexCoord" ) );
     _colorDiffuse = static_cast<uint32>(

@@ -26,13 +26,11 @@ const uint DIFFUSE_MAP_FLAG = 0x1;
 const uint SPECULAR_MAP_FLAG = 0x2;
 const uint BUMP_MAP_FLAG = 0x4;
 
-void main()
+// Get the normal vector.
+vec3 getNormal()
 {
-    // compute directional vectors
-    vec3 normal = normalize( vNormal );
-    vec3 lightDir = normalize( vLightPos - vPosition );
+    vec3 normal;
 
-    // use bump map if available
     if ( ( valMatFlags & BUMP_MAP_FLAG ) != 0 )
     {
         // compute normal from bump map
@@ -42,46 +40,82 @@ void main()
 
         vec3 bumpNormal = texture( texBump, vTexCoord ).rgb * 2.0 - 1.0;
 
-        normal = normalize( bumpTrans * bumpNormal );;
+        normal = normalize( bumpTrans * bumpNormal );
+    }
+    else
+    {
+        normal = normalize( vNormal );
     }
 
-    // compute lambertian (diffuse) light
-    float lambertian = max( dot( lightDir, normal ), 0.0 );
+    return normal;
+}
+
+// Get the diffuse color.
+vec3 getDiffuseColor()
+{
+    vec3 color = colorDiffuse;
+
+    if ( ( valMatFlags & DIFFUSE_MAP_FLAG ) != 0 )
+    {
+        color = texture( texDiffuse, vTexCoord ).rgb;
+    }
+
+    return color;
+}
+
+// Get the specular color (alpha component is shininess).
+vec4 getSpecularColor()
+{
+    vec4 color;
+
+    // use specular map if available
+    if ( ( valMatFlags & SPECULAR_MAP_FLAG ) != 0 )
+    {
+        color = texture( texSpecular, vTexCoord ).rgba;
+        color.a *= 255.0;
+    }
+    else
+    {
+        color = vec4( colorSpecular, valShininess );
+    }
+
+    return color;
+}
+
+// Compute the specular lighting.
+vec3 computeSpecular( vec4 color, vec3 normal, vec3 lightDir,
+                      float lambertian )
+{
     float specular = 0.0;
 
-    // if lit then compute specular
     if ( lambertian > 0.0 )
     {
         vec3 viewDir = normalize( -vPosition );
         vec3 halfDir = normalize( lightDir + viewDir );
         float specAngle = max( dot( halfDir, normal ), 0.0 );
 
-        // use specular map if available
-        if ( ( valMatFlags & SPECULAR_MAP_FLAG ) != 0 )
-        {
-            float sampleShininess = clamp( texture( texSpecular, vTexCoord ).r,
-                                           0.001, 0.999 );
-            specular = pow( specAngle, valShininess * ( 1.0 - sampleShininess ) );
-        }
-        else
-        {
-            specular = pow( specAngle, valShininess );
-        }
+        specular = pow( specAngle, color.a );
     }
+
+    return specular * color.rgb;
+}
+
+void main()
+{
+    // get values required for light computation
+    vec3 normal = getNormal();
+    vec3 lightDir = normalize( vLightPos - vPosition );
+    vec3 diffColor = getDiffuseColor();
+    vec4 specColor = getSpecularColor();
+    float lambertian = max( dot( lightDir, normal ), 0.0 );
 
     // compute lighting
-    vec2 texCoord = vTexCoord;
-    vec3 diffuseLight = lambertian * colorDiffuse;
-    vec3 specularLight = specular * colorSpecular;
+    vec3 diffuseLight = lambertian * diffColor;
+    vec3 specularLight = computeSpecular( specColor, normal, lightDir,
+                                          lambertian);
 
-    // consider texture if available
-    if ( ( valMatFlags & DIFFUSE_MAP_FLAG ) != 0 )
-    {
-        diffuseLight *= texture( texDiffuse, vTexCoord ).rgb;
-    }
+    vec4 color = vec4( clamp( diffuseLight + specularLight + AMBIENT,
+                              0.0, 1.0 ), 1.0 );
 
-    vec3 color = clamp( diffuseLight + specularLight + AMBIENT,
-                        0.0, 1.0 );
-
-    gl_FragColor = vec4( color, 1.0 );
+    gl_FragColor = color;
 }

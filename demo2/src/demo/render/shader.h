@@ -111,6 +111,11 @@ class Shader
     uint32 _vertTangAttr;
 
     /**
+     * The vertex bitangent attribute.
+     */
+    uint32 _vertBtngAttr;
+
+    /**
      * The vertex texture coordinate attribute.
      */
     uint32 _vertTexCoordAttr;
@@ -243,6 +248,12 @@ class Shader
     uint32 vertTangentAttr() const;
 
     /**
+     * Get the vertex bitangent attribute id.
+     * @return The vertex bitangent attribute.
+     */
+    uint32 vertBitangentAttr() const;
+
+    /**
      * Get the vertex UV map attribute id.
      * @return The vertex UV map attribute.
      */
@@ -320,8 +331,9 @@ inline
 Shader::Shader() : _setName(), _id( ++g_nextId ), _program(), _matProjAttr(),
                    _matViewAttr(), _matModelAttr(), _matNormAttr(),
                    _vertPosAttr(), _vertNormAttr(), _vertTangAttr(),
-                   _vertTexCoordAttr(), _colorDiffuse(), _colorSpecular(),
-                   _colorAmbient(), _valShininess(), _valMatFlags()
+                   _vertBtngAttr(), _vertTexCoordAttr(), _colorDiffuse(),
+                   _colorSpecular(), _colorAmbient(), _valShininess(),
+                   _valMatFlags()
 {
 }
 
@@ -329,7 +341,7 @@ inline
 Shader::Shader( const String& name ) 
     : _setName( name ), _id( ++g_nextId ), _program(), _matProjAttr(),
       _matViewAttr(), _matModelAttr(), _matNormAttr(),
-      _vertPosAttr(), _vertNormAttr(), _vertTangAttr(),
+      _vertPosAttr(), _vertNormAttr(), _vertTangAttr(), _vertBtngAttr(),
       _vertTexCoordAttr(), _colorDiffuse(), _colorSpecular(), _colorAmbient(),
       _valShininess(), _valMatFlags()
 {
@@ -344,6 +356,7 @@ Shader::Shader( const Shader& other )
       _vertPosAttr( other._vertPosAttr ),
       _vertNormAttr( other._vertNormAttr ),
       _vertTangAttr( other._vertTangAttr ),
+      _vertBtngAttr( other._vertBtngAttr ),
       _vertTexCoordAttr( other._vertTexCoordAttr ),
       _colorDiffuse( other._colorDiffuse ),
       _colorSpecular( other._colorSpecular ),
@@ -409,6 +422,12 @@ inline
 uint32 Shader::vertTangentAttr() const
 {
     return _vertTangAttr;
+}
+
+inline
+uint32 Shader::vertBitangentAttr() const
+{
+    return _vertBtngAttr;
 }
 
 inline

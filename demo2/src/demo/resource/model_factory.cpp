@@ -22,7 +22,10 @@ void ModelFactory::create( const String& path, rndr::ModelPtr out )
     // load file
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile( path,
-                                              aiProcess_CalcTangentSpace );
+                                              aiProcess_Triangulate |
+                                              aiProcess_FixInfacingNormals |
+                                              aiProcess_CalcTangentSpace |
+                                              aiProcess_FlipUVs );
 
     if ( scene == nullptr || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE ||
          !scene->mRootNode )
