@@ -112,7 +112,7 @@ void main()
     // compute lighting
     vec3 diffuseLight = lambertian * diffColor;
     vec3 specularLight = computeSpecular( specColor, normal, lightDir,
-                                          lambertian);
+                                          lambertian );
 
     vec4 color = vec4( clamp( diffuseLight + specularLight + AMBIENT,
                               0.0, 1.0 ), 1.0 );
