@@ -92,4 +92,4 @@ Blinn-Phong shading method. There are no controls.
 ### Demo 2 - Texture Mapping ###
 Rendering a box with a diffuse, specular, and normal map. 
 There are no controls.
-<img src="http://i.imgur.com/Y5cUYVX.png" width="300" height="200" />
+<img src="http://i.imgur.com/gewy1rr.png" width="300" height="200" />
