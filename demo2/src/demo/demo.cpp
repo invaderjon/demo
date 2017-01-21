@@ -20,7 +20,7 @@ bool Demo::startup()
     }
 
     // set up window
-    _window.setTitle( "Demo 1: Simple Blinn-Phong Renderer" );
+    _window.setTitle( "Demo 2: Texture Mapping" );
     _window.open();
     _window.activate();
     printf( "OpenGL version is (%s)\n", glGetString( GL_VERSION ) );
