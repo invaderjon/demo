@@ -21,6 +21,7 @@ if (WIN32)
             GLEW_INCLUDE_DIR
             NAMES GL/glew.h
             PATHS
+            ${CMAKE_SOURCE_DIR}/include
             $ENV{PROGRAMFILES}/include
             ${GLEW_ROOT_DIR}/include
             DOC "The directory where glew.h resides"
@@ -38,6 +39,7 @@ if (WIN32)
             GLEW_LIBRARY
             NAMES ${GLEW_LIBRARY_NAME}
             PATHS
+            ${CMAKE_SOURCE_DIR}/lib
             $ENV{PROGRAMFILES}/lib
             ${GLEW_ROOT_DIR}/lib
             DOC "The GLEW library"
@@ -54,6 +56,7 @@ else()
             /usr/local/include
             /sw/include
             /opt/local/include
+            ${CMAKE_SOURCE_DIR}/include
             ${GLEW_ROOT_DIR}/include
             DOC "The directory where glew.h resides"
     )
@@ -71,6 +74,7 @@ else()
             /usr/local/lib
             /sw/lib
             /opt/local/lib
+            ${CMAKE_SOURCE_DIR}/lib
             ${GLEW_ROOT_DIR}/lib
             DOC "The GLEW library"
     )

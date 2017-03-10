@@ -20,6 +20,7 @@ if (WIN32)
             ASSIMP_INCLUDE_DIR
             NAMES assimp/version.h
             PATHS
+            ${CMAKE_SOURCE_DIR}/include
             $ENV{PROGRAMFILES}/include
             ${ASSIMP_ROOT_DIR}/include
             DOC "The directory where assimp/version.h resides"
@@ -30,6 +31,7 @@ if (WIN32)
             ASSIMP_LIBRARY
             NAMES assimp
             PATHS
+            ${CMAKE_SOURCE_DIR}/lib
             $ENV{PROGRAMFILES}/lib
             ${ASSIMP_ROOT_DIR}/lib
             DOC "The Assimp library"
@@ -46,6 +48,7 @@ else()
             /usr/local/include
             /sw/include
             /opt/local/include
+            ${CMAKE_SOURCE_DIR}/include
             ${ASSIMP_ROOT_DIR}/include
             DOC "The directory where assimp/version.h resides"
     )
@@ -63,6 +66,7 @@ else()
             /usr/local/lib
             /sw/lib
             /opt/local/lib
+            ${CMAKE_SOURCE_DIR}/lib
             ${ASSIMP_ROOT_DIR}/lib
             DOC "The Assimp library"
     )

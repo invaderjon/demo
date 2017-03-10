@@ -20,6 +20,7 @@ if (WIN32)
             FREE_IMAGE_INCLUDE_DIR
             NAMES FreeImage.h
             PATHS
+            ${CMAKE_SOURCE_DIR}/include
             $ENV{PROGRAMFILES}/include
             ${FREE_IMAGE_ROOT_DIR}/include
             DOC "The directory where FreeImage.h resides"
@@ -30,6 +31,7 @@ if (WIN32)
             FREE_IMAGE_LIBRARY
             NAMES FreeImage
             PATHS
+            ${CMAKE_SOURCE_DIR}/lib
             $ENV{PROGRAMFILES}/lib
             ${FREE_IMAGE_ROOT_DIR}/lib
             DOC "The FreeImage library"
@@ -44,6 +46,7 @@ else()
             /usr/local/include
             /sw/include
             /opt/local/include
+            ${CMAKE_SOURCE_DIR}/include
             ${FREE_IMAGE_ROOT_DIR}/include
             DOC "The directory where FreeImage.h resides"
     )
@@ -61,6 +64,7 @@ else()
             /usr/local/lib
             /sw/lib
             /opt/local/lib
+            ${CMAKE_SOURCE_DIR}/lib
             ${FREE_IMAGE_ROOT_DIR}/lib
             DOC "The FreeImage library"
     )

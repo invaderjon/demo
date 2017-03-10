@@ -22,6 +22,7 @@ if (WIN32)
             GLM_INCLUDE_DIR
             NAMES glm/glm.hpp
             PATHS
+            ${CMAKE_SOURCE_DIR}/include
             $ENV{PROGRAMFILES}/include
             ${GLM_ROOT_DIR}/include
             DOC "The directory where glm/glm.hpp resides"
@@ -36,6 +37,7 @@ else()
             /usr/local/include
             /sw/include
             /opt/local/include
+            ${CMAKE_SOURCE_DIR}/include
             ${GLM_ROOT_DIR}/include
             DOC "The directory where glm/glm.hpp resides"
     )

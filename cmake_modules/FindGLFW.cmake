@@ -24,6 +24,7 @@ if (WIN32)
             GLFW_INCLUDE_DIR
             NAMES GLFW/glfw3.h
             PATHS
+            ${CMAKE_SOURCE_DIR}/include
             $ENV{PROGRAMFILES}/include
             ${GLFW_ROOT_DIR}/include
             DOC "The directory where GLFW/glfw.h resides"
@@ -41,6 +42,7 @@ if (WIN32)
             GLFW_LIBRARY
             NAMES ${GLFW_LIBRARY_NAME}
             PATHS
+            ${CMAKE_SOURCE_DIR}/lib
             $ENV{PROGRAMFILES}/lib
             ${GLFW_ROOT_DIR}/lib
             DOC "The GLFW library"
@@ -57,6 +59,7 @@ else()
             /usr/local/include
             /sw/include
             /opt/local/include
+            ${CMAKE_SOURCE_DIR}/include
             ${GLFW_ROOT_DIR}/include
             DOC "The directory where GLFW/glfw3.h resides"
     )
@@ -74,6 +77,7 @@ else()
             /usr/local/lib
             /sw/lib
             /opt/local/lib
+            ${CMAKE_SOURCE_DIR}/lib
             ${GLFW_ROOT_DIR}/lib
             DOC "The GLFW library"
     )
