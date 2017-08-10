@@ -18,13 +18,14 @@ const glm::vec3 Transform::ZERO( glm::vec3( 0, 0, 0 ) );
 // MUTATOR FUNCTIONS
 void Transform::setEulerRotation( const glm::vec3& rotation )
 {
-    glm::quat yaw = glm::rotate( glm::quat(), rotation.z,
+    // todo: figure out why rotations are not being done in degrees
+    glm::quat yaw = glm::rotate( glm::quat(), glm::radians( rotation.z ),
                                  glm::vec3( 0.0f, 0.0f, 1.0f ) );
 
-    glm::quat pitch = glm::rotate( glm::quat(), rotation.x,
+    glm::quat pitch = glm::rotate( glm::quat(), glm::radians( rotation.x ),
                                    glm::vec3( 1.0f, 0.0f, 0.0f ) );
 
-    glm::quat roll = glm::rotate( glm::quat(), rotation.y,
+    glm::quat roll = glm::rotate( glm::quat(), glm::radians( rotation.y ),
                                   glm::vec3( 0.0f, 1.0f, 0.0f ) );
 
     _rotation = yaw * pitch * roll;
@@ -34,11 +35,14 @@ void Transform::setEulerRotation( const glm::vec3& rotation )
 // MEMBER FUNCTIONS
 void Transform::rotateEuler( const glm::vec3& rotation )
 {
-    glm::quat rot = glm::rotate( _rotation, rotation.z,
+    // todo: figure out why rotations are not being done in degrees
+    glm::quat rot = glm::rotate( _rotation, glm::radians( rotation.z ),
                                  glm::vec3( 0.0f, 0.0f, 1.0f ) );
 
-    rot = glm::rotate( rot, rotation.x, glm::vec3( 1.0f, 0.0f, 0.0f ) );
-    rot = glm::rotate( rot, rotation.y, glm::vec3( 0.0f, 1.0f, 0.0f ) );
+    rot = glm::rotate( rot, glm::radians( rotation.x ),
+                       glm::vec3( 1.0f, 0.0f, 0.0f ) );
+    rot = glm::rotate( rot, glm::radians( rotation.y ),
+                       glm::vec3( 0.0f, 1.0f, 0.0f ) );
 
     _rotation = rot;
     recomputeMatrix();
