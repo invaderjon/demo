@@ -74,6 +74,8 @@ void Demo::run()
 
     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 
+    _gameClock.reset();
+
     // run while the window is open
     while ( _window.isOpen() )
     {
@@ -84,11 +86,12 @@ void Demo::run()
 
         rndr::GrApi::logError( "MainLoop (render)" );
 
-        _model.transform().rotateEuler( 0, 0.01, 0 );
+        _model.transform().rotateEuler( 0.0f, _gameClock.dt() * 90.0f, 0.0f );
 
         glfwPollEvents();
         _window.swapBuffer();
         _window.update();
+        _gameClock.tick();
     }
 }
 

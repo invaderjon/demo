@@ -133,6 +133,8 @@ set(
 	src/demo/resource/texture_factory.cpp
 	src/demo/resource/texture_factory.h
 	# src/demo/utility
+	src/demo/utility/clock.cpp
+	src/demo/utility/clock.h
 	src/demo/utility/hasher.cpp
 	src/demo/utility/hasher.h
 	src/demo/utility/hash_utils.cpp
