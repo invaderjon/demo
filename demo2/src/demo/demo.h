@@ -5,13 +5,14 @@
 #ifndef DEMO_DEMO_H
 #define DEMO_DEMO_H
 
-#include <demo/object/model_object.h>
+#include "demo/object/model_object.h"
 #include "demo/object/camera.h"
 #include "demo/object/scene.h"
 #include "demo/render/grapi.h"
 #include "demo/render/renderer.h"
 #include "demo/render/shader.h"
 #include "demo/render/window.h"
+#include "demo/utility/clock.h"
 
 namespace demo
 {
@@ -49,6 +50,12 @@ class Demo
      * The scene.
      */
     obj::Scene _scene;
+
+    /**
+     * The game-time clock.
+     * This affects the world and levels.
+     */
+    util::Clock _gameClock;
 
     // HIDDEN FUNCTIONS
     /**
@@ -104,7 +111,8 @@ class Demo
 
 // CONSTRUCTORS
 inline
-Demo::Demo() : _renderer(), _shader(), _window(), _camera(), _scene()
+Demo::Demo() : _renderer(), _shader(), _window(), _camera(), _scene(),
+               _gameClock()
 {
 }
 
