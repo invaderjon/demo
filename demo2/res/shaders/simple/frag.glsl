@@ -72,8 +72,8 @@ vec4 getSpecularColor()
     // use specular map if available
     if ( ( valMatFlags & SPECULAR_MAP_FLAG ) != 0 )
     {
-        color = texture( texSpecular, vTexCoord ).rgba;
-        color.a *= 255.0;
+        color = texture( texSpecular, vTexCoord );
+        color.a *= 20.0;
     }
     else
     {
