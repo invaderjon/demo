@@ -29,20 +29,9 @@ void main()
     vec4 position = matView * matModel * vec4( vertPosition, 1.0 );
     vec4 light = matView * vec4( lightPos, 1.0 );
 
-    // HACK: Force left-handed tangents to make compatible with mirrored normal
-    //       map.
-    // TODO: find more elegant solution
-    vec3 N = normalize( matNormal * vertNormal );;
-    vec3 T = normalize( matNormal * vertTangent );
-    vec3 B = normalize( matNormal * vertBitangent );
-    if ( dot( cross( N, T ), B ) > 0.0 )
-    {
-        T = T * -1.0;
-    }
-
-    vNormal = N;
-    vTangent = T;
-    vBitangent = B;
+    vNormal = normalize( matNormal * vertNormal );
+    vTangent = normalize( matNormal * vertTangent );
+    vBitangent = normalize( matNormal * vertBitangent );
     vPosition = vec3( position / position.w );
     vTexCoord = vertTexCoord;
     vLightPos = vec3( light / light.w );
