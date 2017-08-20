@@ -168,6 +168,11 @@ class Shader
      */
     static constexpr uint32 TEXTURE_INT_BUMP = 2;
 
+    /**
+     * The value returned when an attribute is not found in the shader.
+     */
+    static constexpr uint32 NO_ATTR = static_cast<uint32>( -1 );
+
     // CONSTRUCTORS
     /**
      * Construct a shader.

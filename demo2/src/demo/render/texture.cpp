@@ -179,7 +179,7 @@ void Texture::bind()
         return;
     }
 
-    // bind the texture;
+    // bind the texture
     glActiveTexture( _gl.textureInt );
     glBindTexture( GL_TEXTURE_2D, _gl.id );
 

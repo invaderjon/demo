@@ -39,6 +39,7 @@ vec3 getNormal()
                                normalize( vNormal ) );
 
         vec3 bumpNormal = texture( texBump, vTexCoord ).rgb;
+        bumpNormal = normalize( bumpNormal * 2.0 - 1.0 );
 
         normal = normalize( bumpTrans * bumpNormal );
     }
