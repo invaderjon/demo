@@ -48,15 +48,15 @@ bool Demo::startup()
     _camera.setFarPlane( 100.0f );
     _camera.setNearPlane( 0.01f );
     _camera.setFieldOfView( 45.0f );
-    _camera.transform().lookAt( glm::vec3( 0, 20, 20 ),
-                                glm::vec3( 0, 8, 0 ),
+    _camera.transform().lookAt( glm::vec3( 0, 5, 5 ),
+                                glm::vec3( 0, 2, 0 ),
                                 glm::vec3( 0, 1, 0 ) );
 
     // load resources
     res::ResourceManager* resMgr = res::ResourceManager::inst();
     rndr::GrApi::logError( "Model.push" );
 
-    rndr::ModelPtr model = resMgr->loadModel( "models/nanosuit.obj" );
+    rndr::ModelPtr model = resMgr->loadModel( "models/cyborg.obj" );
     model->push( _shader );
 
     _model.setModel( std::move( model ) );

@@ -96,26 +96,44 @@ void Mesh::push( const Shader& shader )
     uint32 btngAttr = shader.vertBitangentAttr();
     uint32 texCoordAttr = shader.vertTexCoordAttr();
 
-    glEnableVertexAttribArray( posAttr );
-    glVertexAttribPointer( posAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
-                           ( GLvoid* )offsetof( Vertex, position ) );
+    if ( Shader::NO_ATTR != posAttr )
+    {
+        glEnableVertexAttribArray( posAttr );
+        glVertexAttribPointer( posAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
+                               ( GLvoid* ) offsetof( Vertex, position ) );
+    }
 
-    glEnableVertexAttribArray( normAttr );
-    glVertexAttribPointer( normAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
-                           ( GLvoid* )offsetof( Vertex, normal ) );
+    if ( Shader::NO_ATTR != normAttr )
+    {
+        glEnableVertexAttribArray( normAttr );
+        glVertexAttribPointer( normAttr, 3, GL_FLOAT, GL_FALSE,
+                               sizeof( Vertex ),
+                               ( GLvoid* ) offsetof( Vertex, normal ) );
+    }
 
-    glEnableVertexAttribArray( tangAttr );
-    glVertexAttribPointer( tangAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
-                           ( GLvoid* )offsetof( Vertex, tangent ) );
+    if ( Shader::NO_ATTR != tangAttr )
+    {
+        glEnableVertexAttribArray( tangAttr );
+        glVertexAttribPointer( tangAttr, 3, GL_FLOAT, GL_FALSE,
+                               sizeof( Vertex ),
+                               ( GLvoid* ) offsetof( Vertex, tangent ) );
+    }
 
-    glEnableVertexAttribArray( btngAttr );
-    glVertexAttribPointer( btngAttr, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex ),
-                           ( GLvoid* )offsetof( Vertex, bitangent ) );
+    if ( Shader::NO_ATTR != btngAttr )
+    {
+        glEnableVertexAttribArray( btngAttr );
+        glVertexAttribPointer( btngAttr, 3, GL_FLOAT, GL_FALSE,
+                               sizeof( Vertex ),
+                               ( GLvoid* ) offsetof( Vertex, bitangent ) );
+    }
 
-    glEnableVertexAttribArray( texCoordAttr );
-    glVertexAttribPointer( texCoordAttr, 2, GL_FLOAT, GL_FALSE,
-                           sizeof( Vertex ),
-                           ( GLvoid* )offsetof( Vertex, texCoord ) );
+    if ( Shader::NO_ATTR != texCoordAttr )
+    {
+        glEnableVertexAttribArray( texCoordAttr );
+        glVertexAttribPointer( texCoordAttr, 2, GL_FLOAT, GL_FALSE,
+                               sizeof( Vertex ),
+                               ( GLvoid* ) offsetof( Vertex, texCoord ) );
+    }
 
     // unbind vertex array object
     glBindVertexArray( 0 );

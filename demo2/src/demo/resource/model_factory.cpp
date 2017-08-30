@@ -24,8 +24,7 @@ void ModelFactory::create( const String& path, rndr::ModelPtr out )
     const aiScene* scene = importer.ReadFile( path,
                                               aiProcess_Triangulate |
                                               aiProcess_FixInfacingNormals |
-                                              aiProcess_CalcTangentSpace |
-                                              aiProcess_FlipUVs );
+                                              aiProcess_CalcTangentSpace );
 
     if ( scene == nullptr || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE ||
          !scene->mRootNode )

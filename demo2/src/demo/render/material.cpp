@@ -107,10 +107,25 @@ void Material::bind( const Shader& shader )
         ( *iter )->bind();
     }
 
-    glUniform3fv( shader.colorDiffuse(), 1, glm::value_ptr( _diffColor ) );
-    glUniform3fv( shader.colorSpecular(), 1, glm::value_ptr( _specColor ) );
-    glUniform1f( shader.valShininess(), _shininess );
-    glUniform1ui( shader.valMatFlags(), _texFlags );
+    if ( Shader::NO_ATTR != shader.colorDiffuse() )
+    {
+        glUniform3fv( shader.colorDiffuse(), 1, glm::value_ptr( _diffColor ) );
+    }
+
+    if ( Shader::NO_ATTR != shader.colorSpecular() )
+    {
+        glUniform3fv( shader.colorSpecular(), 1, glm::value_ptr( _specColor ) );
+    }
+
+    if ( Shader::NO_ATTR != shader.valShininess() )
+    {
+        glUniform1f( shader.valShininess(), _shininess );
+    }
+
+    if ( Shader::NO_ATTR != shader.valMatFlags() )
+    {
+        glUniform1ui( shader.valMatFlags(), _texFlags );
+    }
 
     GrApi::logError( "Material.bind" );
 }
