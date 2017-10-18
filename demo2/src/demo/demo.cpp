@@ -86,7 +86,7 @@ void Demo::run()
 
         rndr::GrApi::logError( "MainLoop (render)" );
 
-        _model.transform().rotateEuler( 0.0f, _gameClock.dt() * 90.0f, 0.0f );
+        _model.transform().rotateEuler( 0.0f, _gameClock.dt() * 22.5f, 0.0f );
 
         glfwPollEvents();
         _window.swapBuffer();
